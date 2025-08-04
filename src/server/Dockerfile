@@ -25,4 +25,4 @@ ENV PORT=5000
 EXPOSE 5000
 
 # Run compiled server
-CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]

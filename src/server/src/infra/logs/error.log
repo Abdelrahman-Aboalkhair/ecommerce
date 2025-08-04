@@ -2781,3 +2781,61 @@ Invalid `prisma.user.findUnique()` invocation in
   5   async findUserByEmail(email: string) {
 → 6     return prisma.user.findUnique(
 The table `public.User` does not exist in the current database.
+[2025-07-28T00:52:38.427Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T00:52:38.580Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T00:52:39.139Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T00:52:39.166Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T00:53:03.150Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T00:53:03.171Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:33.093Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:33.143Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:33.310Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:33.323Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:56.077Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:56.092Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:56.176Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:20:56.189Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:02.139Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:02.171Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:03.093Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:03.108Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:03.121Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:03.136Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:06.803Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:06.815Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:12.266Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:21:12.289Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:23:32.444Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:23:32.475Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:23:32.627Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:23:32.655Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:23:33.767Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:23:33.797Z] [31MERROR[39M: CORS policy violation
+[2025-07-28T01:24:05.297Z] [31MERROR[39M: CORS policy violation
+[2025-08-03T17:21:17.311Z] [31MERROR[39M: Refresh token not found
+[2025-08-03T17:22:41.117Z] [31MERROR[39M: jwt must be provided
+[2025-08-03T17:36:32.077Z] [31MERROR[39M: Prisma error: 
+Invalid `prisma.cart.findUnique()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/cart/cart.repository.ts:13:24
+
+  10 }
+  11 
+  12 async getCartBySessionId(sessionId: string) {
+→ 13   return prisma.cart.findUnique(
+The table `public.Cart` does not exist in the current database.
+[2025-08-03T17:39:09.020Z] [31MERROR[39M: Refresh token not found
+[2025-08-03T18:31:02.549Z] [31MERROR[39M: CORS policy violation
+[2025-08-03T18:34:36.628Z] [31MERROR[39M: CORS policy violation
+[2025-08-03T18:36:22.888Z] [31MERROR[39M: Prisma error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/auth/auth.repository.ts:6:24
+
+  3 
+  4 export class AuthRepository {
+  5   async findUserByEmail(email: string) {
+→ 6     return prisma.user.findUnique(
+The table `public.User` does not exist in the current database.
+[2025-08-03T19:07:20.420Z] [31MERROR[39M: Invalid access token, please log in
+[2025-08-03T19:07:20.445Z] [31MERROR[39M: Invalid access token, please log in
+[2025-08-03T19:18:01.312Z] [31MERROR[39M: Refresh token not found
+[2025-08-03T19:18:01.336Z] [31MERROR[39M: Refresh token not found

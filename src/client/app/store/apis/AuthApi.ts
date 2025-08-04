@@ -42,26 +42,6 @@ export const authApi = apiSlice.injectEndpoints({
       },
     }),
 
-    applyForVendor: builder.mutation<
-      { vendor: any },
-      {
-        storeName: string;
-        description?: string;
-        contact?: string;
-        businessDetails?: {
-          taxId?: string;
-          businessLicense?: string;
-          otherDocuments?: string[];
-        };
-        logoFiles?: File[];
-      }
-    >({
-      query: (data) => ({
-        url: "/auth/apply-for-vendor",
-        method: "POST",
-        body: data,
-      }),
-    }),
     signOut: builder.mutation<void, void>({
       query: () => ({
         url: "/auth/sign-out",
@@ -73,22 +53,6 @@ export const authApi = apiSlice.injectEndpoints({
           dispatch(clearAuthState());
         } catch (error) {
           console.error("Logout failed:", error);
-        }
-      },
-    }),
-    refresh: builder.mutation<{ user: User; accessToken: string }, void>({
-      query: () => ({
-        url: "/auth/refresh-token",
-        method: "POST", // Changed to POST
-      }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(setAccessToken(data.accessToken));
-          dispatch(setUser(data.user));
-        } catch (error) {
-          console.error("error refreshing token => ", error); // Also changed to console.error
-          dispatch(clearAuthState());
         }
       },
     }),
@@ -146,9 +110,7 @@ export const {
   useSignInMutation,
   useSignupMutation,
   useCheckAuthMutation,
-  useRefreshMutation,
   useSignOutMutation,
-  useApplyForVendorMutation,
   useVerifyEmailMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,

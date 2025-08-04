@@ -8,8 +8,8 @@ import { usePathname } from "next/navigation";
 import SearchBar from "../molecules/SearchBar";
 import { useGetCartCountQuery } from "@/app/store/apis/CartApi";
 import Topbar from "./Topbar";
-// import useClickOutside from "@/app/hooks/dom/useClickOutside";
-// import useEventListener from "@/app/hooks/dom/useEventListener";
+import useClickOutside from "@/app/hooks/dom/useClickOutside";
+import useEventListener from "@/app/hooks/dom/useEventListener";
 import { useAppSelector } from "@/app/store/hooks";
 
 const Navbar = () => {
@@ -22,11 +22,11 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
 
-  // useEventListener("scroll", () => {
-  //   setScrolled(window.scrollY > 20);
-  // });
+  useEventListener("scroll", () => {
+    setScrolled(window.scrollY > 20);
+  });
 
-  // useClickOutside(menuRef, () => setMenuOpen(false));
+  useClickOutside(menuRef, () => setMenuOpen(false));
 
   return (
     <>

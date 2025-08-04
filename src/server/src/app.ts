@@ -75,32 +75,12 @@ export const createApp = async () => {
   app.use(helmet());
   app.use(helmet.frameguard({ action: "deny" }));
 
-  // CORS
   app.use(
     cors({
-      origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new AppError(403, "CORS policy violation"));
-        }
-      },
+      origin: allowedOrigins,
       credentials: true,
     })
   );
-
-  // Host Whitelist Check
-  const allowedHosts =
-    process.env.NODE_ENV === "production"
-      ? ["egwinch.com", "www.egwinch.com"]
-      : ["localhost", "127.0.0.1"];
-
-  app.use((req, res, next) => {
-    if (!allowedHosts.includes(req.hostname)) {
-      return next(new AppError(403, "Forbidden"));
-    }
-    next();
-  });
 
   // Extra Security
   app.use(ExpressMongoSanitize());

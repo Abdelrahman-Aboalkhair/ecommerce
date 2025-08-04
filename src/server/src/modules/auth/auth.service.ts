@@ -12,7 +12,7 @@ import BadRequestError from "@/shared/errors/BadRequestError";
 import NotFoundError from "@/shared/errors/NotFoundError";
 
 export class AuthService {
-  constructor(private authRepository: AuthRepository) { }
+  constructor(private authRepository: AuthRepository) {}
 
   async registerUser({
     name,
@@ -45,7 +45,6 @@ export class AuthService {
       role: role || ROLE.USER,
       emailVerified: false,
     });
-
 
     const accessToken = tokenUtils.generateAccessToken(newUser.id);
     const refreshToken = tokenUtils.generateRefreshToken(newUser.id);
@@ -80,8 +79,6 @@ export class AuthService {
       emailVerificationToken,
       emailVerificationTokenExpiresAt,
     });
-
-
 
     return { message: "A new verification code has been sent to your email" };
   }
@@ -205,9 +202,9 @@ export class AuthService {
     newAccessToken: string;
     newRefreshToken: string;
   }> {
-    // if (await tokenUtils.isTokenBlacklisted(oldRefreshToken)) {
-    //   throw new NotFoundError("Refresh token");
-    // }
+    if (await tokenUtils.isTokenBlacklisted(oldRefreshToken)) {
+      throw new NotFoundError("Refresh token");
+    }
 
     const decoded = jwt.verify(
       oldRefreshToken,

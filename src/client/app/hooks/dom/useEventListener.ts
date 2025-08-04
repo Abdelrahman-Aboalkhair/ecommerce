@@ -1,43 +1,43 @@
-// "use client";
-// import { useEffect, useRef } from "react";
+"use client";
+import { useEffect, useRef } from "react";
 
-// function useEventListener<K extends keyof WindowEventMap>(
-//   eventType: K,
-//   callback: (event: WindowEventMap[K]) => void,
-//   element?: HTMLElement | Window | Document
-// ) {
-//   // * Store the callback in a ref to avoid creating a new function on every render
-//   const callbackRef = useRef(callback);
+function useEventListener<K extends keyof WindowEventMap>(
+  eventType: K,
+  callback: (event: WindowEventMap[K]) => void,
+  element?: HTMLElement | Window | Document
+) {
+  // * Store the callback in a ref to avoid creating a new function on every render
+  const callbackRef = useRef(callback);
 
-//   // * Update the ref's value if the callback changes
-//   useEffect(() => {
-//     callbackRef.current = callback;
-//   }, [callback]);
+  // * Update the ref's value if the callback changes
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
 
-//   // * Attach the event listener
-//   useEffect(() => {
-//     // If no element is provided, use `window` dynamically inside the client
-//     const targetElement = element ?? window;
+  // * Attach the event listener
+  useEffect(() => {
+    // If no element is provided, use `window` dynamically inside the client
+    const targetElement = element ?? window;
 
-//     if (!targetElement) return;
+    if (!targetElement) return;
 
-//     const eventListener = (event: Event) =>
-//       callbackRef.current(event as WindowEventMap[K]);
+    const eventListener = (event: Event) =>
+      callbackRef.current(event as WindowEventMap[K]);
 
-//     targetElement.addEventListener(eventType, eventListener);
-//     return () => targetElement.removeEventListener(eventType, eventListener);
-//   }, [eventType, element]);
-// }
+    targetElement.addEventListener(eventType, eventListener);
+    return () => targetElement.removeEventListener(eventType, eventListener);
+  }, [eventType, element]);
+}
 
-// export default useEventListener;
+export default useEventListener;
 
-// /**
-//  * EXAMPLE USAGE
-//  *
-//  * const handleScroll = () => {
-//   console.log("Scrolling...");
-//  }
+/**
+ * EXAMPLE USAGE
+ *
+ * const handleScroll = () => {
+  console.log("Scrolling...");
+ }
 
-//  * useEventListener("scroll", handleScroll);
-//  *
-//  */
+ * useEventListener("scroll", handleScroll);
+ *
+ */

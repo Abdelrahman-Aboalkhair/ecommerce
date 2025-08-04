@@ -1,0 +1,124 @@
+[2025-08-03T17:36:32.139Z] [31MERROR[39M: uncaughtException: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+    at Xn.handleRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:7459)
+    at Xn.handleAndLogRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at Xn.request (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:130:9812)
+[2025-08-03T17:39:09.038Z] [31MERROR[39M: uncaughtException: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+    at Xn.handleRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:7459)
+    at Xn.handleAndLogRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at Xn.request (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:130:9812)
+[2025-08-03T18:31:02.632Z] [31MERROR[39M: uncaughtException: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+    at Xn.handleRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:7459)
+    at Xn.handleAndLogRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at Xn.request (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:130:9812)
+[2025-08-03T18:34:36.650Z] [31MERROR[39M: uncaughtException: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+    at Xn.handleRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:7459)
+    at Xn.handleAndLogRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at Xn.request (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:130:9812)
+[2025-08-03T18:36:22.908Z] [31MERROR[39M: uncaughtException: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `prisma.log.create()` invocation in
+/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/modules/logs/logs.repository.ts:39:23
+
+  36 }
+  37 
+  38 async createLog(data: LogEntry) {
+→ 39   return prisma.log.create(
+The table `public.Log` does not exist in the current database.
+    at Xn.handleRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:7459)
+    at Xn.handleAndLogRequestError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6784)
+    at Xn.request (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:121:6491)
+    at async l (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/@prisma/client/runtime/library.js:130:9812)
+[2025-08-03T19:25:30.972Z] [31MERROR[39M: uncaughtException: write EIO
+Error: write EIO
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at WriteStream.Socket._writeGeneric (node:net:971:11)
+    at WriteStream.Socket._write (node:net:983:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at WriteStream.Writable.write (node:internal/streams/writable:510:10)
+    at console.value (node:internal/console/constructor:298:16)
+    at console.log (node:internal/console/constructor:384:26)
+    at /home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/infra/database/database.config.ts:31:13
+    at Generator.next (<anonymous>)
+    at fulfilled (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/infra/database/database.config.ts:5:58)

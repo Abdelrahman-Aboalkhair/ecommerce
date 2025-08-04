@@ -1,26 +1,28 @@
+# Use lightweight Node.js base
 FROM node:22-alpine
 
+# Set working directory
 WORKDIR /app
 
-# Install build dependencies (e.g., for Prisma)
-# RUN apk add --no-cache python3 make g++ postgresql-dev
-
-# Copy package files and install all dependencies (including development dependencies)
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies (including Prisma & TS)
 RUN npm ci
 
+# Copy Prisma schema and generate client
 COPY prisma ./prisma
 RUN npx prisma generate
 
-# Copy the entire project
+# Copy project files
 COPY . .
 
-# Generate Prisma client
-# RUN npx prisma generate
+# Build TypeScript
+RUN npm run build
 
-# Expose port
+# Set environment variables
 ENV PORT=5000
 EXPOSE 5000
 
-# Start server in development mode (using TypeScript)
-CMD ["npm", "run", "dev"]
+# Run compiled server
+CMD ["node", "dist/server.js"]

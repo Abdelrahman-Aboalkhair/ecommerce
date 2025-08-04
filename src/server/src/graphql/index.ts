@@ -11,8 +11,8 @@ const prisma = new PrismaClient();
 
 export const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://egwinch.com"]
-    : ["http://localhost:3000", "http://client:3000"];
+    ? process.env.CLIENT_PROD
+    : ["http://localhost:3000", "http://localhost:5000"];
 
 export async function configureGraphQL(app: express.Application) {
   // Create ApolloServer for GraphQL queries
@@ -26,7 +26,7 @@ export async function configureGraphQL(app: express.Application) {
     "/api/v1/graphql",
     cors({
       origin: (origin, cb) => {
-        if (!origin || allowedOrigins.includes(origin)) cb(null, true);
+        if (!origin || allowedOrigins?.includes(origin)) cb(null, true);
         else cb(new AppError(403, "CORS policy violation"));
       },
       credentials: true,

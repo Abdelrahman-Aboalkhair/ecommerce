@@ -31,32 +31,31 @@ const TableActions: React.FC<TableActionsProps> = ({
   visibleColumns,
   onToggleColumn,
 }) => {
-  // const handleExport = () => {
-  //   const rowsToExport =
-  //     selectedRows.size > 0
-  //       ? data.filter((row) => selectedRows.has(row.id || row._id))
-  //       : data;
+  const handleExport = () => {
+    const rowsToExport =
+      selectedRows.size > 0
+        ? data.filter((row) => selectedRows.has(row.id || row._id))
+        : data;
 
-  //   const csvContent = [
-  //     columns.map((col) => `"${col.label}"`).join(","),
-  //     ...rowsToExport.map((row) =>
-  //       columns
-  //         .map((col) => {
-  //           const value = col.render ? col.render(row) : row[col.key];
-  //           return `"${value?.toString().replace(/"/g, '""') || ""}"`;
-  //         })
-  //         .join(",")
-  //     ),
-  //   ].join("\n");
+    const csvContent = [
+      columns.map((col) => `"${col.label}"`).join(","),
+      ...rowsToExport.map((row) =>
+        columns
+          .map((col) => {
+            const value = col.render ? col.render(row) : row[col.key];
+            return `"${value?.toString().replace(/"/g, '""') || ""}"`;
+          })
+          .join(",")
+      ),
+    ].join("\n");
 
-  //   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  //   const link = document.createElement("a");
-  //   link.href = URL.createObjectURL(blob);
-  //   link.download = `table_export_${new Date().toISOString()}.csv`;
-  //   link.click();
-  // };
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `table_export_${new Date().toISOString()}.csv`;
+    link.click();
+  };
 
-  const handleExport = () => {};
   return (
     <div className="p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
       <div className="flex items-center gap-4">

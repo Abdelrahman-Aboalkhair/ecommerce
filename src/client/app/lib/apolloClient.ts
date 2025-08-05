@@ -8,10 +8,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 export const initializeApollo = (initialState = null) => {
   const httpLink = new HttpLink({
-    uri:
-      process.env.NODE_ENV === "production"
-        ? "https://egwinch.com/api/v1/graphql"
-        : "http://localhost:5000/api/v1/graphql",
+    uri: "https://full-stack-ecommerce-n5at.onrender.com/api/v1/graphql",
     credentials: "include",
   });
 

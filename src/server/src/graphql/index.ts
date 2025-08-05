@@ -9,10 +9,10 @@ import { combinedSchemas } from "./v1/schema";
 
 const prisma = new PrismaClient();
 
-export const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? process.env.CLIENT_PROD
-    : ["http://localhost:3000", "http://localhost:5000"];
+export const allowedOrigins = [
+  "https://ss-ecommerce-one.vercel.app",
+  "http://localhost:3000",
+];
 
 export async function configureGraphQL(app: express.Application) {
   // Create ApolloServer for GraphQL queries

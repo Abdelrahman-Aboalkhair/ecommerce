@@ -4,15 +4,9 @@ import bodyParser from "body-parser";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { PrismaClient } from "@prisma/client";
-import AppError from "@/shared/errors/AppError";
 import { combinedSchemas } from "./v1/schema";
 
 const prisma = new PrismaClient();
-
-export const allowedOrigins = [
-  "https://ss-ecommerce-one.vercel.app",
-  "http://localhost:3000",
-];
 
 export async function configureGraphQL(app: express.Application) {
   // Create ApolloServer for GraphQL queries
@@ -25,10 +19,7 @@ export async function configureGraphQL(app: express.Application) {
   app.use(
     "/api/v1/graphql",
     cors({
-      origin: (origin, cb) => {
-        if (!origin || allowedOrigins?.includes(origin)) cb(null, true);
-        else cb(new AppError(403, "CORS policy violation"));
-      },
+      origin: true, // Allow all origins temporarily
       credentials: true,
     }),
     bodyParser.json(),

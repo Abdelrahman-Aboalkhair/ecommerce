@@ -20,7 +20,7 @@ import AppError from "./shared/errors/AppError";
 import globalError from "./shared/errors/globalError";
 import { logRequest } from "./shared/middlewares/logRequest";
 import { configureRoutes } from "./routes";
-import { configureGraphQL, allowedOrigins } from "./graphql";
+import { configureGraphQL } from "./graphql";
 import webhookRoutes from "./modules/webhook/webhook.routes";
 import { Server as HTTPServer } from "http";
 import { SocketManager } from "@/infra/socket/socket";
@@ -77,7 +77,7 @@ export const createApp = async () => {
 
   app.use(
     cors({
-      origin: allowedOrigins,
+      origin: true,
       credentials: true,
     })
   );

@@ -28,7 +28,7 @@ const prisma = new PrismaClient().$extends({
 export const connectDB = async () => {
   try {
     await prisma.$connect();
-    console.log("Database connected");
+    console.log("Neon Database connected successfully.");
   } catch (error) {
     console.log(error);
   }

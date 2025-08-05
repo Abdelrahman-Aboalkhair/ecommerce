@@ -12,7 +12,7 @@ interface RefreshTokenResponse {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: "https://full-stack-ecommerce-n5at.onrender.com/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }: any) => {
     const token = getState().auth.accessToken;

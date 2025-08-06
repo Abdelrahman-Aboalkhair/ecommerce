@@ -128,7 +128,6 @@ router.post("/sign-up", authController.signup);
  *       200:
  *         description: Email verification sent.
  */
-router.post("/verify-email", authController.verifyEmail);
 
 /**
  * @swagger
@@ -147,7 +146,6 @@ router.post("/verify-email", authController.verifyEmail);
  *       200:
  *         description: Verification email resent.
  */
-router.get("/verification-email/:email", authController.getVerificationEmail);
 
 /**
  * @swagger

@@ -25,16 +25,12 @@ const protect = async (
 
     const user = await prisma.user.findUnique({
       where: { id: String(decoded.id) },
-      select: { id: true, emailVerified: true },
+      select: { id: true },
     });
 
     if (!user) {
       return next(new AppError(401, "User no longer exists."));
     }
-
-    // if (!user.emailVerified) {
-    //   return next(new AppError(403, "Please verify your email to continue."));
-    // }
 
     req.user = { id: decoded.id };
     next();

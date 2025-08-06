@@ -28,7 +28,7 @@ const optionalAuth = async (
 
     const user = await prisma.user.findUnique({
       where: { id: String(decoded.id) },
-      select: { id: true, emailVerified: true, role: true },
+      select: { id: true, role: true },
     });
 
     console.log("user => ", user);

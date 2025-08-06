@@ -7,7 +7,9 @@ async function bootstrap() {
   const { httpServer } = await createApp();
 
   httpServer.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    if (process.env.NODE_ENV === "development") {
+      console.log("Running in dev mode");
+    }
   });
 
   httpServer.on("error", (err) => {

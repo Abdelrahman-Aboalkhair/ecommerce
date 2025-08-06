@@ -28,7 +28,6 @@ async function findOrCreateUser(
         data: {
           [providerIdField as keyof typeof user]: providerId,
           avatar,
-          emailVerified: true,
         },
       });
     }
@@ -41,7 +40,7 @@ async function findOrCreateUser(
       email,
       name,
       [providerIdField]: providerId,
-      emailVerified: true,
+
       avatar,
     },
   });

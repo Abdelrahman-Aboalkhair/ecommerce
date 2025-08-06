@@ -68,6 +68,10 @@ const SignIn = () => {
             </div>
           )}
 
+          <p className="text-[15px] text-gray-800">
+            For demo purposes, use: admin@gmail.com as email and password
+          </p>
+
           <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4 ">
             <Input
               name="email"

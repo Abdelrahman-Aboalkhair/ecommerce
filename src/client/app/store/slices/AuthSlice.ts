@@ -2,58 +2,40 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   id: string;
+  name: string;
   email: string;
   role: string;
+  emailVerified: boolean;
   avatar: string | null;
 }
 
 interface AuthState {
   accessToken: string | null;
-  isAuthenticated: boolean;
-  user: User;
+  user: User | null;
 }
 
 const initialState: AuthState = {
   accessToken: null,
-  isAuthenticated: false,
-  user: {
-    id: "",
-    email: "",
-    role: "",
-    avatar: null,
-  },
+  user: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAccessToken: (state, action: PayloadAction<string | null>) => {
-      state.accessToken = action.payload;
-      state.isAuthenticated = !!action.payload;
+    setCredentials: (
+      state,
+      action: PayloadAction<{ accessToken: string; user: User }>
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      state.user = action.payload.user;
     },
-    setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
-    },
-    clearAccessToken: (state) => {
+    clearCredentials: (state) => {
       state.accessToken = null;
-      state.isAuthenticated = false;
-    },
-
-    clearAuthState: (state) => {
-      state.accessToken = null;
-      state.isAuthenticated = false;
-      state.user = {
-        id: "",
-        email: "",
-        role: "",
-        avatar: null,
-      };
+      state.user = null;
     },
   },
 });
 
-export const { setAccessToken, clearAccessToken, setUser, clearAuthState } =
-  authSlice.actions;
-
+export const { setCredentials, clearCredentials } = authSlice.actions;
 export default authSlice.reducer;

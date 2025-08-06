@@ -14,7 +14,7 @@ import { useAppSelector } from "@/app/store/hooks";
 
 const Navbar = () => {
   const pathname = usePathname();
-  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const { accessToken, user } = useAppSelector((state) => state.auth);
 
   const { data: cartData } = useGetCartCountQuery(undefined);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -69,7 +69,7 @@ const Navbar = () => {
             )}
 
             {/* User Menu */}
-            {isAuthenticated && user ? (
+            {!!accessToken && user ? (
               <div className="relative" ref={menuRef}>
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}

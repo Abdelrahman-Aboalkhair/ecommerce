@@ -8,7 +8,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 export const initializeApollo = (initialState = null) => {
   const httpLink = new HttpLink({
-    uri: "https://full-stack-ecommerce-n5at.onrender.com/api/v1/graphql",
+    uri: `${process.env.NEXT_PUBLIC_API_URL}/api/v1/graphql`,
     credentials: "include",
   });
 
@@ -31,4 +31,4 @@ export const initializeApollo = (initialState = null) => {
   return client;
 };
 
-export default initializeApollo(); // Default export for client-side usage
+export default initializeApollo();

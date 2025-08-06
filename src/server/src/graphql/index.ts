@@ -9,17 +9,15 @@ import { combinedSchemas } from "./v1/schema";
 const prisma = new PrismaClient();
 
 export async function configureGraphQL(app: express.Application) {
-  // Create ApolloServer for GraphQL queries
   const apolloServer = new ApolloServer({
     schema: combinedSchemas,
   });
   await apolloServer.start();
 
-  // Mount the Express-style GraphQL endpoint
   app.use(
     "/api/v1/graphql",
     cors({
-      origin: true, // Allow all origins temporarily
+      origin: true,
       credentials: true,
     }),
     bodyParser.json(),

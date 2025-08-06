@@ -45,33 +45,30 @@ enum CHAT_STATUS {
 }
 
 model User {
-  id                              String        @id @default(uuid())
-  googleId                        String?
-  twitterId                       String?
-  facebookId                      String?
-  email                           String        @unique
-  password                        String?
-  name                            String
-  avatar                          String?
-  emailVerified                   Boolean       @default(false)
-  emailVerificationToken          String?
-  emailVerificationTokenExpiresAt DateTime?
-  resetPasswordToken              String?
-  resetPasswordTokenExpiresAt     DateTime?
-  role                            ROLE          @default(USER)
-  orders                          Order[]
-  payments                        Payment[]
-  addresses                       Address[]
-  interactions                    Interaction[]
-  reports                         Report[]
-  reviews                         Review[]
-  carts                           Cart[]
-  cartEvents                      CartEvent[]
-  chats                           Chat[]        @relation("UserChats")
-  messages                        ChatMessage[]
-  createdAt                       DateTime      @default(now())
-  updatedAt                       DateTime      @updatedAt
-  Restock                         Restock[]
+  id                          String        @id @default(uuid())
+  googleId                    String?
+  twitterId                   String?
+  facebookId                  String?
+  email                       String        @unique
+  password                    String?
+  name                        String
+  avatar                      String?
+  resetPasswordToken          String?
+  resetPasswordTokenExpiresAt DateTime?
+  role                        ROLE          @default(USER)
+  orders                      Order[]
+  payments                    Payment[]
+  addresses                   Address[]
+  interactions                Interaction[]
+  reports                     Report[]
+  reviews                     Review[]
+  carts                       Cart[]
+  cartEvents                  CartEvent[]
+  chats                       Chat[]        @relation("UserChats")
+  messages                    ChatMessage[]
+  createdAt                   DateTime      @default(now())
+  updatedAt                   DateTime      @updatedAt
+  Restock                     Restock[]
 
   @@index([email])
 }

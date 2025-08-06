@@ -41,8 +41,6 @@ export class AuthRepository {
     email: string;
     name: string;
     password: string;
-    emailVerificationToken: string;
-    emailVerificationTokenExpiresAt: Date;
     role: ROLE;
     emailVerified: boolean;
   }) {

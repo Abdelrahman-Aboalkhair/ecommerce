@@ -27,21 +27,10 @@ export class AuthService {
         "This email is already registered, please log in instead."
       );
     }
-
-    const emailVerificationToken = Math.random()
-      .toString(36)
-      .slice(-6)
-      .toUpperCase();
-    const emailVerificationTokenExpiresAt = new Date(
-      Date.now() + 10 * 60 * 1000
-    );
-
     const newUser = await this.authRepository.createUser({
       email,
       name,
       password,
-      emailVerificationToken,
-      emailVerificationTokenExpiresAt,
       role: role || ROLE.USER,
       emailVerified: false,
     });

@@ -16,7 +16,6 @@ import { RedisStore } from "connect-redis";
 import redisClient from "./infra/cache/redis";
 import configurePassport from "./infra/passport/passport";
 import { cookieParserOptions } from "./shared/constants";
-import AppError from "./shared/errors/AppError";
 import globalError from "./shared/errors/globalError";
 import { logRequest } from "./shared/middlewares/logRequest";
 import { configureRoutes } from "./routes";
@@ -90,7 +89,6 @@ export const createApp = async () => {
     })
   );
 
-  // Logging & Performance
   app.use(
     morgan("combined", {
       stream: {
@@ -100,7 +98,6 @@ export const createApp = async () => {
   );
   app.use(compression());
 
-  // Routes
   app.use("/api", configureRoutes(io));
 
   // GraphQL setup

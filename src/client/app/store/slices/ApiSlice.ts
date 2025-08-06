@@ -1,46 +1,32 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { clearAuthState, setAccessToken, setUser } from "./AuthSlice";
+import { setCredentials, clearCredentials } from "./AuthSlice";
 
-interface RefreshTokenResponse {
+interface AuthResponse {
   accessToken: string;
   user: {
     id: string;
+    name: string;
     email: string;
     role: string;
+    emailVerified: boolean;
     avatar: string | null;
   };
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://full-stack-ecommerce-n5at.onrender.com/api/v1",
+  baseUrl: process.env.NEXT_PUBLIC_API_URL + "/api/v1",
   credentials: "include",
-  prepareHeaders: (headers, { getState }: any) => {
-    const token = getState().auth.accessToken;
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as any).auth.accessToken;
+    if (token) headers.set("Authorization", `Bearer ${token}`);
     return headers;
   },
 });
 
-const authRoutes = ["/sign-in", "/sign-up", "/password-reset", "/verify-email"];
-
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
-    const pathname =
-      typeof window !== "undefined" ? window.location.pathname : "";
-
-    const isOnAuthPage = authRoutes.includes(pathname);
-
-    if (isOnAuthPage) {
-      // No retry if on auth page
-      api.dispatch(clearAuthState());
-      return result; // Simply return the 401 error
-    }
-
-    // Otherwise, try to refresh
+  if (result.error?.status === 401) {
     const refreshResult = await baseQuery(
       { url: "/auth/refresh-token", method: "POST" },
       api,
@@ -48,14 +34,17 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     );
 
     if (refreshResult.data) {
-      const data: RefreshTokenResponse = refreshResult.data;
-      api.dispatch(setAccessToken(data.accessToken));
-      api.dispatch(setUser(data.user));
-      // Retry the original request
-      result = await baseQuery(args, api, extraOptions);
+      const { accessToken, user } = refreshResult.data as AuthResponse;
+      api.dispatch(setCredentials({ accessToken, user }));
+      result = await baseQuery(args, api, extraOptions); // Retry original request
     } else {
-      // Refresh failed
-      api.dispatch(clearAuthState());
+      api.dispatch(clearCredentials());
+      if (
+        typeof window !== "undefined" &&
+        !["/sign-in", "/sign-up"].includes(window.location.pathname)
+      ) {
+        window.location.href = "/sign-in"; // Redirect to login on failure
+      }
     }
   }
 
@@ -76,7 +65,7 @@ export const apiSlice = createApi({
     "Transactions",
     "Logs",
     "Attribute",
-    "Variant"
+    "Variant",
   ],
   endpoints: () => ({}),
 });

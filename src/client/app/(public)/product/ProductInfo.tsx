@@ -20,7 +20,6 @@ interface ProductInfoProps {
 }
 
 const ProductInfo: React.FC<ProductInfoProps> = ({
-  id,
   name,
   averageRating,
   reviewCount,
@@ -84,35 +83,38 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
     .join("; ");
 
   return (
-    <div className="flex flex-col gap-4 px-4 md:px-8 py-6">
+    <div className="flex flex-col gap-4 px-4 sm:px-6 py-4">
       {/* Product Name */}
-      <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
+      <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
+        {name}
+      </h1>
 
       {/* Rating and Stock */}
-      <div className="flex items-center gap-2 text-sm text-gray-600">
+      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
         <Rating rating={averageRating} />
         <span>({reviewCount || 0} reviews)</span>
         <span
-          className={`ml-2 px-2 py-1 rounded text-sm font-medium
-    ${stock > 0 ? "bg-primary/10 text-primary" : "bg-red-100 text-red-600"}`}
+          className={`ml-2 px-2 py-1 rounded text-xs font-medium ${
+            stock > 0
+              ? "bg-indigo-100 text-indigo-600"
+              : "bg-red-100 text-red-600"
+          }`}
         >
           {stock > 0 ? `${stock} in stock` : "Out of stock"}
         </span>
       </div>
 
       {/* Price */}
-      <div className="text-2xl font-semibold text-gray-900">
+      <div className="text-lg sm:text-xl font-semibold text-gray-800">
         ${price.toFixed(2)}
       </div>
 
       {/* Available Options */}
-
-      {/* Available Options */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         {colorValues.size > 0 && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Palette className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-700 text-sm">
+            <span className="text-gray-600 text-xs sm:text-sm">
               Available in {colorValues.size}{" "}
               {colorValues.size === 1 ? "color" : "colors"}
             </span>
@@ -120,9 +122,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         )}
 
         {sizeValues.size > 0 && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Ruler className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-700 text-sm">
+            <span className="text-gray-600 text-xs sm:text-sm">
               Available in {sizeValues.size}{" "}
               {sizeValues.size === 1 ? "size" : "sizes"}
             </span>
@@ -130,18 +132,20 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         )}
 
         {attributeSummary && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Info className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-700 text-sm">{attributeSummary}</span>
+            <span className="text-gray-600 text-xs sm:text-sm">
+              {attributeSummary}
+            </span>
           </div>
         )}
 
         {colorValues.size === 0 &&
           sizeValues.size === 0 &&
           attributeSummary === "" && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Package className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-500 text-sm">
+              <span className="text-gray-500 text-xs sm:text-sm">
                 No options available
               </span>
             </div>
@@ -149,14 +153,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       </div>
 
       {/* Variant Selection */}
-      <div className="mt-4">
+      <div className="mt-3">
         {Object.entries(attributeGroups).map(([attributeName, { values }]) => (
-          <div key={attributeName} className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 capitalize">
+          <div key={attributeName} className="mb-3">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 capitalize">
               {attributeName}
             </label>
             <select
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs sm:text-sm"
               onChange={(e) => onVariantChange(attributeName, e.target.value)}
               value={selectedAttributes[attributeName] || ""}
             >
@@ -171,39 +175,35 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         ))}
         <button
           onClick={resetSelections}
-          className="mt-2 px-4 py-2 text-sm font-medium text-primary border border-primary rounded hover:bg-gray-100 transition duration-300"
+          className="mt-2 px-4 py-1.5 text-xs sm:text-sm font-medium text-indigo-600 border border-indigo-600 rounded hover:bg-indigo-50 transition-colors"
         >
           Reset Selections
         </button>
       </div>
 
       {/* Description */}
-      <p className="text-gray-700 leading-relaxed text-sm mt-2">
+      <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mt-2">
         {description}
       </p>
 
       {/* Action Buttons */}
-      <div className="mt-2 flex flex-col sm:flex-row items-stretch gap-2">
+      <div className="mt-3 flex flex-col sm:flex-row gap-2">
         <button
           disabled={!stock || isLoading || !selectedVariant}
           onClick={handleAddToCart}
-          className={`w-full sm:w-auto px-12 py-3 text-sm font-medium text-white rounded transition duration-300 ${
+          className={`w-full py-2 text-xs sm:text-sm font-medium text-white rounded transition-colors ${
             isLoading || !stock || !selectedVariant
-              ? "opacity-50 cursor-not-allowed"
-              : ""
-          } ${
-            stock && selectedVariant
-              ? "bg-primary"
-              : "bg-gray-400 cursor-not-allowed"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-indigo-600 hover:bg-indigo-700"
           }`}
         >
           {stock > 0 && selectedVariant ? "Add to Cart" : "Select a Variant"}
         </button>
         <button
           disabled={!stock || !selectedVariant}
-          className={`w-full sm:w-auto px-12 py-3 text-sm font-medium border-[2px] rounded transition duration-300 ${
+          className={`w-full py-2 text-xs sm:text-sm font-medium border rounded transition-colors ${
             stock && selectedVariant
-              ? "border-primary text-primary hover:bg-gray-100"
+              ? "border-indigo-600 text-indigo-600 hover:bg-indigo-50"
               : "border-gray-300 text-gray-400 cursor-not-allowed"
           }`}
         >

@@ -103,11 +103,11 @@ const ProductDetailsPage = () => {
 
   return (
     <MainLayout>
-      <div className="flex items-start justify-start mt-8 px-[10%]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8">
         <BreadCrumb />
       </div>
 
-      <div className="w-[84%] mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10 pt-[3rem] bg-white rounded">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 bg-white rounded-lg shadow-sm">
         <ProductImageGallery
           images={product.variants.flatMap((v) => v.images)}
           defaultImage={
@@ -134,7 +134,7 @@ const ProductDetailsPage = () => {
         </div>
       </div>
 
-      <div className="w-[84%] mx-auto p-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <ProductReviews reviews={product.reviews} productId={product.id} />
       </div>
     </MainLayout>

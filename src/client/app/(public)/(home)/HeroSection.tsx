@@ -40,7 +40,7 @@ const HeroSection = ({ isPreview = false }: HeroSectionProps) => {
       opacity: 0,
     }),
     center: {
-      zIndex: 1,
+      zIndex: 0,
       x: 0,
       opacity: 1,
     },
@@ -91,14 +91,15 @@ const HeroSection = ({ isPreview = false }: HeroSectionProps) => {
   ];
 
   return (
-    <main
-      className={`relative w-full mx-auto px-4 ${
-        isPreview ? "scale-90 my-2" : "my-6"
+    <section
+      className={`relative w-full hidden sm:block ${
+        isPreview ? "scale-90 my-2" : "my-2 sm:my-4 lg:my-6"
       }`}
     >
-      <div className="relative w-full mx-auto">
-        <div className="w-full overflow-hidden rounded-lg shadow-md z-0">
-          <div className="aspect-[16/5] w-full relative">
+      <div className="relative w-full">
+        {/* Hero Image Slider */}
+        <div className="w-full overflow-hidden rounded-lg shadow-lg">
+          <div className="aspect-[16/9] sm:aspect-[16/7] lg:aspect-[16/5] w-full relative">
             <AnimatePresence initial={false} custom={1}>
               <motion.div
                 key={currentImageIndex}
@@ -112,36 +113,53 @@ const HeroSection = ({ isPreview = false }: HeroSectionProps) => {
                   opacity: { duration: 0.5 },
                 }}
                 className="absolute inset-0 w-full h-full"
-                style={{ zIndex: 0 }}
               >
                 <Image
                   src={sliderImages[currentImageIndex]}
                   alt={`Slide image ${currentImageIndex + 1}`}
                   fill
                   priority
-                  className="object-cover w-full h-full"
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        <div
-          className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-12 mt-[9%]"
-          style={{ zIndex: 10 }}
-        >
-          {categories.map((category, index) => (
-            <CategoryBox
-              key={index}
-              title={category.title}
-              items={category.items}
-              ctaText={category.ctaText}
-              ctaLink={category.ctaLink}
-            />
-          ))}
+        {/* Category Boxes Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-4 lg:p-6">
+          <div className="w-full max-w-7xl">
+            {/* Tablet: 2x2 grid */}
+            <div className="hidden sm:grid lg:hidden grid-cols-2 gap-3">
+              {categories.map((category, index) => (
+                <CategoryBox
+                  key={index}
+                  title={category.title}
+                  items={category.items}
+                  ctaText={category.ctaText}
+                  ctaLink={category.ctaLink}
+                />
+              ))}
+            </div>
+
+            {/* Desktop: 4 columns */}
+            <div className="hidden lg:grid grid-cols-4 gap-4">
+              {categories.map((category, index) => (
+                <CategoryBox
+                  key={index}
+                  title={category.title}
+                  items={category.items}
+                  ctaText={category.ctaText}
+                  ctaLink={category.ctaLink}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 };
 

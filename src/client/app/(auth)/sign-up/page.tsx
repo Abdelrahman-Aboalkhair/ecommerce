@@ -7,12 +7,11 @@ import { Loader2 } from "lucide-react";
 import PasswordField from "@/app/components/molecules/PasswordField";
 import { z } from "zod";
 import MainLayout from "@/app/components/templates/MainLayout";
-import GuyShopping from "@/app/assets/images/guy-shopping-vector.png";
-import Image from "next/image";
 import { useSignupMutation } from "@/app/store/apis/AuthApi";
 import GoogleIcon from "@/app/assets/icons/google.png";
 import FacebookIcon from "@/app/assets/icons/facebook.png";
 import TwitterIcon from "@/app/assets/icons/twitter.png";
+import Image from "next/image";
 
 interface InputForm {
   name: string;
@@ -51,7 +50,7 @@ const Signup = () => {
     },
   });
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (formData: InputForm) => {
     try {
       await signUp(formData).unwrap();
       router.push("/");
@@ -60,27 +59,25 @@ const Signup = () => {
     }
   };
 
-  const handleOAuthLogin = (provider) => {
+  const handleOAuthLogin = (provider: string) => {
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/${provider}`;
   };
 
   return (
     <MainLayout>
-      <div className="flex flex-row-reverse justify-between items-center w-full py-[3%] px-[10%]">
-        <main className="w-full max-w-[40%] p-[2.5rem] bg-white rounded shadow-sm">
-          <h2 className="text-3xl font-medium tracking-wide text-start text-gray-700 mb-4">
-            Sign up
+      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
+        <main className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 sm:p-8">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 text-center mb-6">
+            Sign Up
           </h2>
+
           {error && (
-            <div className="bg-red-100 border border-red-400 text-center text-red-700 w-full px-4 py-[18px] rounded relative mb-4">
-              <span className="block sm:inline">
-                {"An unexpected error occurred"}
-                {/* {error?.data?.message || "An unexpected error occurred"} */}
-              </span>
+            <div className="bg-red-50 border border-red-300 text-red-600 text-center text-sm p-3 rounded mb-4">
+              An unexpected error occurred
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               name="name"
               type="text"
@@ -91,7 +88,7 @@ const Signup = () => {
                 validate: nameSchema,
               }}
               error={errors.name?.message}
-              className="py-[18px]"
+              className="py-2.5 text-sm"
             />
 
             <Input
@@ -104,65 +101,71 @@ const Signup = () => {
                 validate: emailSchema,
               }}
               error={errors.email?.message}
-              className="py-[18px]"
+              className="py-2.5 text-sm"
             />
 
             <PasswordField register={register} watch={watch} errors={errors} />
 
             <button
               type="submit"
-              className={`flex items-center justify-center w-full mx-auto py-[16px] bg-primary text-white rounded font-medium hover:opacity-90 ${
-                isLoading ? "cursor-not-allowed bg-gray-400 text-gray-800" : ""
+              className={`w-full py-2.5 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700 transition-colors ${
+                isLoading ? "cursor-not-allowed bg-gray-400" : ""
               }`}
             >
               {isLoading ? (
-                <Loader2 className="animate-spin text-white" size={27} />
+                <Loader2 className="animate-spin mx-auto" size={20} />
               ) : (
                 "Create Account"
               )}
             </button>
           </form>
-          <div className="flex gap-2 items-center justify-center text-center text-gray-500 pt-4">
-            <p>Already have an account?</p>
-            <Link href="/sign-in" className="text-primary hover:underline">
+
+          <div className="text-center text-sm text-gray-600 mt-4">
+            Already have an account?{" "}
+            <Link href="/sign-in" className="text-indigo-600 hover:underline">
               Sign in
             </Link>
           </div>
-          <p
-            className="relative text-center text-gray-500 py-2 before:content-[''] 
-              before:absolute before:left-0 before:top-1/2 before:w-[45%] before:h-[1px] before:bg-gray-300 after:content-[''] 
-              after:absolute after:right-0 after:top-1/2 after:w-[45%] after:h-[1px] after:bg-gray-300 mb-2"
-          >
-            or
-          </p>
-          <div className="grid grid-cols-3 gap-3">
-            <button
-              onClick={() => handleOAuthLogin("google")}
-              className="flex justify-center items-center py-3 px-4  hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-300 transition-all"
-            >
-              <Image width={20} height={20} src={GoogleIcon} alt="Google" />
-            </button>
 
-            <button
-              onClick={() => handleOAuthLogin("facebook")}
-              className="flex justify-center items-center py-3 px-4  hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-300 transition-all"
-            >
-              <Image width={20} height={20} src={FacebookIcon} alt="Facebook" />
-            </button>
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">or</span>
+            </div>
+          </div>
 
-            <button
-              onClick={() => handleOAuthLogin("twitter")}
-              className="flex justify-center items-center py-3 px-4  hover:bg-gray-50 text-gray-700 font-medium rounded-lg border border-gray-300 transition-all"
-            >
-              <Image width={20} height={20} src={TwitterIcon} alt="X" />
-            </button>
+          <div className="space-y-2">
+            {[
+              {
+                provider: "google",
+                icon: GoogleIcon,
+                label: "Sign up with Google",
+              },
+              {
+                provider: "facebook",
+                icon: FacebookIcon,
+                label: "Sign up with Facebook",
+              },
+              {
+                provider: "twitter",
+                icon: TwitterIcon,
+                label: "Sign up with X",
+              },
+            ].map(({ provider, icon, label }) => (
+              <button
+                key={provider}
+                onClick={() => handleOAuthLogin(provider)}
+                className="w-full py-3 border-2 border-gray-100 bg-transparent text-black rounded-md font-medium hover:bg-gray-50
+                 transition-colors flex items-center justify-center gap-2 text-sm"
+              >
+                <Image width={20} height={20} src={icon} alt={provider} />
+                {label}
+              </button>
+            ))}
           </div>
         </main>
-        <Image
-          src={GuyShopping}
-          alt="Girl Shopping"
-          className="object-cover w-[550px]"
-        />
       </div>
     </MainLayout>
   );

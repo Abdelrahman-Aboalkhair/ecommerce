@@ -55,10 +55,12 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4 }}
-      className=" bg-white rounded-xl p-12 w-[430px] border border-gray-200 sticky top-8"
+      className="bg-white rounded-lg p-6 sm:p-8 border border-gray-200"
     >
-      <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>
-      <div className="space-y-4">
+      <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
+        Order Summary
+      </h2>
+      <div className="space-y-3 text-sm">
         <div className="flex justify-between text-gray-700">
           <span>Total Items</span>
           <span>{totalItems}</span>
@@ -77,7 +79,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
             {shippingFee.toFixed(2)}
           </span>
         </div>
-        <div className="flex justify-between pt-4 border-t border-gray-200">
+        <div className="flex justify-between pt-3 border-t border-gray-200">
           <span className="font-semibold text-gray-800">Total</span>
           <span className="font-semibold text-gray-800">
             {currency}
@@ -88,7 +90,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       <button
         disabled={isLoading || totalItems === 0}
         onClick={handleInitiateCheckout}
-        className="mt-6 w-full bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition-colors duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        className="mt-4 w-full bg-indigo-600 text-white py-2.5 rounded-md font-medium text-sm hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
       >
         {isLoading ? "Processing..." : "Proceed to Checkout"}
       </button>

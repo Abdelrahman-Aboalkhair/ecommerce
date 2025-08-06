@@ -40,7 +40,6 @@ export class AuthRepository {
     name: string;
     password: string;
     role: ROLE;
-    emailVerified: boolean;
   }) {
     return prisma.user.create({
       data,

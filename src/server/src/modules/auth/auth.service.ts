@@ -32,7 +32,6 @@ export class AuthService {
       name,
       password,
       role: role || ROLE.USER,
-      emailVerified: false,
     });
 
     const accessToken = tokenUtils.generateAccessToken(newUser.id);
@@ -44,52 +43,11 @@ export class AuthService {
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
-        emailVerified: newUser.emailVerified,
         avatar: null,
       },
       accessToken,
       refreshToken,
     };
-  }
-
-  async sendVerificationEmail(email: string): Promise<{ message: string }> {
-    const user = await this.authRepository.findUserByEmail(email);
-
-    if (!user) {
-      throw new AppError(404, "User not found");
-    }
-
-    const emailVerificationToken = Math.random().toString(36).slice(-6);
-    const emailVerificationTokenExpiresAt = new Date(
-      Date.now() + 10 * 60 * 1000
-    );
-
-    await this.authRepository.updateUserEmailVerification(user.id, {
-      emailVerificationToken,
-      emailVerificationTokenExpiresAt,
-    });
-
-    return { message: "A new verification code has been sent to your email" };
-  }
-
-  async verifyEmail(
-    emailVerificationToken: string
-  ): Promise<{ message: string }> {
-    const user = await this.authRepository.findUserByVerificationToken(
-      emailVerificationToken
-    );
-
-    if (!user) {
-      throw new BadRequestError("Invalid or expired verification token");
-    }
-
-    await this.authRepository.updateUserEmailVerification(user.id, {
-      emailVerificationToken: null,
-      emailVerificationTokenExpiresAt: null,
-      emailVerified: true,
-    });
-
-    return { message: "Email verified successfully." };
   }
 
   async signin({ email, password }: SignInParams): Promise<{
@@ -98,7 +56,6 @@ export class AuthService {
       role: ROLE;
       name: string;
       email: string;
-      emailVerified: boolean;
       avatar: string | null;
     };
     accessToken: string;
@@ -185,7 +142,6 @@ export class AuthService {
       name: string;
       email: string;
       role: string;
-      emailVerified: boolean;
       avatar: string | null;
     };
     newAccessToken: string;

@@ -56,43 +56,6 @@ export class AuthController {
     // });
   });
 
-  getVerificationEmail = asyncHandler(
-    async (req: Request, res: Response): Promise<void> => {
-      const { email } = req.params;
-      const userId = req.user?.id;
-      const result = await this.authService.sendVerificationEmail(email);
-      sendResponse(res, 200, { message: result.message });
-
-      const start = Date.now();
-      const end = Date.now();
-
-      this.logsService.info("Send Verification Email", {
-        userId,
-        sessionId: req.session.id,
-        timePeriod: end - start,
-      });
-    }
-  );
-
-  verifyEmail = asyncHandler(
-    async (req: Request, res: Response): Promise<void> => {
-      const { emailVerificationToken } = req.body;
-      const result = await this.authService.verifyEmail(emailVerificationToken);
-      const userId = req.user?.id;
-
-      sendResponse(res, 200, { message: result.message });
-
-      const start = Date.now();
-      const end = Date.now();
-
-      this.logsService.info("Verify Email", {
-        userId,
-        sessionId: req.session.id,
-        timePeriod: end - start,
-      });
-    }
-  );
-
   signin = asyncHandler(async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body;
     const { user, accessToken, refreshToken } = await this.authService.signin({

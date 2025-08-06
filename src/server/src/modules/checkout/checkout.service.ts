@@ -19,7 +19,10 @@ export class CheckoutService {
     // Validate stock for all cart items
     for (const item of cart.cartItems) {
       if (item.variant.stock < item.quantity) {
-        throw new AppError(400, `Insufficient stock for variant ${item.variant.sku}: only ${item.variant.stock} available`);
+        throw new AppError(
+          400,
+          `Insufficient stock for variant ${item.variant.sku}: only ${item.variant.stock} available`
+        );
       }
     }
 
@@ -40,6 +43,12 @@ export class CheckoutService {
       };
     });
 
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const clientUrl = isProduction
+      ? process.env.CLIENT_URL_PROD
+      : process.env.CLIENT_URL_DEV;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
@@ -48,8 +57,8 @@ export class CheckoutService {
         allowed_countries: ["US", "CA", "MX", "EG"],
       },
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/orders`,
-      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+      success_url: `${clientUrl}/orders`,
+      cancel_url: `${clientUrl}/cancel`,
       metadata: { userId, cartId: cart.id },
     });
 

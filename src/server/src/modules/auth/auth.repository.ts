@@ -17,7 +17,6 @@ export class AuthRepository {
         role: true,
         name: true,
         email: true,
-        emailVerified: true,
         avatar: true,
       },
     });
@@ -31,7 +30,6 @@ export class AuthRepository {
         name: true,
         email: true,
         role: true,
-        emailVerified: true,
         avatar: true,
       },
     });
@@ -51,7 +49,6 @@ export class AuthRepository {
         name: true,
         email: true,
         role: true,
-        emailVerified: true,
         avatar: true,
       },
     });
@@ -68,15 +65,6 @@ export class AuthRepository {
     return prisma.user.update({
       where: { id: userId },
       data,
-    });
-  }
-
-  async findUserByVerificationToken(emailVerificationToken: string) {
-    return prisma.user.findFirst({
-      where: {
-        emailVerificationToken,
-        emailVerificationTokenExpiresAt: { gt: new Date() },
-      },
     });
   }
 

@@ -14,7 +14,7 @@ interface AuthResponse {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL + "/api/v1",
+  baseUrl: "https://full-stack-ecommerce-n5at.onrender.com/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as any).auth.accessToken;

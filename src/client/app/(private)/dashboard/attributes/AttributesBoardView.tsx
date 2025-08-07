@@ -12,7 +12,7 @@ import {
 import useToast from "@/app/hooks/ui/useToast";
 import ConfirmModal from "@/app/components/organisms/ConfirmModal";
 
-const AttributesBoardView = ({ attributes = [] }) => {
+const AttributesBoardView = ({ attributes = [] }: any) => {
   const { showToast } = useToast();
   const [createAttributeValue, { isLoading: isCreatingValue }] =
     useCreateAttributeValueMutation();

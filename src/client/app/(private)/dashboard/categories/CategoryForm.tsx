@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Controller, UseFormReturn } from "react-hook-form";
 import { Tag } from "lucide-react";
@@ -25,13 +25,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   onSubmit,
   isLoading,
   submitLabel = "Save",
-  existingImages = [],
 }) => {
   const {
     control,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = form;
 
@@ -94,10 +92,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           control={control}
           errors={errors}
           setValue={setValue}
-          watch={watch}
           name="images"
           maxFiles={5}
-          existingImages={existingImages}
           disabled={isLoading}
         />
       </div>
@@ -107,8 +103,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         <button
           type="submit"
           disabled={isLoading}
-          className={`px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+          className={`px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-300 ${
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           {isLoading ? "Saving..." : submitLabel}
         </button>

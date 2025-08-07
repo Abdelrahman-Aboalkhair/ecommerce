@@ -1,13 +1,12 @@
 "use client";
 import { withAuth } from "@/app/components/HOC/WithAuth";
 import MainLayout from "@/app/components/templates/MainLayout";
-import { useGetMeQuery } from "@/app/store/apis/UserApi";
+import { useAuth } from "@/app/hooks/useAuth";
 import { User, Shield, Clock } from "lucide-react";
 import Image from "next/image";
 
 const UserProfile = () => {
-  const { data, isLoading, error } = useGetMeQuery({});
-  console.log("user => ", data);
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -25,7 +24,7 @@ const UserProfile = () => {
     );
   }
 
-  if (error || !data?.user) {
+  if (!user) {
     return (
       <MainLayout>
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
@@ -46,8 +45,6 @@ const UserProfile = () => {
       </MainLayout>
     );
   }
-
-  const { user } = data;
 
   // Generate initials for avatar fallback
   const getInitials = (id) => {

@@ -117,7 +117,7 @@ const AttributeCard = ({
         {isExpanded && (
           <div className="space-y-2 mb-4">
             {(attribute.values || []).length > 0 ? (
-              attribute.values.map((value) => (
+              attribute.values?.map((value) => (
                 <div
                   key={value.id}
                   className="flex items-center justify-between p-2 bg-gray-50 rounded-md border border-gray-200"
@@ -141,9 +141,9 @@ const AttributeCard = ({
         )}
 
         {/* Quick Preview of Values */}
-        {!isExpanded && attribute.values?.length > 0 && (
+        {!isExpanded && (attribute.values ?? []).length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {attribute.values.slice(0, 3).map((value) => (
+            {attribute.values?.slice(0, 3).map((value) => (
               <span
                 key={value.id}
                 className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
@@ -151,9 +151,9 @@ const AttributeCard = ({
                 {value.value}
               </span>
             ))}
-            {attribute.values.length > 3 && (
+            {(attribute.values ?? []).length > 3 && (
               <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full">
-                +{attribute.values.length - 3} more
+                +{(attribute.values ?? []).length - 3} more
               </span>
             )}
           </div>

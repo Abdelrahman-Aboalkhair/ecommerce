@@ -7,6 +7,7 @@ import DashboardHeader from "./DashboardHeader";
 import { useGetAllAttributesQuery } from "@/app/store/apis/AttributeApi";
 import AttributesBoardView from "./AttributesBoardView";
 import { withAuth } from "@/app/components/HOC/WithAuth";
+import { getErrorMessage } from "@/app/utils/getErrorMessage";
 
 const AttributesDashboard: React.FC = () => {
   const { data, isLoading, error } = useGetAllAttributesQuery(undefined);
@@ -23,7 +24,7 @@ const AttributesDashboard: React.FC = () => {
   if (error) {
     return (
       <div className="p-6 text-red-600 bg-red-50 rounded-lg">
-        Error loading attributes: {error.message ?? "Unknown error"}
+        Error loading attributes: {getErrorMessage(error)}
       </div>
     );
   }

@@ -268,8 +268,11 @@ const VariantForm: React.FC<VariantFormProps> = ({
                       onChange={(value) => {
                         field.onChange(value);
                         form.setValue(
-                          `variants.${index}.attributes[${attrIndex}].attributeId`,
-                          attr.id
+                          `variants.${index}.attributes[${attrIndex}]`,
+                          {
+                            attributeId: attr.id,
+                            valueId: value,
+                          }
                         );
                       }}
                       label={`Select ${attr.name}`}

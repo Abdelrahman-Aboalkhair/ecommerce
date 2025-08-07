@@ -3,10 +3,7 @@
 A modern Single Store Ecommerce platform built with a **TypeScript** backend (Express, Prisma, PostgreSQL, Redis) and a **Next.js** frontend. Features include user authentication, product management, cart, checkout, order processing, analytics, and real-time chat via Socket.IO, WebRTC. The application is fully Dockerized for easy setup and development.
 
 [Demo Video](https://youtu.be/qJDXcQ_sxSI)
-
-## Notes
-
-- To transition from development to production, please refer to the [Deployment](#deployment) section.
+[Live Demo](https://ss-ecommerce-one.vercel.app)
 
 ## Table of Contents
 

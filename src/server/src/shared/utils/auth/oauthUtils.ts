@@ -120,12 +120,14 @@ export const handleSocialLogin = (provider: string) => {
     scope: scopes,
   });
 };
-
+const CLIENT_URL_DEV = process.env.CLIENT_URL_DEV;
+const CLIENT_URL_PROD = process.env.CLIENT_URL_PROD;
+const env = process.env.NODE_ENV;
 export const handleSocialLoginCallback = (provider: string) => {
   return [
     passport.authenticate(provider, {
       session: false,
-      failureRedirect: "http://localhost:3000/sign-in",
+      failureRedirect: env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV,
     }),
     async (req: any, res: any) => {
       const user = req.user as any;
@@ -139,7 +141,7 @@ export const handleSocialLoginCallback = (provider: string) => {
       const sessionId = req.session.id;
       await cartService?.mergeCartsOnLogin(sessionId, userId);
 
-      res.redirect("http://localhost:3000");
+      res.redirect(env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV);
     },
   ];
 };

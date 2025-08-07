@@ -435,10 +435,8 @@ To test the APIs:
 
 1. Go to /server/package.json and change moduleAlias folder to dist for prod, src for dev.
 2. change env variables for prod on both server and client
-3. change apolloClient file url from prod to dev or vice versa
-4. change ApiSlice baseQuery method url from prod to dev or vice versa
-5. For stripe webhook, go to your stripe dashboard, webhooks, create a new destination and get your webhook secret cause it differs from local listener secret (follow stripe instructions if you wanna test locally).
-6. For Social media login, you would need to configure the urls as well in google console and facebook console (follow the instructions in the links), X (twitter) developers. (e.g. http://localhost:5000 for dev, https://ss-ecommerce.vercel.app for prod).
+3. For stripe webhook, go to your stripe dashboard, webhooks, create a new destination and get your webhook secret cause it differs from local listener secret (follow stripe instructions if you wanna test locally).
+4. For Social media login, you would need to configure the urls as well in google console and facebook console (follow the instructions in the links), X (twitter) developers. (e.g. http://localhost:5000 for dev, https://ss-ecommerce.vercel.app for prod).
 
 ## Contributing
 

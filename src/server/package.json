@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "_moduleAliases": {
-    "@": "src"
+    "@": "dist"
   },
   "resolutions": {
     "@types/express": "4.17.21"

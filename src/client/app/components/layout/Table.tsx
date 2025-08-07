@@ -161,7 +161,7 @@ const Table: React.FC<TableProps> = ({
         visibleColumns={visibleColumns}
         onToggleColumn={handleToggleColumn}
       />
-      <div className="w-full overflow-x-auto scrollbar-hide">
+      <div className="w-full overflow-x-auto">
         <TableBody
           data={data}
           columns={filteredColumns}

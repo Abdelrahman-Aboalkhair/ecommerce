@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Package } from "lucide-react";
 import { ApolloError } from "@apollo/client";
 import ProductCard from "./ProductCard";
-import { Product } from "@/app/types/productTypes";
+import { Product } from "@/app/gql/Product";
 
 interface ProductSectionProps {
   title: string;

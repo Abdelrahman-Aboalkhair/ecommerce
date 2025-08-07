@@ -5,7 +5,6 @@ import { ArrowUpDown, FileText, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import CustomLoader from "../feedback/CustomLoader";
 
-// Utility function to access nested properties
 const getNestedValue = (obj: any, key: string): any => {
   return key
     .split(".")
@@ -15,6 +14,7 @@ const getNestedValue = (obj: any, key: string): any => {
 interface Column {
   key: string;
   label: string;
+  Ascendantly;
   sortable?: boolean;
   render?: (row: any) => React.ReactNode;
   width?: string;
@@ -35,7 +35,6 @@ interface TableBodyProps {
   selectedRows: Set<string>;
   onSelectRow: (rowId: string) => void;
   onSelectAll: () => void;
-  control?: any;
 }
 
 const Checkbox = ({
@@ -84,7 +83,6 @@ const TableBody: React.FC<TableBodyProps> = ({
   onSelectRow,
   onSelectAll,
 }) => {
-  // Animation variants for rows
   const rowVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: (i: number) => ({
@@ -98,7 +96,6 @@ const TableBody: React.FC<TableBodyProps> = ({
     exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
   };
 
-  // Animation variants for expanded row
   const expandedRowVariants = {
     hidden: { opacity: 0, height: 0 },
     visible: { opacity: 1, height: "auto", transition: { duration: 0.3 } },
@@ -106,10 +103,10 @@ const TableBody: React.FC<TableBodyProps> = ({
   };
 
   return (
-    <table className="w-full border-collapse">
+    <table className="w-full border-collapse min-w-[600px]">
       <thead>
         <tr className="bg-blue-50">
-          <th className="px-6 py-4 text-left">
+          <th className="px-4 sm:px-6 py-4 text-left">
             <Checkbox
               checked={selectedRows.size === data.length && data.length > 0}
               onChange={onSelectAll}
@@ -118,7 +115,7 @@ const TableBody: React.FC<TableBodyProps> = ({
           {columns.map((column) => (
             <th
               key={column.key}
-              className={`px-6 py-4 text-${
+              className={`px-4 sm:px-6 py-4 text-${
                 column.align || "left"
               } text-blue-700 font-medium text-sm ${
                 column.width ? `w-${column.width}` : ""
@@ -164,7 +161,6 @@ const TableBody: React.FC<TableBodyProps> = ({
           <AnimatePresence>
             {data.map((row, rowIndex) => {
               const isSelected = selectedRows.has(row.id);
-              console.log("row => ", row);
               return (
                 <React.Fragment key={row.id || rowIndex}>
                   <motion.tr
@@ -184,7 +180,7 @@ const TableBody: React.FC<TableBodyProps> = ({
                       backgroundColor: { duration: 0.2 },
                     }}
                   >
-                    <td className="px-6 py-4 relative">
+                    <td className="px-4 sm:px-6 py-4 relative">
                       {isSelected && (
                         <motion.div
                           className="absolute inset-y-0 left-0 w-1 bg-blue-500"
@@ -201,7 +197,9 @@ const TableBody: React.FC<TableBodyProps> = ({
                     {columns.map((column) => (
                       <td
                         key={column.key}
-                        className={`px-6 py-4 text-${column.align || "left"}`}
+                        className={`px-4 sm:px-6 py-4 text-${
+                          column.align || "left"
+                        }`}
                       >
                         {column.render
                           ? column.render(row)
@@ -261,7 +259,7 @@ const TableBody: React.FC<TableBodyProps> = ({
             exit={{ opacity: 0, y: 20 }}
             className="bg-blue-50 border-t-2 border-blue-100"
           >
-            <td colSpan={columns.length + 1} className="px-6 py-3">
+            <td colSpan={columns.length + 1} className="px-4 sm:px-6 py-3">
               <div className="flex items-center justify-between">
                 <span className="text-blue-700 font-medium">
                   {selectedRows.size} {selectedRows.size === 1 ? "row" : "rows"}{" "}
@@ -272,9 +270,7 @@ const TableBody: React.FC<TableBodyProps> = ({
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className="px-3 py-1 bg-white border border-blue-200 rounded-md text-blue-600 text-sm hover:bg-blue-50"
-                    onClick={() => {
-                      onSelectAll();
-                    }}
+                    onClick={onSelectAll}
                   >
                     Clear selection
                   </motion.button>

@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 import LogContext from "./LogContext";
 import Link from "next/link";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const LogsDashboard = () => {
   const { data, isLoading, error } = useGetAllLogsQuery({});
@@ -37,8 +38,6 @@ const LogsDashboard = () => {
     if (!id) return "";
     return `${id.substring(0, 8)}...`;
   };
-
-
 
   // Handle delete single log
   const handleDeleteLog = (e, logId) => {
@@ -169,7 +168,6 @@ const LogsDashboard = () => {
             isLoading={isLoading}
             showHeader={false}
             className="cursor-pointer hover:bg-gray-50"
-        
           />
         </>
       ) : isLoading ? (
@@ -181,4 +179,4 @@ const LogsDashboard = () => {
   );
 };
 
-export default LogsDashboard;
+export default withAuth(LogsDashboard);

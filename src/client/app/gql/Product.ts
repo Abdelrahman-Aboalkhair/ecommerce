@@ -1,50 +1,28 @@
 import { gql } from "@apollo/client";
 
-export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  images: string[];
-  isNew: boolean;
-  isFeatured: boolean;
-  isTrending: boolean;
-  isBestSeller: boolean;
-  averageRating: number;
-  reviewCount: number;
-  description: string | null;
-  variants: {
-    id: string;
-    sku: string;
-    price: number;
-    stock: number;
-    lowStockThreshold: number;
-    barcode: string | null;
-    warehouseLocation: string | null;
-    attributes: {
-      id: string;
-      attribute: {
-        id: string;
-        name: string;
-        slug: string;
-      };
-      value: {
-        id: string;
-        value: string;
-        slug: string;
-      };
-    }[];
-  }[];
-  category: {
-    id: string;
-    name: string;
-    slug: string;
-  } | null;
-  reviews: {
-    id: string;
-    rating: number;
-    comment: string | null;
-  }[];
-}
+export const GET_PRODUCTS_SUMMARY = gql`
+  query GetFlaggedProducts($first: Int, $flags: [String!]) {
+    products(first: $first, filters: { flags: $flags }) {
+      products {
+        id
+        slug
+        name
+        isNew
+        isFeatured
+        isTrending
+        isBestSeller
+        averageRating
+        reviewCount
+        variants {
+          id
+          price
+          images
+          stock
+        }
+      }
+    }
+  }
+`;
 
 export const GET_PRODUCTS = gql`
   query GetProducts($first: Int, $skip: Int, $filters: ProductFilters) {

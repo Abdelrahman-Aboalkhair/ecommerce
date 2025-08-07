@@ -6,9 +6,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.error("Network Error", networkError);
 });
 
+// development: http://localhost:5000/api/v1/graphql
+// production: https://full-stack-ecommerce-n5at.onrender.com/api/v1/graphql
 export const initializeApollo = (initialState = null) => {
   const httpLink = new HttpLink({
-    uri: "https://full-stack-ecommerce-n5at.onrender.com/api/v1/graphql",
+    uri: "http://localhost:5000/api/v1/graphql",
     credentials: "include",
   });
 

@@ -4,6 +4,7 @@ import { store } from "./store/store";
 import { ApolloProvider } from "@apollo/client";
 import client from "./lib/apolloClient";
 import Toast from "./components/feedback/Toast";
+import AuthProvider from "./components/HOC/AuthProvider";
 
 export default function ClientProviders({
   children,
@@ -13,7 +14,7 @@ export default function ClientProviders({
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         {process.env.NODE_ENV !== "test" && <Toast />}
       </Provider>
     </ApolloProvider>

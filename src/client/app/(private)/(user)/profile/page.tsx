@@ -1,4 +1,5 @@
 "use client";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 import MainLayout from "@/app/components/templates/MainLayout";
 import { useGetMeQuery } from "@/app/store/apis/UserApi";
 import { User, Shield, Clock } from "lucide-react";
@@ -179,4 +180,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default withAuth(UserProfile);

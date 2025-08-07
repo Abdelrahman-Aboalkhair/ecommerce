@@ -1,7 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ZoomIn, Maximize2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
 
 interface ProductImageGalleryProps {
   images: string[];
@@ -21,6 +27,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   const [isZoomed, setIsZoomed] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   // Update selectedIndex when selectedImage changes
   useEffect(() => {
@@ -31,6 +38,18 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
       setSelectedIndex(0);
     }
   }, [selectedImage, images]);
+
+  // Handle full-screen change events
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+    };
+  }, []);
 
   const handleImageSelect = (img: string, index: number) => {
     setSelectedImage(img);
@@ -58,8 +77,24 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
     setIsZoomed(!isZoomed);
   };
 
-  const handleFullScreenToggle = () => {
-    setIsFullScreen(!isFullScreen);
+  const handleFullScreenToggle = async () => {
+    if (!galleryRef.current) return;
+
+    if (!isFullScreen) {
+      try {
+        await galleryRef.current.requestFullscreen();
+        setIsFullScreen(true);
+      } catch (err) {
+        console.error("Failed to enter fullscreen:", err);
+      }
+    } else {
+      try {
+        await document.exitFullscreen();
+        setIsFullScreen(false);
+      } catch (err) {
+        console.error("Failed to exit fullscreen:", err);
+      }
+    }
     setIsZoomed(false);
   };
 
@@ -90,15 +125,19 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   }
 
   return (
-    <div className={`relative ${isFullScreen ? "fixed inset-0 z-50 p-4" : ""}`}>
-      {isFullScreen && (
-        <button
-          onClick={handleFullScreenToggle}
-          className="absolute top-4 right-4 z-10 rounded-full p-2 shadow-md hover:bg-gray-100"
-        >
-          <Maximize2 size={20} />
-        </button>
-      )}
+    <div
+      ref={galleryRef}
+      className={`relative ${
+        isFullScreen ? "bg-black h-screen w-screen p-4" : ""
+      }`}
+    >
+      <button
+        onClick={handleFullScreenToggle}
+        className="absolute top-4 right-4 z-10 rounded-full p-2 bg-white bg-opacity-80 shadow-md hover:bg-gray-100"
+        aria-label={isFullScreen ? "Exit fullscreen" : "View fullscreen"}
+      >
+        {isFullScreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+      </button>
 
       <div
         className={`flex ${
@@ -147,7 +186,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           <div className="absolute inset-y-0 left-2 flex items-center z-10">
             <button
               onClick={handlePrevImage}
-              className=" bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all transform hover:scale-105"
+              className="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all transform hover:scale-105"
               aria-label="Previous image"
             >
               <ChevronLeft size={20} />
@@ -157,34 +196,24 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           <div className="absolute inset-y-0 right-2 flex items-center z-10">
             <button
               onClick={handleNextImage}
-              className=" bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all transform hover:scale-105"
+              className="bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all transform hover:scale-105"
               aria-label="Next image"
             >
               <ChevronRight size={20} />
             </button>
           </div>
 
-          {/* Zoom and Fullscreen Controls */}
-          <div className="absolute top-4 right-4 flex gap-2 z-10">
+          {/* Zoom Control */}
+          <div className="absolute top-4 right-16 flex gap-2 z-10">
             <button
               onClick={handleZoomToggle}
-              className={` rounded-full p-2 shadow-md transition-all ${
+              className={`bg-white bg-opacity-80 rounded-full p-2 shadow-md transition-all ${
                 isZoomed ? "bg-indigo-100 text-indigo-600" : "hover:bg-gray-100"
               }`}
               aria-label={isZoomed ? "Exit zoom" : "Zoom image"}
             >
               <ZoomIn size={20} />
             </button>
-
-            {!isFullScreen && (
-              <button
-                onClick={handleFullScreenToggle}
-                className=" rounded-full p-2 shadow-md hover:bg-gray-100 transition-all"
-                aria-label="View fullscreen"
-              >
-                <Maximize2 size={20} />
-              </button>
-            )}
           </div>
 
           {/* Main Image */}
@@ -223,7 +252,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
           </div>
 
           {/* Image Counter */}
-          <div className="absolute bottom-6 left-6  bg-opacity-80 px-3 py-1 rounded-full text-sm text-gray-700 shadow-sm">
+          <div className="absolute bottom-6 left-6 bg-white bg-opacity-80 px-3 py-1 rounded-full text-sm text-gray-700 shadow-sm">
             {selectedIndex + 1} / {images.length || 1}
           </div>
         </div>

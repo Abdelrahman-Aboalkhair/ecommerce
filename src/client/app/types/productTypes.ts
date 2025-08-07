@@ -1,23 +1,49 @@
 import { User } from "./authTypes";
-
 export interface Product {
   id: string;
-  name: string;
-  description?: string | null;
-  price: number;
-  discount: number;
   slug: string;
-  images: string[];
-  stock: number;
-  salesCount: number;
-  bestSeller: boolean;
-  featured: boolean;
-  reviewCount: number;
+  name: string;
+  isNew: boolean;
+  isFeatured: boolean;
+  isTrending: boolean;
+  isBestSeller: boolean;
   averageRating: number;
-  category?: Category | null;
-  categoryId?: string | null;
+  reviewCount: number;
+  description: string | null;
+  variants: {
+    id: string;
+    sku: string;
+    price: number;
+    images: string[];
+    stock: number;
+    lowStockThreshold: number;
+    barcode: string | null;
+    warehouseLocation: string | null;
+    attributes: {
+      id: string;
+      attribute: {
+        id: string;
+        name: string;
+        slug: string;
+      };
+      value: {
+        id: string;
+        value: string;
+        slug: string;
+      };
+    }[];
+  }[];
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+  } | null;
+  reviews: {
+    id: string;
+    rating: number;
+    comment: string | null;
+  }[];
 }
-
 export interface Order {
   order_no: string;
   amount: number;

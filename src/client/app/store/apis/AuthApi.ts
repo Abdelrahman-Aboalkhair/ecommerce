@@ -1,5 +1,5 @@
 import { apiSlice } from "../slices/ApiSlice";
-import { setCredentials, clearCredentials } from "../slices/AuthSlice";
+import { setUser, logout } from "../slices/AuthSlice";
 
 interface User {
   id: string;
@@ -23,7 +23,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setCredentials(data));
+        dispatch(setUser(data));
       },
     }),
     signup: builder.mutation<
@@ -37,7 +37,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setCredentials(data));
+        dispatch(setUser(data));
       },
     }),
     signOut: builder.mutation<void, void>({
@@ -47,7 +47,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
-        dispatch(clearCredentials());
+        dispatch(logout());
       },
     }),
     forgotPassword: builder.mutation<void, { email: string }>({
@@ -64,7 +64,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setCredentials(data));
+        dispatch(setUser(data));
       },
     }),
   }),

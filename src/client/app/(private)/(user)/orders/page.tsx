@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { Package, Calendar, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import ToggleableText from "@/app/components/atoms/ToggleableText";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const UserOrders = () => {
   const { data, isLoading, error } = useGetUserOrdersQuery({});
@@ -104,4 +105,4 @@ const UserOrders = () => {
   );
 };
 
-export default UserOrders;
+export default withAuth(UserOrders);

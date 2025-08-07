@@ -89,6 +89,7 @@ const typeDefs = gql`
     minPrice: Float
     maxPrice: Float
     categoryId: String
+    flags: [String!]
   }
 
   type Query {

@@ -7,13 +7,20 @@ import OrderSummary from "../OrderSummary";
 import OrderStatus from "../OrderStatus";
 import OrderItems from "../OrderItems";
 import { useGetOrderQuery } from "@/app/store/apis/OrderApi";
+import CustomLoader from "@/app/components/feedback/CustomLoader";
 
 const OrderTrackingPage = () => {
   const { orderId } = useParams();
   const { data, isLoading, error } = useGetOrderQuery(orderId);
   const order = data?.order;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <CustomLoader />
+      </MainLayout>
+    );
+  }
   if (error || !order)
     return <div>Error loading order or order not found.</div>;
 

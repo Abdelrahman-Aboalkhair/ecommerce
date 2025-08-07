@@ -19,8 +19,8 @@ export class AuthController {
   ) {}
 
   signup = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    // const start = Date.now();
-    // const end = Date.now();
+    const start = Date.now();
+    const end = Date.now();
     const { name, email, password, role } = req.body;
     const { user, accessToken, refreshToken } =
       await this.authService.registerUser({
@@ -31,6 +31,7 @@ export class AuthController {
       });
 
     res.cookie("refreshToken", refreshToken, cookieOptions);
+    res.cookie("accessToken", accessToken, cookieOptions);
 
     const userId = user.id;
     const sessionId = req.session.id;
@@ -40,7 +41,6 @@ export class AuthController {
     sendResponse(res, 201, {
       message: "User registered successfully",
       data: {
-        accessToken,
         user: {
           id: user.id,
           name: user.name,
@@ -49,11 +49,11 @@ export class AuthController {
         },
       },
     });
-    // this.logsService.info("Register", {
-    //   userId,
-    //   sessionId: req.session.id,
-    //   timePeriod: end - start,
-    // });
+    this.logsService.info("Register", {
+      userId,
+      sessionId: req.session.id,
+      timePeriod: end - start,
+    });
   });
 
   signin = asyncHandler(async (req: Request, res: Response): Promise<void> => {
@@ -64,6 +64,7 @@ export class AuthController {
     });
 
     res.cookie("refreshToken", refreshToken, cookieOptions);
+    res.cookie("accessToken", accessToken, cookieOptions);
 
     const userId = user.id;
     const sessionId = req.session.id;
@@ -71,7 +72,6 @@ export class AuthController {
 
     sendResponse(res, 200, {
       data: {
-        accessToken,
         user: {
           id: user.id,
           name: user.name,
@@ -109,6 +109,10 @@ export class AuthController {
     }
 
     res.clearCookie("refreshToken", {
+      ...clearCookieOptions,
+    });
+
+    res.clearCookie("accessToken", {
       ...clearCookieOptions,
     });
 

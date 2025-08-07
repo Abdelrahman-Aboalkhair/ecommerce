@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { Heart, Eye } from "lucide-react";
+import { Eye } from "lucide-react";
 import { Product } from "@/app/types/productTypes";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,12 +53,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Action Buttons */}
         <div className="absolute top-2 right-2 flex space-x-1 z-10">
-          <button
-            className="bg-white rounded-full p-1.5 shadow-sm hover:bg-gray-100 transition"
-            aria-label="Add to wishlist"
-          >
-            <Heart size={16} className="text-gray-600" />
-          </button>
           <Link href={`/product/${product.slug}`}>
             <div
               className="bg-white rounded-full p-1.5 shadow-sm hover:bg-gray-100 transition"

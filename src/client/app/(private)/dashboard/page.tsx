@@ -11,8 +11,8 @@ import { useQuery } from "@apollo/client";
 import { GET_ANALYTICS_OVERVIEW } from "@/app/gql/Dashboard";
 import CustomLoader from "@/app/components/feedback/CustomLoader";
 import ListCard from "@/app/components/organisms/ListCard";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
-// Dynamically import charting components with SSR disabled
 const AreaChart = dynamic(
   () => import("@/app/components/charts/AreaChartComponent"),
   { ssr: false }
@@ -55,7 +55,6 @@ const Dashboard = () => {
   const { data, loading, error } = useQuery(GET_ANALYTICS_OVERVIEW, {
     variables: { params: queryParams },
   });
-  console.log("data => ", data);
 
   const topItems =
     data?.productPerformance?.slice(0, 10).map((p) => ({
@@ -75,19 +74,25 @@ const Dashboard = () => {
   }
 
   if (error) {
-    return <div>Error loading dashboard data</div>;
+    return (
+      <div className="text-center text-red-500 p-4">
+        Error loading dashboard data
+      </div>
+    );
   }
 
   return (
     <motion.div
-      className="p-2 min-h-screen space-y-4"
+      className="p-4 sm:p-6 min-h-screen space-y-6"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Dashboard Overview</h1>
-        <div className="flex items-center justify-center gap-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h1 className="text-xl sm:text-2xl font-semibold">
+          Dashboard Overview
+        </h1>
+        <div className="flex items-center justify-center gap-2 w-full sm:w-auto">
           <Controller
             name="timePeriod"
             control={control}
@@ -97,7 +102,7 @@ const Dashboard = () => {
                 options={timePeriodOptions}
                 value={field.value}
                 label="Time Period"
-                className="min-w-[150px] w-full max-w-[200px]"
+                className="w-full sm:min-w-[150px] sm:max-w-[200px]"
               />
             )}
           />
@@ -121,7 +126,7 @@ const Dashboard = () => {
         <StatsCard
           title="Total Interactions"
           value={data?.interactionAnalytics?.totalInteractions || 0}
-          percentage={0} // ! HARD CODED
+          percentage={0}
           caption="all interactions"
           icon={<LineChart className="w-5 h-5" />}
         />
@@ -158,4 +163,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

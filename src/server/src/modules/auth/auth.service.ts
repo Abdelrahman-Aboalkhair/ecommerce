@@ -23,7 +23,7 @@ export class AuthService {
     const existingUser = await this.authRepository.findUserByEmail(email);
 
     if (existingUser) {
-      throw new BadRequestError(
+      throw new AppError(400,
         "This email is already registered, please log in instead."
       );
     }

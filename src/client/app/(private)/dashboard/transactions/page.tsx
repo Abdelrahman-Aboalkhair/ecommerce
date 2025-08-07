@@ -12,6 +12,7 @@ import {
 } from "@/app/store/apis/TransactionApi";
 import Modal from "@/app/components/organisms/Modal";
 import Dropdown from "@/app/components/molecules/Dropdown";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const TransactionsDashboard = () => {
   const { showToast } = useToast();
@@ -278,4 +279,4 @@ const TransactionsDashboard = () => {
   );
 };
 
-export default TransactionsDashboard;
+export default withAuth(TransactionsDashboard);

@@ -13,6 +13,7 @@ import Modal from "@/app/components/organisms/Modal";
 import ConfirmModal from "@/app/components/organisms/ConfirmModal";
 import CategoryForm, { CategoryFormData } from "./CategoryForm";
 import useToast from "@/app/hooks/ui/useToast";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const CategoriesDashboard = () => {
   const { showToast } = useToast();
@@ -194,4 +195,4 @@ const CategoriesDashboard = () => {
   );
 };
 
-export default CategoriesDashboard;
+export default withAuth(CategoriesDashboard);

@@ -7,8 +7,9 @@ import ProductImageGallery from "../ProductImageGallery";
 import ProductInfo from "../ProductInfo";
 import ProductReviews from "../ProductReviews";
 import { useQuery } from "@apollo/client";
-import { GET_SINGLE_PRODUCT, Product } from "@/app/gql/Product";
+import { GET_SINGLE_PRODUCT } from "@/app/gql/Product";
 import CustomLoader from "@/app/components/feedback/CustomLoader";
+import { Product } from "@/app/types/productTypes";
 
 const ProductDetailsPage = () => {
   const { slug } = useParams();

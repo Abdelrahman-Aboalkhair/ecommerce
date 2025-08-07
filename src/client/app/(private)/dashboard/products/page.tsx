@@ -14,6 +14,7 @@ import useToast from "@/app/hooks/ui/useToast";
 import ProductFileUpload from "./ProductFileUpload";
 import { usePathname } from "next/navigation";
 import { ProductFormData } from "./product.types";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const ProductsDashboard = () => {
   const { showToast } = useToast();
@@ -72,7 +73,7 @@ const ProductsDashboard = () => {
       // Track image indexes for this variant
       if (Array.isArray(variant.images) && variant.images.length > 0) {
         const imageIndexes = variant.images
-          .map((file, fileIndex) => {
+          .map((file) => {
             if (file instanceof File) {
               payload.append(`images`, file);
               return imageIndex++;
@@ -211,7 +212,6 @@ const ProductsDashboard = () => {
                 isFeatured: row.isFeatured,
                 categoryId: row.categoryId,
                 description: row.description || "",
-                images: row.images || [],
                 variants: row.variants || [],
               });
               setIsModalOpen(true);
@@ -312,4 +312,4 @@ const ProductsDashboard = () => {
   );
 };
 
-export default ProductsDashboard;
+export default withAuth(ProductsDashboard);

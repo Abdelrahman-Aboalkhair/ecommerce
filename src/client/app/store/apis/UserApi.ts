@@ -1,3 +1,4 @@
+import { User } from "@/app/types/authTypes";
 import { apiSlice } from "../slices/ApiSlice";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -5,14 +6,12 @@ export const userApi = apiSlice.injectEndpoints({
     getAllUsers: builder.query({
       query: () => ({
         url: "/users",
-        credentials: "include",
       }),
       providesTags: ["User"],
     }),
     getAllAdmins: builder.query({
       query: () => ({
         url: "/users/admins",
-        credentials: "include",
       }),
       providesTags: ["User"],
     }),
@@ -20,7 +19,6 @@ export const userApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/users/profile/${id}`,
         method: "GET",
-        credentials: "include",
       }),
       providesTags: ["User"],
     }),
@@ -29,15 +27,13 @@ export const userApi = apiSlice.injectEndpoints({
         url: `/users/${id}`,
         method: "PUT",
         body: data,
-        credentials: "include",
       }),
       invalidatesTags: ["User"],
     }),
-    getMe: builder.query({
+    getMe: builder.query<User, void>({
       query: () => ({
         url: "/users/me",
         method: "GET",
-        credentials: "include",
       }),
       providesTags: ["User"],
     }),
@@ -47,7 +43,6 @@ export const userApi = apiSlice.injectEndpoints({
         url: "/users",
         method: "POST",
         body: data,
-        credentials: "include",
       }),
       invalidatesTags: ["User"],
     }),
@@ -56,7 +51,6 @@ export const userApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/users/${id}`,
         method: "DELETE",
-        credentials: "include",
       }),
       invalidatesTags: ["User"],
     }),

@@ -4,6 +4,10 @@ A modern Single Store Ecommerce platform built with a **TypeScript** backend (Ex
 
 [Demo Video](https://youtu.be/qJDXcQ_sxSI)
 
+## Notes
+
+- To transition from development to production, please refer to the [Deployment](#deployment) section.
+
 ## Table of Contents
 
 - [Features](#features)
@@ -24,6 +28,24 @@ A modern Single Store Ecommerce platform built with a **TypeScript** backend (Ex
 ## 🚀 Features
 
 ### **1. User Authentication & Authorization**
+
+#### FLOW
+
+[App Starts]
+|
+v
+GET /me (with cookie)
+|
++--> 200 OK => set user in Redux => Auth ready
+|
++--> 401 Unauthorized
+|
+v
+POST /refresh (cookie-based)
+|
++--> 200 OK => new token => retry /me => set user
+|
++--> 401 => logout
 
 - **Sign‑up / Sign‑in** — Email & password, social login (Facebook, Google, Twitter, Apple)
 - **Email Verification & Password Reset** — `/auth/verify-email`, `/auth/password-reset/[token]` flows
@@ -402,14 +424,21 @@ To test the APIs:
 
 ## Deployment
 
-<!-- Placeholder for deployment instructions -->
+## Transition from Development to Production
 
-To deploy the application:
+1. **Database**: Use a managed PostgreSQL/Redis provider (e.g., Neon).
+2. **Redis**: Use a managed Redis provider (e.g., Upstash).
+3. **Backend**: Host on a platform like AWS ECS, Heroku, or Render.
+4. **Frontend**: Deploy on Vercel, Netlify, or AWS Amplify.
 
-1. **Backend**: Host on a platform like AWS ECS, Heroku, or Render.
-2. **Frontend**: Deploy on Vercel, Netlify, or AWS Amplify.
-3. **Database**: Use a managed PostgreSQL/Redis provider (e.g., AWS RDS, Redis Labs).
-4. Update environment variables for production.
+- **NOTES** to make sure your application is production-ready.
+
+1. Go to /server/package.json and change moduleAlias folder to dist for prod, src for dev.
+2. change env variables for prod on both server and client
+3. change apolloClient file url from prod to dev or vice versa
+4. change ApiSlice baseQuery method url from prod to dev or vice versa
+5. For stripe webhook, go to your stripe dashboard, webhooks, create a new destination and get your webhook secret cause it differs from local listener secret (follow stripe instructions if you wanna test locally).
+6. For Social media login, you would need to configure the urls as well in google console and facebook console (follow the instructions in the links), X (twitter) developers. (e.g. http://localhost:5000 for dev, https://ss-ecommerce.vercel.app for prod).
 
 ## Contributing
 

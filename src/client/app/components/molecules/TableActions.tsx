@@ -58,13 +58,13 @@ const TableActions: React.FC<TableActionsProps> = ({
 
   return (
     <div className="p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
         {showSearchBar && (
           <input
             type="text"
             placeholder="Search..."
             onChange={(e) => onSearch({ searchQuery: e.target.value })}
-            className="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-auto"
           />
         )}
         <DropdownMultiSelect
@@ -79,7 +79,7 @@ const TableActions: React.FC<TableActionsProps> = ({
       </div>
       <button
         onClick={handleExport}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 w-full sm:w-auto"
       >
         <Download size={16} />
         Export {selectedRows.size > 0 ? "Selected" : "All"}

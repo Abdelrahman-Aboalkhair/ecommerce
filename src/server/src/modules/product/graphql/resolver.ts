@@ -28,6 +28,7 @@ export const productResolvers = {
           minPrice?: number;
           maxPrice?: number;
           categoryId?: string;
+          flags?: string[];
         };
       },
       context: Context
@@ -50,6 +51,13 @@ export const productResolvers = {
         where.isTrending = filters.isTrending;
       if (filters.isBestSeller !== undefined)
         where.isBestSeller = filters.isBestSeller;
+
+      // ✅ OR logic for multiple flags
+      if (filters.flags && filters.flags.length > 0) {
+        const flagConditions = filters.flags.map((flag) => ({ [flag]: true }));
+        if (!where.OR) where.OR = [];
+        where.OR = [...where.OR, ...flagConditions];
+      }
 
       // Category filter
       if (filters.categoryId) {

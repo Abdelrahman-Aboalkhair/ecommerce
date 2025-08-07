@@ -18,19 +18,18 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
   };
 
   return (
-    <div className="flex justify-end items-end space-x-2 m-2 mr-4">
+    <div className="flex justify-end items-end space-x-4 m-4">
       <button
         onClick={() => changePage(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="px-3 py-1 rounded border border-blue-100 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-4 py-2 rounded border border-blue-100 hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
         Previous
       </button>
-
       <button
         onClick={() => changePage(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
         Next
       </button>

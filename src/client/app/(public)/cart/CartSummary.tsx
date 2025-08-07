@@ -4,6 +4,8 @@ import React, { useMemo } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import useToast from "@/app/hooks/ui/useToast";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { useAuth } from "@/app/hooks/useAuth";
 
 interface CartSummaryProps {
   subtotal: number;
@@ -12,17 +14,20 @@ interface CartSummaryProps {
   totalItems: number;
   cartId: string;
 }
+
 const CartSummary: React.FC<CartSummaryProps> = ({
   subtotal,
   shippingRate = 0.01,
   currency = "$",
   totalItems,
 }) => {
-  console.log("subtotal => ", subtotal);
+  const { isAuthenticated } = useAuth();
   const { showToast } = useToast();
+
   const stripePromise = loadStripe(
     "pk_test_51R9gs72KGvEXtMtXXTm7UscmmHYsvk9j3ktaM8vxRb3evNJgG1dpD05YWACweIfcPtpCgOIs4HkpGrTCKE1dZD0p00sLC6iIBg"
   );
+
   const [initiateCheckout, { isLoading }] = useInitiateCheckoutMutation();
 
   const shippingFee = useMemo(
@@ -30,7 +35,6 @@ const CartSummary: React.FC<CartSummaryProps> = ({
     [subtotal, shippingRate]
   );
   const total = useMemo(() => subtotal + shippingFee, [subtotal, shippingFee]);
-  console.log("total => ", total);
 
   const handleInitiateCheckout = async () => {
     try {
@@ -42,10 +46,8 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 
       if (result?.error) {
         showToast(result.error.message, "error");
-        console.error(result.error.message);
       }
     } catch (error) {
-      console.error("Error checking out:", error);
       showToast("Failed to initiate checkout", "error");
     }
   };
@@ -60,6 +62,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
         Order Summary
       </h2>
+
       <div className="space-y-3 text-sm">
         <div className="flex justify-between text-gray-700">
           <span>Total Items</span>
@@ -87,13 +90,23 @@ const CartSummary: React.FC<CartSummaryProps> = ({
           </span>
         </div>
       </div>
-      <button
-        disabled={isLoading || totalItems === 0}
-        onClick={handleInitiateCheckout}
-        className="mt-4 w-full bg-indigo-600 text-white py-2.5 rounded-md font-medium text-sm hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-      >
-        {isLoading ? "Processing..." : "Proceed to Checkout"}
-      </button>
+
+      {isAuthenticated ? (
+        <button
+          disabled={isLoading || totalItems === 0}
+          onClick={handleInitiateCheckout}
+          className="mt-4 w-full bg-indigo-600 text-white py-2.5 rounded-md font-medium text-sm hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+        >
+          {isLoading ? "Processing..." : "Proceed to Checkout"}
+        </button>
+      ) : (
+        <Link
+          href="/sign-in"
+          className="mt-4 w-full inline-block text-center bg-gray-300 text-gray-800 py-2.5 rounded-md font-medium text-sm hover:bg-gray-400 transition-colors"
+        >
+          Sign in to Checkout
+        </Link>
+      )}
     </motion.div>
   );
 };

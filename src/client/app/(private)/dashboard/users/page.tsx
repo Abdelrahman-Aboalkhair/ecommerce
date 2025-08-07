@@ -14,6 +14,7 @@ import UserForm, { UserFormData } from "./UserForm";
 import ConfirmModal from "@/app/components/organisms/ConfirmModal";
 import { usePathname } from "next/navigation";
 import ToggleableText from "@/app/components/atoms/ToggleableText";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const UsersDashboard = () => {
   const { showToast } = useToast();
@@ -300,4 +301,4 @@ const UsersDashboard = () => {
   );
 };
 
-export default UsersDashboard;
+export default withAuth(UsersDashboard);

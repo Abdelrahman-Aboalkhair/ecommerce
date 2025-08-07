@@ -4,23 +4,17 @@ import {
   useCreateChatMutation,
   useGetUserChatsQuery,
 } from "@/app/store/apis/ChatApi";
-import { useGetMeQuery } from "@/app/store/apis/UserApi";
 import ChatContainer from "../(chat)";
 import MainLayout from "@/app/components/templates/MainLayout";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const SupportPage = () => {
-  const { data } = useGetMeQuery(undefined);
-  const user = data?.user;
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   console.log("activeChatId => ", activeChatId);
   const { data: chats, isLoading } = useGetUserChatsQuery(undefined);
   console.log("user chats => ", chats);
 
   const [createChat, { isLoading: isCreatingChat }] = useCreateChatMutation();
-
-  if (!user) {
-    return <div>Please log in to access support</div>;
-  }
 
   const handleCreateChat = async () => {
     try {
@@ -100,4 +94,4 @@ const SupportPage = () => {
   );
 };
 
-export default SupportPage;
+export default withAuth(SupportPage);

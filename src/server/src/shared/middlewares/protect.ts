@@ -10,7 +10,7 @@ const protect = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const accessToken = req.headers.authorization?.split(" ")[1];
+    const accessToken = req?.cookies?.accessToken;
     console.log("accessToken: ", accessToken);
     if (!accessToken) {
       return next(new AppError(401, "Unauthorized, please log in"));

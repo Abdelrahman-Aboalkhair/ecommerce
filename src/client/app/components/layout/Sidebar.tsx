@@ -3,10 +3,8 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-
 import useStorage from "@/app/hooks/state/useStorage";
 import { useSignOutMutation } from "@/app/store/apis/AuthApi";
-
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -23,7 +21,11 @@ import {
 } from "lucide-react";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useStorage<boolean>("sidebarOpen", true, "local");
+  const [isOpen, setIsOpen] = useStorage<boolean>(
+    "sidebarOpen",
+    false,
+    "local"
+  );
   const pathname = usePathname();
   const router = useRouter();
   const [signout] = useSignOutMutation();
@@ -48,7 +50,6 @@ const Sidebar = () => {
           { name: "Chats", href: "/chats", icon: ChartArea },
         ],
       },
-
       {
         title: "Stats",
         links: [
@@ -114,12 +115,12 @@ const Sidebar = () => {
         width: isOpen ? 260 : 80,
         transition: { duration: 0.3, ease: "easeInOut" },
       }}
-      className="bg-white border-r border-gray-200 shadow-lg min-h-fit flex flex-col p-4 justify-between"
+      className="bg-white border-r border-gray-200 shadow-lg min-h-fit flex flex-col p-4 justify-between md:w-auto w-full md:static fixed top-0 left-0 z-50"
     >
       <div>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 flex items-center justify-end rounded-lg transition mb-4"
+          className="p-2 flex items-center justify-end rounded-lg transition mb-4 w-full"
         >
           <PanelsRightBottom size={24} className="text-gray-700" />
         </button>

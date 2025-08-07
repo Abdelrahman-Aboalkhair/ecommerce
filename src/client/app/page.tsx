@@ -1,7 +1,9 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useQuery } from "@apollo/client";
-import { GET_PRODUCTS } from "./gql/Product";
+import { GET_PRODUCTS_SUMMARY } from "./gql/Product";
+import { useMemo } from "react";
+import groupProductsByFlag from "./utils/groupProductsByFlag";
 
 const HeroSection = dynamic(() => import("./(public)/(home)/HeroSection"), {
   ssr: false,
@@ -15,75 +17,46 @@ const MainLayout = dynamic(() => import("./components/templates/MainLayout"), {
 });
 
 const Home = () => {
-  const pageSize = 8;
-
-  const {
-    data: featuredData,
-    loading: featuredLoading,
-    error: featuredError,
-  } = useQuery(GET_PRODUCTS, {
-    variables: { first: pageSize, skip: 0, filters: { isFeatured: true } },
+  const { data, loading, error } = useQuery(GET_PRODUCTS_SUMMARY, {
+    variables: { first: 100 },
     fetchPolicy: "no-cache",
   });
 
-  const {
-    data: newData,
-    loading: newLoading,
-    error: newError,
-  } = useQuery(GET_PRODUCTS, {
-    variables: { first: pageSize, skip: 0, filters: { isNew: true } },
-    fetchPolicy: "no-cache",
-  });
-  console.log("newData: ", newData);
-
-  const {
-    data: trendingData,
-    loading: trendingLoading,
-    error: trendingError,
-  } = useQuery(GET_PRODUCTS, {
-    variables: { first: pageSize, skip: 0, filters: { isTrending: true } },
-    fetchPolicy: "no-cache",
-  });
-
-  const {
-    data: bestSellerData,
-    loading: bestSellerLoading,
-    error: bestSellerError,
-  } = useQuery(GET_PRODUCTS, {
-    variables: { first: pageSize, skip: 0, filters: { isBestSeller: true } },
-    fetchPolicy: "no-cache",
-  });
+  const { featured, trending, newArrivals, bestSellers } = useMemo(() => {
+    if (!data?.products?.products)
+      return { featured: [], trending: [], newArrivals: [], bestSellers: [] };
+    return groupProductsByFlag(data.products.products);
+  }, [data]);
 
   return (
     <MainLayout>
       <HeroSection />
       <ProductSection
         title="Featured"
-        products={featuredData?.products.products || []}
-        loading={featuredLoading}
-        error={featuredError}
-        showTitle
+        products={featured}
+        loading={loading}
+        error={error}
       />
+
       <ProductSection
         title="Trending"
-        products={trendingData?.products.products || []}
-        loading={trendingLoading}
-        error={trendingError}
-        showTitle
+        products={trending}
+        loading={loading}
+        error={error}
       />
+
       <ProductSection
         title="New Arrivals"
-        products={newData?.products.products || []}
-        loading={newLoading}
-        error={newError}
-        showTitle
+        products={newArrivals}
+        loading={loading}
+        error={error}
       />
+
       <ProductSection
         title="Best Sellers"
-        products={bestSellerData?.products.products || []}
-        loading={bestSellerLoading}
-        error={bestSellerError}
-        showTitle
+        products={bestSellers}
+        loading={loading}
+        error={error}
       />
     </MainLayout>
   );

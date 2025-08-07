@@ -5,37 +5,29 @@ interface User {
   name: string;
   email: string;
   role: string;
-  emailVerified: boolean;
   avatar: string | null;
 }
 
 interface AuthState {
-  accessToken: string | null;
-  user: User | null;
+  user: User | undefined | null;
 }
 
 const initialState: AuthState = {
-  accessToken: null,
-  user: null,
+  user: undefined,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (
-      state,
-      action: PayloadAction<{ accessToken: string; user: User }>
-    ) => {
-      state.accessToken = action.payload.accessToken;
+    setUser: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
     },
-    clearCredentials: (state) => {
-      state.accessToken = null;
-      state.user = null;
+    logout: (state) => {
+      state.user = undefined;
     },
   },
 });
 
-export const { setCredentials, clearCredentials } = authSlice.actions;
+export const { setUser, logout } = authSlice.actions;
 export default authSlice.reducer;

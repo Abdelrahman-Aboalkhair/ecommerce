@@ -1,11 +1,15 @@
 "use client";
 import { useState } from "react";
-import { useGetAllVariantsQuery, useRestockVariantMutation } from "@/app/store/apis/VariantApi";
+import {
+  useGetAllVariantsQuery,
+  useRestockVariantMutation,
+} from "@/app/store/apis/VariantApi";
 import Table from "@/app/components/layout/Table";
 import { History, Plus } from "lucide-react";
 import useToast from "@/app/hooks/ui/useToast";
 import RestockModal from "./RestockModal";
 import RestockHistoryModal from "./RestockHistoryModal";
+import { withAuth } from "@/app/components/HOC/WithAuth";
 
 interface Variant {
   id: string;
@@ -31,12 +35,16 @@ const InventoryDashboard = () => {
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const { data, isLoading } = useGetAllVariantsQuery({});
-  console.log('data: ', data);
-  const [restockVariant, { isLoading: isRestocking }] = useRestockVariantMutation();
+  console.log("data: ", data);
+  const [restockVariant, { isLoading: isRestocking }] =
+    useRestockVariantMutation();
   const variants = data?.variants || [];
-  console.log('variants: ', variants);
+  console.log("variants: ", variants);
 
-  const handleRestock = async (variantId: string, data: { quantity: number; notes?: string }) => {
+  const handleRestock = async (
+    variantId: string,
+    data: { quantity: number; notes?: string }
+  ) => {
     try {
       await restockVariant({ id: variantId, data }).unwrap();
       setIsRestockModalOpen(false);
@@ -53,17 +61,13 @@ const InventoryDashboard = () => {
       key: "productName",
       label: "Product",
       sortable: true,
-      render: (row: Variant) => (
-        <span>{row.product.name}</span>
-      ),
+      render: (row: Variant) => <span>{row.product.name}</span>,
     },
     {
       key: "sku",
       label: "SKU",
       sortable: true,
-      render: (row: Variant) => (
-        <span>{row.sku}</span>
-      ),
+      render: (row: Variant) => <span>{row.sku}</span>,
     },
     {
       key: "attributes",
@@ -72,7 +76,10 @@ const InventoryDashboard = () => {
       render: (row: Variant) => (
         <div>
           {row.attributes.map((attr) => (
-            <span key={attr.attributeId} className="inline-block mr-2 bg-gray-100 px-2 py-1 rounded">
+            <span
+              key={attr.attributeId}
+              className="inline-block mr-2 bg-gray-100 px-2 py-1 rounded"
+            >
               {attr.attribute.name}: {attr.value.value}
             </span>
           ))}
@@ -84,7 +91,13 @@ const InventoryDashboard = () => {
       label: "Stock",
       sortable: true,
       render: (row: Variant) => (
-        <span className={row.stock <= (row.lowStockThreshold || 10) ? "text-red-600 font-medium" : ""}>
+        <span
+          className={
+            row.stock <= (row.lowStockThreshold || 10)
+              ? "text-red-600 font-medium"
+              : ""
+          }
+        >
           {row.stock}
         </span>
       ),
@@ -93,17 +106,13 @@ const InventoryDashboard = () => {
       key: "lowStockThreshold",
       label: "Low Stock Threshold",
       sortable: true,
-      render: (row: Variant) => (
-        <span>{row.lowStockThreshold || 10}</span>
-      ),
+      render: (row: Variant) => <span>{row.lowStockThreshold || 10}</span>,
     },
     {
       key: "warehouseLocation",
       label: "Warehouse Location",
       sortable: true,
-      render: (row: Variant) => (
-        <span>{row.warehouseLocation || "N/A"}</span>
-      ),
+      render: (row: Variant) => <span>{row.warehouseLocation || "N/A"}</span>,
     },
     {
       key: "status",
@@ -117,7 +126,9 @@ const InventoryDashboard = () => {
               : "bg-green-100 text-green-600"
           }`}
         >
-          {row.stock <= (row.lowStockThreshold || 10) ? "Low Stock" : "In Stock"}
+          {row.stock <= (row.lowStockThreshold || 10)
+            ? "Low Stock"
+            : "In Stock"}
         </span>
       ),
     },
@@ -157,7 +168,9 @@ const InventoryDashboard = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <h1 className="text-xl font-semibold">Inventory Dashboard</h1>
-          <p className="text-sm text-gray-500">Manage variant stock and restock history</p>
+          <p className="text-sm text-gray-500">
+            Manage variant stock and restock history
+          </p>
         </div>
       </div>
 
@@ -195,4 +208,4 @@ const InventoryDashboard = () => {
   );
 };
 
-export default InventoryDashboard;
+export default withAuth(InventoryDashboard);

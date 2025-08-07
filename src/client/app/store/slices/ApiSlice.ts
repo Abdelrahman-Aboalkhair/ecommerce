@@ -1,32 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials, clearCredentials } from "./AuthSlice";
+import { logout } from "./AuthSlice";
 
-interface AuthResponse {
-  accessToken: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    emailVerified: boolean;
-    avatar: string | null;
-  };
-}
-
+// development: http://localhost:5000/api/v1
+// production: https://full-stack-ecommerce-n5at.onrender.com/api/v1
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://full-stack-ecommerce-n5at.onrender.com/api/v1",
+  baseUrl: "http://localhost:5000/api/v1",
   credentials: "include",
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as any).auth.accessToken;
-    if (token) headers.set("Authorization", `Bearer ${token}`);
-    return headers;
-  },
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error?.status === 401) {
+    // Try refresh the token
     const refreshResult = await baseQuery(
       { url: "/auth/refresh-token", method: "POST" },
       api,
@@ -34,17 +20,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     );
 
     if (refreshResult.data) {
-      const { accessToken, user } = refreshResult.data as AuthResponse;
-      api.dispatch(setCredentials({ accessToken, user }));
-      result = await baseQuery(args, api, extraOptions); // Retry original request
+      // If there's data, retry the original req with the new token
+      result = await baseQuery(args, api, extraOptions);
     } else {
-      api.dispatch(clearCredentials());
-      if (
-        typeof window !== "undefined" &&
-        !["/sign-in", "/sign-up"].includes(window.location.pathname)
-      ) {
-        window.location.href = "/sign-in"; // Redirect to login on failure
-      }
+      // If there's no data, log out
+      api.dispatch(logout());
     }
   }
 

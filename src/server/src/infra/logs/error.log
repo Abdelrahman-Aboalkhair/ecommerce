@@ -76,3 +76,9 @@
 [2025-08-07T21:47:27.745Z] [31MERROR[39M: Unauthorized, please log in
 [2025-08-07T21:47:28.064Z] [31MERROR[39M: Refresh token not found
 [2025-08-07T21:47:33.071Z] [31MERROR[39M: failed to fetch user profile
+[2025-08-07T22:01:50.497Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-07T22:01:52.415Z] [31MERROR[39M: Refresh token not found
+[2025-08-07T22:01:53.641Z] [31MERROR[39M: failed to fetch user profile
+[2025-08-07T22:09:11.424Z] [31MERROR[39M: Failed to find request token in session
+[2025-08-07T22:09:13.981Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-07T22:09:14.476Z] [31MERROR[39M: Refresh token not found

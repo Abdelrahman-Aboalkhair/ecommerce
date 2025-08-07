@@ -354,3 +354,319 @@ TSError: ⨯ Unable to compile TypeScript:
     at Module.load (node:internal/modules/cjs/loader:1465:32)
     at Function._load (node:internal/modules/cjs/loader:1282:12)
     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:05:59.642Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/infra/passport/passport.ts[0m:[93m5[0m:[93m19[0m - [91merror[0m[90m TS2305: [0mModule '"passport"' has no exported member 'VerifyCallback'.
+
+[7m5[0m import { Profile, VerifyCallback } from "passport";
+[7m [0m [91m                  ~~~~~~~~~~~~~~[0m
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/infra/passport/passport.ts[0m:[93m5[0m:[93m19[0m - [91merror[0m[90m TS2305: [0mModule '"passport"' has no exported member 'VerifyCallback'.
+
+[7m5[0m import { Profile, VerifyCallback } from "passport";
+[7m [0m [91m                  ~~~~~~~~~~~~~~[0m
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:08:38.850Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m99[0m:[93m11[0m - [91merror[0m[90m TS2304: [0mCannot find name 'cartService'.
+
+[7m99[0m     await cartService?.mergeCartsOnLogin(sessionId, userId);
+[7m  [0m [91m          ~~~~~~~~~~~[0m
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m99[0m:[93m11[0m - [91merror[0m[90m TS2304: [0mCannot find name 'cartService'.
+
+[7m99[0m     await cartService?.mergeCartsOnLogin(sessionId, userId);
+[7m  [0m [91m          ~~~~~~~~~~~[0m
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:12:23.999Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m15[0m:[93m7[0m - [91merror[0m[90m TS7022: [0m'CLIENT_URL_DEV' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m15[0m const CLIENT_URL_DEV = CLIENT_URL_DEV;
+[7m  [0m [91m      ~~~~~~~~~~~~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m15[0m:[93m24[0m - [91merror[0m[90m TS2448: [0mBlock-scoped variable 'CLIENT_URL_DEV' used before its declaration.
+
+[7m15[0m const CLIENT_URL_DEV = CLIENT_URL_DEV;
+[7m  [0m [91m                       ~~~~~~~~~~~~~~[0m
+
+  [96msrc/modules/auth/auth.routes.ts[0m:[93m15[0m:[93m7[0m
+    [7m15[0m const CLIENT_URL_DEV = CLIENT_URL_DEV;
+    [7m  [0m [96m      ~~~~~~~~~~~~~~[0m
+    'CLIENT_URL_DEV' is declared here.
+[96msrc/modules/auth/auth.routes.ts[0m:[93m16[0m:[93m7[0m - [91merror[0m[90m TS7022: [0m'CLIENT_URL_PROD' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m16[0m const CLIENT_URL_PROD = CLIENT_URL_PROD;
+[7m  [0m [91m      ~~~~~~~~~~~~~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m16[0m:[93m25[0m - [91merror[0m[90m TS2448: [0mBlock-scoped variable 'CLIENT_URL_PROD' used before its declaration.
+
+[7m16[0m const CLIENT_URL_PROD = CLIENT_URL_PROD;
+[7m  [0m [91m                        ~~~~~~~~~~~~~~~[0m
+
+  [96msrc/modules/auth/auth.routes.ts[0m:[93m16[0m:[93m7[0m
+    [7m16[0m const CLIENT_URL_PROD = CLIENT_URL_PROD;
+    [7m  [0m [96m      ~~~~~~~~~~~~~~~[0m
+    'CLIENT_URL_PROD' is declared here.
+[96msrc/modules/auth/auth.routes.ts[0m:[93m17[0m:[93m7[0m - [91merror[0m[90m TS7022: [0m'env' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m17[0m const env = env;
+[7m  [0m [91m      ~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m17[0m:[93m13[0m - [91merror[0m[90m TS2448: [0mBlock-scoped variable 'env' used before its declaration.
+
+[7m17[0m const env = env;
+[7m  [0m [91m            ~~~[0m
+
+  [96msrc/modules/auth/auth.routes.ts[0m:[93m17[0m:[93m7[0m
+    [7m17[0m const env = env;
+    [7m  [0m [96m      ~~~[0m
+    'env' is declared here.
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m15[0m:[93m7[0m - [91merror[0m[90m TS7022: [0m'CLIENT_URL_DEV' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m15[0m const CLIENT_URL_DEV = CLIENT_URL_DEV;
+[7m  [0m [91m      ~~~~~~~~~~~~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m15[0m:[93m24[0m - [91merror[0m[90m TS2448: [0mBlock-scoped variable 'CLIENT_URL_DEV' used before its declaration.
+
+[7m15[0m const CLIENT_URL_DEV = CLIENT_URL_DEV;
+[7m  [0m [91m                       ~~~~~~~~~~~~~~[0m
+
+  [96msrc/modules/auth/auth.routes.ts[0m:[93m15[0m:[93m7[0m
+    [7m15[0m const CLIENT_URL_DEV = CLIENT_URL_DEV;
+    [7m  [0m [96m      ~~~~~~~~~~~~~~[0m
+    'CLIENT_URL_DEV' is declared here.
+[96msrc/modules/auth/auth.routes.ts[0m:[93m16[0m:[93m7[0m - [91merror[0m[90m TS7022: [0m'CLIENT_URL_PROD' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m16[0m const CLIENT_URL_PROD = CLIENT_URL_PROD;
+[7m  [0m [91m      ~~~~~~~~~~~~~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m16[0m:[93m25[0m - [91merror[0m[90m TS2448: [0mBlock-scoped variable 'CLIENT_URL_PROD' used before its declaration.
+
+[7m16[0m const CLIENT_URL_PROD = CLIENT_URL_PROD;
+[7m  [0m [91m                        ~~~~~~~~~~~~~~~[0m
+
+  [96msrc/modules/auth/auth.routes.ts[0m:[93m16[0m:[93m7[0m
+    [7m16[0m const CLIENT_URL_PROD = CLIENT_URL_PROD;
+    [7m  [0m [96m      ~~~~~~~~~~~~~~~[0m
+    'CLIENT_URL_PROD' is declared here.
+[96msrc/modules/auth/auth.routes.ts[0m:[93m17[0m:[93m7[0m - [91merror[0m[90m TS7022: [0m'env' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m17[0m const env = env;
+[7m  [0m [91m      ~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m17[0m:[93m13[0m - [91merror[0m[90m TS2448: [0mBlock-scoped variable 'env' used before its declaration.
+
+[7m17[0m const env = env;
+[7m  [0m [91m            ~~~[0m
+
+  [96msrc/modules/auth/auth.routes.ts[0m:[93m17[0m:[93m7[0m
+    [7m17[0m const env = env;
+    [7m  [0m [96m      ~~~[0m
+    'env' is declared here.
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:13:22.494Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m123[0m:[93m14[0m
+    [7m123[0m export const handleSocialLogin = (provider: string) => {
+    [7m   [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m123[0m:[93m14[0m
+    [7m123[0m export const handleSocialLogin = (provider: string) => {
+    [7m   [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:13:29.478Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m59[0m:[93m14[0m
+    [7m59[0m export const handleSocialLogin = (provider: string) => {
+    [7m  [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m59[0m:[93m14[0m
+    [7m59[0m export const handleSocialLogin = (provider: string) => {
+    [7m  [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:13:36.027Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m13[0m:[93m14[0m
+    [7m13[0m export const handleSocialLogin = (provider: string) => {
+    [7m  [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m13[0m:[93m14[0m
+    [7m13[0m export const handleSocialLogin = (provider: string) => {
+    [7m  [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:13:47.232Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m3[0m:[93m14[0m
+    [7m3[0m export const handleSocialLogin = (provider: string) => {
+    [7m [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2724: [0m'"@/shared/utils/auth/oauthUtils"' has no exported member named 'handleSocialLoginCallback'. Did you mean 'handleSocialLogin'?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/shared/utils/auth/oauthUtils.ts[0m:[93m3[0m:[93m14[0m
+    [7m3[0m export const handleSocialLogin = (provider: string) => {
+    [7m [0m [96m             ~~~~~~~~~~~~~~~~~[0m
+    'handleSocialLogin' is declared here.
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:13:58.795Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m4[0m:[93m3[0m - [91merror[0m[90m TS2614: [0mModule '"@/shared/utils/auth/oauthUtils"' has no exported member 'handleSocialLogin'. Did you mean to use 'import handleSocialLogin from "@/shared/utils/auth/oauthUtils"' instead?
+
+[7m4[0m   handleSocialLogin,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2614: [0mModule '"@/shared/utils/auth/oauthUtils"' has no exported member 'handleSocialLoginCallback'. Did you mean to use 'import handleSocialLoginCallback from "@/shared/utils/auth/oauthUtils"' instead?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m4[0m:[93m3[0m - [91merror[0m[90m TS2614: [0mModule '"@/shared/utils/auth/oauthUtils"' has no exported member 'handleSocialLogin'. Did you mean to use 'import handleSocialLogin from "@/shared/utils/auth/oauthUtils"' instead?
+
+[7m4[0m   handleSocialLogin,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~[0m
+[96msrc/modules/auth/auth.routes.ts[0m:[93m5[0m:[93m3[0m - [91merror[0m[90m TS2614: [0mModule '"@/shared/utils/auth/oauthUtils"' has no exported member 'handleSocialLoginCallback'. Did you mean to use 'import handleSocialLoginCallback from "@/shared/utils/auth/oauthUtils"' instead?
+
+[7m5[0m   handleSocialLoginCallback,
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T22:14:07.214Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m3[0m:[93m10[0m - [91merror[0m[90m TS2614: [0mModule '"@/shared/utils/auth/handleSocialLogin"' has no exported member 'handleSocialLogin'. Did you mean to use 'import handleSocialLogin from "@/shared/utils/auth/handleSocialLogin"' instead?
+
+[7m3[0m import { handleSocialLogin } from "@/shared/utils/auth/handleSocialLogin";
+[7m [0m [91m         ~~~~~~~~~~~~~~~~~[0m
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/modules/auth/auth.routes.ts[0m:[93m3[0m:[93m10[0m - [91merror[0m[90m TS2614: [0mModule '"@/shared/utils/auth/handleSocialLogin"' has no exported member 'handleSocialLogin'. Did you mean to use 'import handleSocialLogin from "@/shared/utils/auth/handleSocialLogin"' instead?
+
+[7m3[0m import { handleSocialLogin } from "@/shared/utils/auth/handleSocialLogin";
+[7m [0m [91m         ~~~~~~~~~~~~~~~~~[0m
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

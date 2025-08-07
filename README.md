@@ -1,12 +1,9 @@
 # Modern E-commerce Platform
 
-A modern Single Store Ecommerce platform built with a **TypeScript** backend (Express, Prisma, PostgreSQL, Redis) and a **Next.js** frontend. Features include user authentication, product management, cart, checkout, order processing, analytics, and real-time chat via Socket.IO, WebRTC. The application is fully Dockerized for easy setup and development.
+A modern Single Store Ecommerce platform built with a **Next JS** as a frontend framework, a **Node.js** backend (Express, Prisma, PostgreSQL, Redis). Features include user authentication, product management, cart, checkout, order processing, analytics, and real-time chat via Socket.IO, WebRTC. The application is fully Dockerized for easy setup and development.
 
-[Demo Video](https://youtu.be/qJDXcQ_sxSI)
-
-## Notes
-
-- To transition from development to production, please refer to the [Deployment](#deployment) section.
+[Demo Video](https://youtu.be/qJDXcQ_sxSI) --
+[Live Demo](https://ss-ecommerce-one.vercel.app)
 
 ## Table of Contents
 
@@ -50,7 +47,6 @@ POST /refresh (cookie-based)
 - **Sign‑up / Sign‑in** — Email & password, social login (Facebook, Google, Twitter, Apple)
 - **Email Verification & Password Reset** — `/auth/verify-email`, `/auth/password-reset/[token]` flows
 - **Role‑Based Access Control** — User, Admin, Superadmin roles enforced via `authorizeRole` middleware and protected routes
-- **Error Pages** — Custom `forbidden`, `unauthorized` and error boundary components
 
 ### **2. Product & Catalog Management**
 
@@ -70,7 +66,7 @@ POST /refresh (cookie-based)
 - **Shipment Tracking** — Shipment module with tracking, webhook support for external updates
 - **Webhooks** — `/webhook` endpoint for payment and shipping event handling
 
-### **5. Real‑time Chat & Calls**
+### **5. Real‑time Chat Support**
 
 - **Socket.IO Chat** — Real‑time customer‑to‑admin messaging, persisted in DB
 - **WebRTC Audio/Video** — Call screens, `useWebRTCCall`, `AudioPlayer`, `CallControls`
@@ -87,23 +83,12 @@ POST /refresh (cookie-based)
 - **JWT Authentication** — `protect` & `optionalAuth` middleware, CORS, input validation
 - **Error Handling & Logging** — Centralized `globalError` handler, Winston logs, rate limiting
 
-<!--
-
-### **8. Background Processing & Notifications**
-
-- **Job Queues** — Bull-powered queues (`queue.service.ts`) for email, image processing, etc.
-- **Workers** — `email.worker.ts`, `image-upload.worker.ts` -->
-
-<!-- ### **9. Database & Seeding**
-
-- **Prisma ORM** — Schema, migrations, environment‑aware seeds (`seeds/seed.ts`)
-- **Test Data** — Users, Products, Orders, Chats seeded for dev/test -->
-
 ### **10. DevOps & Deployment**
 
 - **Docker Compose** — Containerized Next.js (client) & Express (server) services
 - **Hot‑Reload** — Nodemon for server, Fast refresh for client
 - **API Documentation** — Swagger UI (`docs/swagger.ts`)
+- **CI/CD** — Continuous integration & deployment with GitHub Actions
 
 ## 📸 Screenshots
 
@@ -158,12 +143,16 @@ POST /refresh (cookie-based)
 - Winston (logging)
 - Cloudinary (image storage)
 - Stripe (payment processing)
+- Render (hosting)
+- Upstash (Realtime Redis)
+- Neon (PostgreSQL hosting)
 
 **Frontend**:
 
 - Next.js
 - TypeScript
 - Tailwind CSS (assumed, adjust if different)
+- Vercel (deployment)
 
 **Infrastructure**:
 

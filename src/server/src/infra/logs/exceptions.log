@@ -322,3 +322,35 @@ TSError: ⨯ Unable to compile TypeScript:
     at Module.load (node:internal/modules/cjs/loader:1465:32)
     at Function._load (node:internal/modules/cjs/loader:1282:12)
     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+[2025-08-07T21:36:05.263Z] [31MERROR[39M: uncaughtException: OAuthStrategy requires a consumerSecret option
+Error: OAuthStrategy requires a consumerSecret option
+    at Strategy.OAuthStrategy (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/passport-oauth/lib/passport-oauth/strategies/oauth.js:70:51)
+    at new Strategy (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/passport-twitter/lib/passport-twitter/strategy.js:50:17)
+    at configurePassport (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/infra/passport/passport.ts:53:5)
+    at /home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/app.ts:72:20
+    at Generator.next (<anonymous>)
+    at fulfilled (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/src/app.ts:5:58)
+[2025-08-07T21:44:45.773Z] [31MERROR[39M: uncaughtException: ⨯ Unable to compile TypeScript:
+[96msrc/infra/passport/passport.ts[0m:[93m74[0m:[93m23[0m - [91merror[0m[90m TS2345: [0mArgument of type 'Error' is not assignable to parameter of type 'VerifyErrors | null'.
+  Type 'Error' is missing the following properties from type 'TokenExpiredError': expiredAt, inner
+
+[7m74[0m           return done(new Error("Failed to fetch Twitter profile"));
+[7m  [0m [91m                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+TSError: ⨯ Unable to compile TypeScript:
+[96msrc/infra/passport/passport.ts[0m:[93m74[0m:[93m23[0m - [91merror[0m[90m TS2345: [0mArgument of type 'Error' is not assignable to parameter of type 'VerifyErrors | null'.
+  Type 'Error' is missing the following properties from type 'TokenExpiredError': expiredAt, inner
+
+[7m74[0m           return done(new Error("Failed to fetch Twitter profile"));
+[7m  [0m [91m                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+    at createTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1895:10
+    at Object.require.extensions.<computed> [as .ts] (/home/abdelrahman_aboalkhair/Dev/workspace/ss-ecommerce/src/server/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

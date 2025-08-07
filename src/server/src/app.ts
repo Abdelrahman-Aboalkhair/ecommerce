@@ -24,7 +24,7 @@ import webhookRoutes from "./modules/webhook/webhook.routes";
 import { Server as HTTPServer } from "http";
 import { SocketManager } from "@/infra/socket/socket";
 import { connectDB } from "./infra/database/database.config";
-import { setupSwagger } from "./docs/swagger";
+import { setupSwagger } from "./infra/docs/swagger";
 
 dotenv.config();
 

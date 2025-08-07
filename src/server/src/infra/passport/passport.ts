@@ -66,7 +66,12 @@ export default function configurePassport() {
         profile: Profile,
         done: VerifyCallback
       ) => {
-        console.log("twitter profile: ", profile);
+        console.log("Twitter accessToken:", accessToken);
+        console.log("Twitter refreshToken:", refreshToken);
+        console.log("Twitter profile:", profile);
+        if (!profile) {
+          console.error("No profile returned from Twitter");
+        }
         oauthCallback("twitterId", accessToken, refreshToken, profile, done);
       }
     )

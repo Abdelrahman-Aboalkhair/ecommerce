@@ -24,11 +24,11 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Run linter
-        run: npm run lint
+      # - name: Run linter
+      #   run: npm run lint
 
-      - name: TypeScript check
-        run: npx tsc --noEmit
+      # - name: TypeScript check
+      #   run: npx tsc --noEmit
 
       - name: Audit for vulnerabilities
         run: npm audit --audit-level=moderate

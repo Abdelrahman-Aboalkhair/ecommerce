@@ -17,6 +17,14 @@ async function findOrCreateUser(
   name: string,
   avatar: string
 ) {
+  console.log(
+    "findOrCreateUser: ",
+    providerIdField,
+    providerId,
+    email,
+    name,
+    avatar
+  );
   let user = await prisma.user.findUnique({
     where: { email },
   });
@@ -55,6 +63,7 @@ export const oauthCallback = async (
   profile: any,
   done: (error: any, user?: any) => void
 ) => {
+  console.log("oauthCallback: ", providerIdField, accessToken, refreshToken);
   try {
     let user;
 
@@ -79,11 +88,15 @@ export const oauthCallback = async (
     }
 
     if (providerIdField === "twitterId") {
+      if (!profile || !profile.id) {
+        console.error("Twitter profile missing ID:", profile);
+        return done(new Error("Invalid Twitter profile data"));
+      }
       user = await findOrCreateUser(
         providerIdField,
         profile.id,
-        profile.emails?.[0]?.value || "",
-        profile.displayName || profile.username || "",
+        profile.emails?.[0]?.value || `twitter-${profile.id}@placeholder.com`,
+        profile.displayName || profile.username || `Twitter User ${profile.id}`,
         profile.photos?.[0]?.value || ""
       );
     }

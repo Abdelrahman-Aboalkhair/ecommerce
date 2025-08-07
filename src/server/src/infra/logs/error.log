@@ -65,3 +65,14 @@
 [2025-08-07T02:23:21.902Z] [31MERROR[39M: Refresh token not found
 [2025-08-07T02:23:27.869Z] [31MERROR[39M: Unauthorized, please log in
 [2025-08-07T02:23:28.082Z] [31MERROR[39M: Refresh token not found
+[2025-08-07T21:11:38.059Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-07T21:11:38.364Z] [31MERROR[39M: Refresh token not found
+[2025-08-07T21:26:17.254Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-07T21:26:17.682Z] [31MERROR[39M: Refresh token not found
+[2025-08-07T21:26:45.428Z] [31MERROR[39M: failed to fetch user profile
+[2025-08-07T21:29:44.949Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-07T21:29:45.327Z] [31MERROR[39M: Refresh token not found
+[2025-08-07T21:29:49.051Z] [31MERROR[39M: failed to fetch user profile
+[2025-08-07T21:47:27.745Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-07T21:47:28.064Z] [31MERROR[39M: Refresh token not found
+[2025-08-07T21:47:33.071Z] [31MERROR[39M: failed to fetch user profile

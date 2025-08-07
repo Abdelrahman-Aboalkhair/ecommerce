@@ -8,5 +8,5 @@ export const cookieOptions = {
   sameSite: "strict" as const,
   maxAge: 24 * 60 * 60 * 1000,
   path: "/",
-  domain: process.env.NODE_ENV === "production" ? "ssr-ecommerce" : "localhost",
+  domain: process.env.NODE_ENV === "production" ? "ss-ecommerce" : "localhost",
 };

@@ -6,7 +6,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "noEmitOnError": false, // ! Allows building even if there are errors
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

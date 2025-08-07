@@ -15,16 +15,15 @@ import ChatInput from "./ChatInput";
 import CallConnectingScreen from "./CallConnectingScreen";
 import CallInProgressScreen from "./CallInProgressScreen";
 import CustomLoader from "@/app/components/feedback/CustomLoader";
-import { useGetMeQuery } from "@/app/store/apis/UserApi";
 import { useWebRTCCall } from "./useWebRTCCall";
+import { useAuth } from "@/app/hooks/useAuth";
 
 interface ChatProps {
   chatId: string;
 }
 
 const ChatContainer: React.FC<ChatProps> = ({ chatId }) => {
-  const { data: userData } = useGetMeQuery(undefined);
-  const user = userData?.user;
+  const { user } = useAuth();
 
   const { data, isLoading, error } = useGetChatQuery(chatId);
   const chat = data?.chat;
@@ -51,6 +50,12 @@ const ChatContainer: React.FC<ChatProps> = ({ chatId }) => {
     return <CustomLoader />;
   }
 
+  if (!user) {
+    // Handle the case where user is null or undefined
+    // For example, you can return a loading indicator or an error message
+    return <div>Loading...</div>;
+  }
+
   if (error) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -62,7 +67,7 @@ const ChatContainer: React.FC<ChatProps> = ({ chatId }) => {
   }
 
   const canResolve =
-    (user.role === "ADMIN" || user.role === "SUPERADMIN") &&
+    (user?.role === "ADMIN" || user?.role === "SUPERADMIN") &&
     chat?.status === "OPEN";
 
   return (
@@ -72,7 +77,7 @@ const ChatContainer: React.FC<ChatProps> = ({ chatId }) => {
         onResolve={handleResolveChat}
         canResolve={canResolve}
       />
-      <MessageList messages={messages} currentUserId={user.id} />
+      <MessageList messages={messages} currentUserId={user?.id ?? ""} />
       {isTyping && <ChatStatus isTyping={true} />}
       {/* {callStatus === "idle" && chat?.status === "OPEN" && (
         <button

@@ -80,8 +80,8 @@ const GlobalError: React.FC<GlobalErrorProps> = ({ error, reset }) => {
             className="text-gray-600 text-lg leading-relaxed animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            Don't worry, these things happen. We're here to help you get back on
-            track.
+            Don&apos;t worry, these things happen. We&apos;re here to help you
+            get back on track.
           </p>
         </div>
 

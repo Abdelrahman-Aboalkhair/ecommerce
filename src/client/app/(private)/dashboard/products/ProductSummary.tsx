@@ -4,16 +4,15 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 interface ProductSummaryProps {
-  product: {
-    id: string;
-    price: number;
-    discount: number;
-    stock: number;
-    categoryId: string;
-  };
-  categories: { label: string; value: string }[];
+  product: any;
+  categories: any;
+  selectedVariant: any; // Add this line
+  attributeGroups: any;
+  selectedAttributes: object;
+  onVariantChange: (attributeName: any, value: any) => void;
+  resetSelections: () => void;
   isUpdating: boolean;
-  onSave: () => void;
+  onSave: () => Promise<void>;
 }
 
 const ProductSummary: React.FC<ProductSummaryProps> = ({

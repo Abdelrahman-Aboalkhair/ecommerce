@@ -142,6 +142,7 @@ export const useProductDetail = () => {
       // Handle new image uploads
       if (variant.images && variant.images.length > 0) {
         variant.images.forEach((file, fileIndex) => {
+          console.log("fileIndex => ", fileIndex);
           if (file instanceof File) {
             payload.append(`images`, file);
           }

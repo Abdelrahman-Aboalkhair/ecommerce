@@ -3,7 +3,7 @@ import { Socket } from "socket.io-client";
 
 export const useChatMessages = (
   chatId: string,
-  user: { id: string; name: string; role: string },
+  user: any,
   chat: any,
   socket: Socket | null,
   sendMessage: any

@@ -99,8 +99,33 @@ const AnalyticsDashboard = () => {
 
   console.log("export error => ", exportError);
 
-  const handleExport = async () => {};
-
+  const handleExport = async () => {
+    try {
+      await triggerExport({
+        type: exportType || "overview",
+        format: exportFormat || "csv",
+        timePeriod: queryParams.timePeriod,
+        year: queryParams.year,
+        startDate: queryParams.startDate,
+        endDate: queryParams.endDate,
+      });
+      if (exportData) {
+        const mimeTypes = {
+          csv: "text/csv",
+          pdf: "application/pdf",
+          xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        };
+        const blob = new Blob([exportData], { type: mimeTypes[exportFormat] });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `analytics_${exportType}_${exportFormat}_${new Date().toISOString()}.${exportFormat}`;
+        link.click();
+      }
+    } catch (err) {
+      console.error("Export failed:", err);
+      alert("Failed to export data");
+    }
+  };
   if (loading) {
     return <CustomLoader />;
   }

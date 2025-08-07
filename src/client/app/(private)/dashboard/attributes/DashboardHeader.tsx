@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
 import React from "react";
-import { Database, Settings } from "lucide-react";
+import { Database } from "lucide-react";
 
 const DashboardHeader: React.FC = () => {
   return (
@@ -15,7 +15,6 @@ const DashboardHeader: React.FC = () => {
             Attributes Dashboard
           </h1>
         </div>
-
       </div>
       <p className="mt-2 text-gray-600 max-w-2xl">
         Create and manage product attributes, assign them to categories or

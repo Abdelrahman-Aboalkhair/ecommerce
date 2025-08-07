@@ -156,7 +156,7 @@ const ImageUploader = ({
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
+        render={() => (
           <div className="relative">
             <input
               type="file"

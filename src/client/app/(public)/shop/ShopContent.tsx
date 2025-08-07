@@ -67,6 +67,7 @@ const ShopContent: React.FC<ShopContentProps> = ({
       setSkip(0);
     },
   });
+  console.log("productsData", productsData);
 
   useEffect(() => {
     setFilters(initialFilters);

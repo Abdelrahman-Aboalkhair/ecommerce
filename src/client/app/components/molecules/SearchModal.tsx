@@ -141,7 +141,7 @@ const SearchModal: React.FC<SearchModalProps> = ({
               ) : searchResults.length === 0 ? (
                 <div className="py-12 text-center text-gray-500 text-sm">
                   <Search size={24} className="mx-auto mb-2 opacity-40" />
-                  <p>No results found for "{query}"</p>
+                  <p>No results found for &quot;{query}&quot;</p>
                 </div>
               ) : (
                 <div className="py-2">

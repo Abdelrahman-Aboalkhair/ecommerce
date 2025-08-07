@@ -28,7 +28,7 @@ const LogsDashboard = () => {
         dateStyle: "short",
         timeStyle: "short",
       }).format(date);
-    } catch (e) {
+    } catch {
       return timestamp;
     }
   };

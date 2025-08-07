@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   format,
   addMonths,
@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { Controller, useController } from "react-hook-form";
 import Dropdown from "./Dropdown";
+import useClickOutside from "@/app/hooks/dom/useClickOutside";
 
 const DatePicker = ({
   label,
@@ -90,30 +91,16 @@ const DatePicker = ({
     }
   };
 
-  const handleMonthSelect = (selectedMonth: {
-    label: string;
-    value: string;
-  }) => {
+  const handleMonthSelect = (selectedMonth: string | null) => {
     if (selectedMonth !== null) {
-      const monthIndex = months.indexOf(selectedMonth);
+      const monthIndex = months.findIndex((m) => m.value === selectedMonth);
       setCurrentMonth(new Date(currentMonth.getFullYear(), monthIndex, 1));
     }
   };
 
   const calendarDays = generateCalendarDays();
 
-  // useEffect(() => {
-  //   function handleClickOutside(event: MouseEvent) {
-  //     if (
-  //       pickerRef.current &&
-  //       !pickerRef.current.contains(event.target as Node)
-  //     ) {
-  //       setIsOpen(false);
-  //     }
-  //   }
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => document.removeEventListener("mousedown", handleClickOutside);
-  // }, []);
+  useClickOutside(pickerRef, () => setIsOpen(false));
 
   return (
     <div className="relative w-full" ref={pickerRef}>

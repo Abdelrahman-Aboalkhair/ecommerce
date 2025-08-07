@@ -43,7 +43,7 @@ const ManageProduct = () => {
             Error Loading Product
           </h2>
           <p className="text-gray-600 mb-6">
-            We couldn't retrieve the product information. Please try again
+            We couldn&apos;t retrieve the product information. Please try again
             later.
           </p>
           <button

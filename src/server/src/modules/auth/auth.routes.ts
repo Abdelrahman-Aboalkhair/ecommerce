@@ -30,7 +30,7 @@ router.get("/google", handleSocialLogin("google"));
  *       200:
  *         description: Successfully authenticated with Google.
  */
-router.get("/google/callback", handleSocialLoginCallback("google"));
+router.get("/google/callback", ...handleSocialLoginCallback("google"));
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ router.get("/facebook", handleSocialLogin("facebook"));
  *       200:
  *         description: Successfully authenticated with Facebook.
  */
-router.get("/facebook/callback", handleSocialLoginCallback("facebook"));
+router.get("/facebook/callback", ...handleSocialLoginCallback("facebook"));
 
 /**
  * @swagger
@@ -78,7 +78,7 @@ router.get("/twitter", handleSocialLogin("twitter"));
  *       200:
  *         description: Successfully authenticated with Twitter.
  */
-router.get("/twitter/callback", handleSocialLoginCallback("twitter"));
+router.get("/twitter/callback", ...handleSocialLoginCallback("twitter"));
 
 /**
  * @swagger

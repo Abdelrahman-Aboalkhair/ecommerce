@@ -10,6 +10,7 @@ import GoogleIcon from "@/app/assets/icons/google.png";
 import FacebookIcon from "@/app/assets/icons/facebook.png";
 import TwitterIcon from "@/app/assets/icons/twitter.png";
 import Image from "next/image";
+import { AUTH_API_BASE_URL } from "@/app/lib/constants/config";
 
 interface InputForm {
   email: string;
@@ -41,8 +42,8 @@ const SignIn = () => {
   };
 
   const handleOAuthLogin = (provider: string) => {
-    window.location.href = `http://localhost:5000/api/v1/auth/${provider}`;
-    localStorage.removeItem("isLoggedOut");
+    console.log("Using AUTH API URL:", AUTH_API_BASE_URL);
+    window.location.href = `${AUTH_API_BASE_URL}/auth/${provider}`;
   };
 
   return (

@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout } from "./AuthSlice";
+import { API_BASE_URL } from "@/app/lib/constants/config";
 
-// development: http://localhost:5000/api/v1
-// production: https://full-stack-ecommerce-n5at.onrender.com/api/v1
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: API_BASE_URL,
   credentials: "include",
 });
 

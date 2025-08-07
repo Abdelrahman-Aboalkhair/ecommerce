@@ -1,16 +1,15 @@
 import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { GRAPHQL_URL } from "./constants/config";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) console.error("GraphQL Error", graphQLErrors);
   if (networkError) console.error("Network Error", networkError);
 });
-
-// development: http://localhost:5000/api/v1/graphql
-// production: https://full-stack-ecommerce-n5at.onrender.com/api/v1/graphql
+console.log("GRAPHQL_URL: ", GRAPHQL_URL);
 export const initializeApollo = (initialState = null) => {
   const httpLink = new HttpLink({
-    uri: "http://localhost:5000/api/v1/graphql",
+    uri: GRAPHQL_URL,
     credentials: "include",
   });
 

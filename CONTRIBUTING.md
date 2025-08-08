@@ -192,16 +192,46 @@ Use the following conventions:
 
 ## Committing Changes
 
-- Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages:
-  - `feat`: New feature (e.g., `feat: add product filtering`).
-  - `fix`: Bug fix (e.g., `fix: resolve login error`).
-  - `docs`: Documentation changes (e.g., `docs: update README`).
-  - `chore`: Maintenance tasks (e.g., `chore: update dependencies`).
-- Keep commits small and focused. Example:
-  ```bash
-  git commitmissed
-  git commit -m "feat: add user profile component"
-  ```
+- Follow Conventional Commits format:
+  <type>(<scope>): <subject>
+
+  Examples:
+  feat(auth): add password reset endpoint
+  fix(cart): correct total price calculation
+  docs(readme): update setup instructions
+  chore(deps): update dependencies
+
+- Allowed Types:
+  feat – New feature
+  fix – Bug fix
+  docs – Documentation-only changes
+  style – Code style changes (formatting, no logic changes)
+  refactor – Code refactoring without behavior change
+  perf – Performance improvements
+  test – Adding or updating tests
+  build – Build system or dependency changes
+  ci – CI/CD configuration changes
+  chore – Maintenance tasks not affecting source/test files
+  revert – Revert a previous commit
+
+- Subject Rules:
+  • Must be lowercase — no sentence case, start case, PascalCase, or ALL CAPS
+  • Use imperative mood (e.g., "add", not "added" or "adds")
+  • No period at the end
+  • Keep under 50–72 characters
+
+- Body & Footer (optional):
+  • Leave a blank line before the body
+  • Body explains what and why, not how
+  • Footer for breaking changes or issue references:
+  BREAKING CHANGE: auth API no longer accepts plaintext passwords
+  Closes #123
+
+- Keep commits small and focused.
+
+Example:
+git add .
+git commit -m "feat(user-profile): add user profile component"
 
 ## Documentation
 

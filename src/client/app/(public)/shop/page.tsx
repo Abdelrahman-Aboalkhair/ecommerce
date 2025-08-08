@@ -9,6 +9,8 @@ import { Product } from "@/app/types/productTypes";
 import ProductCard from "../product/ProductCard";
 import MainLayout from "@/app/components/templates/MainLayout";
 import ProductFilters, { FilterValues } from "./ProductFilters";
+import SkeletonLoader from "@/app/components/feedback/SkeletonLoader";
+import FetchMoreSkeleton from "@/app/components/feedback/FetchMoreSkeleton";
 
 const ShopPage: React.FC = () => {
   const router = useRouter();
@@ -173,15 +175,7 @@ const ShopPage: React.FC = () => {
           </AnimatePresence>
 
           <div className="flex-grow">
-            {loading && !displayedProducts.length && (
-              <div className="text-center py-12">
-                <Package
-                  size={48}
-                  className="mx-auto text-gray-400 mb-4 animate-pulse"
-                />
-                <p className="text-lg text-gray-600">Loading products...</p>
-              </div>
-            )}
+            {loading && !displayedProducts.length && <SkeletonLoader />}
 
             {error && (
               <div className="text-center py-12">
@@ -217,15 +211,17 @@ const ShopPage: React.FC = () => {
 
                 {hasMore && (
                   <div className="mt-12 text-center">
-                    <button
-                      onClick={handleShowMore}
-                      disabled={isFetchingMore}
-                      className={`bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors duration-300 font-medium ${
-                        isFetchingMore ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
-                    >
-                      {isFetchingMore ? "Loading..." : "Show More Products"}
-                    </button>
+                    {isFetchingMore ? (
+                      <FetchMoreSkeleton />
+                    ) : (
+                      <button
+                        onClick={handleShowMore}
+                        disabled={isFetchingMore}
+                        className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors duration-300 font-medium"
+                      >
+                        Show More Products
+                      </button>
+                    )}
                   </div>
                 )}
               </>

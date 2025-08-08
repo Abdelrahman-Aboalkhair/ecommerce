@@ -65,3 +65,7 @@
 [2025-08-07T02:23:21.902Z] [31MERROR[39M: Refresh token not found
 [2025-08-07T02:23:27.869Z] [31MERROR[39M: Unauthorized, please log in
 [2025-08-07T02:23:28.082Z] [31MERROR[39M: Refresh token not found
+[2025-08-08T02:36:10.074Z] [31MERROR[39M: [GET] /api/v1/users/me - 401 - Invalid access token, please log in
+[2025-08-08T02:36:11.167Z] [31MERROR[39M: [GET] /api/v1/users/me - 401 - Invalid access token, please log in
+[2025-08-08T02:37:19.879Z] [31MERROR[39M: Invalid access token, please log in
+[2025-08-08T02:37:20.321Z] [31MERROR[39M: Refresh token not found

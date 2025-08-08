@@ -430,10 +430,9 @@ To test the APIs:
 
 - **NOTES** to make sure your application is production-ready.
 
-1. Go to /server/package.json and change moduleAlias folder to dist for prod, src for dev.
-2. change env variables for prod on both server and client
-3. For stripe webhook, go to your stripe dashboard, webhooks, create a new destination and get your webhook secret cause it differs from local listener secret (follow stripe instructions if you wanna test locally).
-4. For Social media login, you would need to configure the urls as well in google console and facebook console (follow the instructions in the links), X (twitter) developers. (e.g. http://localhost:5000 for dev, https://ss-ecommerce.vercel.app for prod).
+1. change env variables for prod on both server and client
+2. For stripe webhook integration, go to your stripe dashboard, webhooks, create a new destination and get your webhook secret cause it differs from local listener secret (follow stripe instructions if you wanna test locally).
+3. For Social media login, you would need to configure the urls as well in google console and facebook console (follow the instructions in the links), X (twitter) developers. (e.g. http://localhost:5000 for dev, https://ss-ecommerce.vercel.app for prod).
 
 ## Contributing
 

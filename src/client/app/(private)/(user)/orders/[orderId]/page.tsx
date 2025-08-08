@@ -13,6 +13,7 @@ const OrderTrackingPage = () => {
   const { orderId } = useParams();
   const { data, isLoading, error } = useGetOrderQuery(orderId);
   const order = data?.order;
+  console.log("order: ", order);
 
   if (isLoading) {
     return (

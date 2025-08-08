@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_PRODUCTS_SUMMARY } from "./gql/Product";
 import { useMemo } from "react";
 import groupProductsByFlag from "./utils/groupProductsByFlag";
+import SkeletonLoader from "./components/feedback/SkeletonLoader";
 
 const HeroSection = dynamic(() => import("./(public)/(home)/HeroSection"), {
   ssr: false,
@@ -28,35 +29,45 @@ const Home = () => {
     return groupProductsByFlag(data.products.products);
   }, [data]);
 
+  if (loading) {
+    return (
+      <MainLayout>
+        <HeroSection />
+        <SkeletonLoader />
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
       <HeroSection />
       <ProductSection
         title="Featured"
         products={featured}
-        loading={loading}
+        loading={false}
         error={error}
+        showTitle={true}
       />
-
       <ProductSection
         title="Trending"
         products={trending}
-        loading={loading}
+        loading={false}
         error={error}
+        showTitle={true}
       />
-
       <ProductSection
         title="New Arrivals"
         products={newArrivals}
-        loading={loading}
+        loading={false}
         error={error}
+        showTitle={true}
       />
-
       <ProductSection
         title="Best Sellers"
         products={bestSellers}
-        loading={loading}
+        loading={false}
         error={error}
+        showTitle={true}
       />
     </MainLayout>
   );

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Package } from "lucide-react";
 import { ApolloError } from "@apollo/client";
 import ProductCard from "./ProductCard";
-import { Product } from "@/app/gql/Product";
+import { Product } from "@/app/types/productTypes";
 
 interface ProductSectionProps {
   title: string;
@@ -17,23 +17,9 @@ interface ProductSectionProps {
 const ProductSection: React.FC<ProductSectionProps> = ({
   title,
   products,
-  loading,
   error,
   showTitle = false,
 }) => {
-  if (loading) {
-    return (
-      <div className="py-8 sm:py-12">
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-          <p className="ml-3 text-lg text-gray-600">
-            Loading {title.toLowerCase()}...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="py-8 sm:py-12">
@@ -53,7 +39,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
     return (
       <div className="py-8 sm:py-12">
         <div className="text-center">
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 max-w-md mx-auto">
+          <div className="max-w-md mx-auto">
             <Package size={48} className="mx-auto text-gray-400 mb-4" />
             <p className="text-lg text-gray-600">
               No {title.toLowerCase()} available
@@ -79,7 +65,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="h-6 w-1 bg-indigo-600 rounded-full mr-3"></div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 capitalize">
+              <h2 className="text-xl sm:text-xl font-medium text-gray-900 capitalize">
                 {title}
               </h2>
             </div>

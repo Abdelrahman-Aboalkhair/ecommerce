@@ -21,6 +21,7 @@
     "lodash.isequal": "^4.5.0",
     "lucide-react": "^0.483.0",
     "next": "15.2.3",
+    "nprogress": "^0.2.0",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.0.0",

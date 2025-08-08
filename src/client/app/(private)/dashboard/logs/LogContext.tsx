@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ const LogContext = ({ context, level, logId }) => {
   }
 
   const handleViewDetails = () => {
-    router.push(`/logs/${logId}`);
+    router.push(`/dashboard/logs/${logId}`);
   };
 
   // For info logs - show minimal information

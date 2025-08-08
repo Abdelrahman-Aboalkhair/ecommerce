@@ -7,7 +7,6 @@ import {
 } from "@/app/store/apis/LogsApi";
 import React, { useState } from "react";
 import LogContext from "./LogContext";
-import Link from "next/link";
 import { withAuth } from "@/app/components/HOC/WithAuth";
 
 const LogsDashboard = () => {
@@ -28,7 +27,8 @@ const LogsDashboard = () => {
         dateStyle: "short",
         timeStyle: "short",
       }).format(date);
-    } catch (e) {
+    } catch (error) {
+      console.log("error => ", error);
       return timestamp;
     }
   };
@@ -106,12 +106,6 @@ const LogsDashboard = () => {
       label: "",
       render: (row) => (
         <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
-          <Link
-            href={`/dashboard/logs/${row.id}`}
-            className="px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-xs transition-colors"
-          >
-            View
-          </Link>
           <button
             onClick={(e) => handleDeleteLog(e, row.id)}
             className="px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-xs transition-colors"

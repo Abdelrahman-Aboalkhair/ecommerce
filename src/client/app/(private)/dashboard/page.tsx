@@ -138,14 +138,14 @@ const Dashboard = () => {
           icon={<Users className="w-5 h-5" />}
         />
       </div>
+      <AreaChart
+        title="Revenue Trends"
+        data={data?.revenueAnalytics?.monthlyTrends?.revenue || []}
+        categories={data?.revenueAnalytics?.monthlyTrends?.labels || []}
+        color="#22c55e"
+        percentageChange={data?.revenueAnalytics?.changes?.revenue}
+      />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AreaChart
-          title="Revenue Trends"
-          data={data?.revenueAnalytics?.monthlyTrends?.revenue || []}
-          categories={data?.revenueAnalytics?.monthlyTrends?.labels || []}
-          color="#22c55e"
-          percentageChange={data?.revenueAnalytics?.changes?.revenue}
-        />
         <ListCard
           title="Top Products"
           viewAllLink="/shop"

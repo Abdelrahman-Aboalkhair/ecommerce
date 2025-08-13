@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { X, SlidersHorizontal,  } from "lucide-react";
+import { X, SlidersHorizontal } from "lucide-react";
 import Dropdown from "@/app/components/molecules/Dropdown";
 import CheckBox from "@/app/components/atoms/CheckBox";
 import { debounce } from "lodash";
@@ -96,19 +96,24 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
 
   return (
     <aside
-      className={`bg-white rounded-xl shadow-sm border border-gray-100 p-5 ${isMobile
+      className={`bg-white rounded-xl shadow-sm border border-gray-100 ${
+        isMobile
           ? "fixed inset-0 z-50 overflow-y-auto"
           : "sticky top-24 h-fit max-h-[calc(100vh-120px)] overflow-y-auto"
-        }`}
+      }`}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <SlidersHorizontal size={18} className="text-gray-600" />
-            <h2 className="font-semibold text-gray-800">Filters</h2>
+        <div
+          className={`flex items-center justify-between border-b border-gray-100 ${
+            isMobile ? "p-4" : "p-6 pb-4"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <SlidersHorizontal size={20} className="text-indigo-600" />
+            <h2 className="font-bold text-gray-900 text-lg">Filters</h2>
             {activeFilterCount > 0 && (
-              <span className="bg-primary/10 text-primary text-xs font-medium rounded-full px-2 py-0.5">
+              <span className="bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full px-2.5 py-1">
                 {activeFilterCount}
               </span>
             )}
@@ -118,9 +123,9 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
               <button
                 type="button"
                 onClick={handleReset}
-                className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                className="text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1.5 font-medium"
               >
-                <X size={14} />
+                <X size={16} />
                 Clear all
               </button>
             )}
@@ -128,19 +133,25 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
               <button
                 type="button"
                 onClick={onCloseMobile}
-                className="p-1 rounded-md bg-gray-100 hover:bg-gray-200"
+                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             )}
           </div>
         </div>
 
         {/* Filters Content */}
-        <div className="space-y-6">
+        <div
+          className={`flex-1 space-y-6 ${
+            isMobile ? "p-4" : "p-6 pt-4"
+          } overflow-y-auto`}
+        >
           {/* Search */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Search</label>
+          <div className="space-y-3">
+            <label className="text-sm font-semibold text-gray-800">
+              Search Products
+            </label>
             <Controller
               name="search"
               control={control}
@@ -148,7 +159,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                  className="w-full border border-gray-200 rounded-xl p-3.5 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
@@ -160,8 +171,8 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
           </div>
 
           {/* Category */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
+          <div className="space-y-3">
+            <label className="text-sm font-semibold text-gray-800">
               Category
             </label>
             <Controller
@@ -179,11 +190,11 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
           </div>
 
           {/* Price Range */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
+          <div className="space-y-3">
+            <label className="text-sm font-semibold text-gray-800">
               Price Range
             </label>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <Controller
                 name="minPrice"
                 control={control}
@@ -191,7 +202,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                   <input
                     type="number"
                     placeholder="Min"
-                    className="border border-gray-200 rounded-lg p-2.5 w-1/2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                    className="border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-gray-50 focus:bg-white w-1/2"
                     value={field.value || ""}
                     onChange={(e) =>
                       field.onChange(
@@ -208,7 +219,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                   <input
                     type="number"
                     placeholder="Max"
-                    className="border border-gray-200 rounded-lg p-2.5 w-1/2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                    className="border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-gray-50 focus:bg-white w-1/2"
                     value={field.value || ""}
                     onChange={(e) =>
                       field.onChange(
@@ -222,30 +233,40 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
           </div>
 
           {/* Product Flags */}
-          <div className="space-y-3">
-            <label className="text-sm font-medium text-gray-700">
+          <div className="space-y-4">
+            <label className="text-sm font-semibold text-gray-800">
               Product Status
             </label>
-            <div className="space-y-3 pl-1">
+            <div className="space-y-4 pl-1">
+              <CheckBox name="isNew" control={control} label="New Arrivals" />
               <CheckBox
-                name="isNew"
+                name="isFeatured"
                 control={control}
-                label="New"
+                label="Featured Products"
               />
-              <CheckBox name="isFeatured" control={control} label="Featured" />
-              <CheckBox name="isTrending" control={control} label="Trending" />
+              <CheckBox
+                name="isTrending"
+                control={control}
+                label="Trending Now"
+              />
               <CheckBox
                 name="isBestSeller"
                 control={control}
-                label="Best Seller"
+                label="Best Sellers"
               />
             </div>
           </div>
+        </div>
 
-          {/* Apply Filters Button */}
+        {/* Apply Filters Button */}
+        <div
+          className={`border-t border-gray-100 ${
+            isMobile ? "p-4" : "p-6 pt-4"
+          }`}
+        >
           <button
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2.5 rounded-lg hover:bg-indigo-600 transition-colors duration-300 font-medium"
+            className="w-full bg-indigo-600 text-white py-3.5 rounded-xl hover:bg-indigo-700 transition-all duration-300 font-semibold shadow-sm hover:shadow-md"
           >
             Apply Filters
           </button>

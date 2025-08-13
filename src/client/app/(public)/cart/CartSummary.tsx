@@ -47,7 +47,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       if (result?.error) {
         showToast(result.error.message, "error");
       }
-    } catch (error) {
+    } catch {
       showToast("Failed to initiate checkout", "error");
     }
   };

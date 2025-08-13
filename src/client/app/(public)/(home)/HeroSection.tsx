@@ -3,16 +3,17 @@
 import SliderImg1 from "@/app/assets/images/slider1.jpg";
 import SliderImg2 from "@/app/assets/images/slider2.jpg";
 import SliderImg3 from "@/app/assets/images/slider3.jpg";
-import Headphones1 from "@/app/assets/images/products/headphones.jpg";
-import Headphones2 from "@/app/assets/images/products/headphone2.jpg";
-import Keyboard from "@/app/assets/images/products/one-handed-keyboard.jpg";
-import BlueShirt from "@/app/assets/images/products/blue-shirt.jpg";
-import BlackSmartWatch from "@/app/assets/images/products/black-smart-watch.jpg";
-import AirPods from "@/app/assets/images/products/airpods.jpg";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import CategoryBox from "./CategoryBox";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  ShoppingBag,
+  Star,
+} from "lucide-react";
+import Link from "next/link";
 
 interface HeroSectionProps {
   isPreview?: boolean;
@@ -21,143 +22,194 @@ interface HeroSectionProps {
 const HeroSection = ({ isPreview = false }: HeroSectionProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const sliderImages = [SliderImg1, SliderImg2, SliderImg3];
+  const sliderData = [
+    {
+      image: SliderImg1,
+      title: "Discover Amazing Deals",
+      subtitle: "Up to 70% off on selected items",
+      ctaText: "Shop Now",
+      ctaLink: "/shop",
+      badge: "New Arrivals",
+    },
+    {
+      image: SliderImg2,
+      title: "Premium Quality Products",
+      subtitle: "Handpicked items for your lifestyle",
+      ctaText: "Explore",
+      ctaLink: "/shop",
+      badge: "Featured",
+    },
+    {
+      image: SliderImg3,
+      title: "Fast & Free Shipping",
+      subtitle: "On orders over $50",
+      ctaText: "Learn More",
+      ctaLink: "/shop",
+      badge: "Limited Time",
+    },
+  ];
 
   useEffect(() => {
     if (!isPreview) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prev) =>
-          prev === sliderImages.length - 1 ? 0 : prev + 1
+          prev === sliderData.length - 1 ? 0 : prev + 1
         );
-      }, 5000);
+      }, 6000);
       return () => clearInterval(interval);
     }
-  }, [isPreview, sliderImages.length]);
+  }, [isPreview, sliderData.length]);
 
-  const imageVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 0,
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0,
-    }),
+  const nextSlide = () => {
+    setCurrentImageIndex((prev) =>
+      prev === sliderData.length - 1 ? 0 : prev + 1
+    );
   };
 
-  const categories = [
-    {
-      title: "Get your game on",
-      items: [
-        { name: "Gaming Headphones", image: Headphones1 },
-        { name: "Keyboard", image: Keyboard },
-      ],
-      ctaText: "Shop gaming",
-      ctaLink: "/category/gaming",
-    },
-    {
-      title: "Shop deals in Fashion",
-      items: [
-        { name: "Blue Shirt", image: BlueShirt },
-        { name: "Smart Watch", image: BlackSmartWatch },
-      ],
-      ctaText: "See all deals",
-      ctaLink: "/deals/fashion",
-    },
-    {
-      title: "Gaming accessories",
-      items: [
-        { name: "Pro Headsets", image: Headphones2 },
-        { name: "Wireless Earbuds", image: AirPods },
-      ],
-      ctaText: "See more",
-      ctaLink: "/category/accessories",
-    },
-    {
-      title: "Shop for your home essentials",
-      items: [
-        { name: "Kitchen", image: SliderImg1 },
-        { name: "Decor", image: SliderImg2 },
-      ],
-      ctaText: "Discover more in Home",
-      ctaLink: "/category/home",
-    },
-  ];
+  const prevSlide = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? sliderData.length - 1 : prev - 1
+    );
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+
+  const currentSlide = sliderData[currentImageIndex];
 
   return (
     <section
-      className={`relative w-full hidden sm:block ${
+      className={`relative w-full ${
         isPreview ? "scale-90 my-2" : "my-2 sm:my-4 lg:my-6"
       }`}
     >
-      <div className="relative w-full">
+      <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl">
         {/* Hero Image Slider */}
-        <div className="w-full overflow-hidden rounded-lg shadow-lg">
-          <div className="aspect-[16/9] sm:aspect-[16/7] lg:aspect-[16/5] w-full relative">
-            <AnimatePresence initial={false} custom={1}>
+        <div className="relative w-full">
+          <div className="aspect-[16/9] sm:aspect-[16/7] lg:aspect-[16/6] w-full relative">
+            <AnimatePresence initial={false} mode="wait">
               <motion.div
                 key={currentImageIndex}
-                custom={1}
-                variants={imageVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.5 },
+                  duration: 0.8,
+                  ease: "easeInOut",
                 }}
                 className="absolute inset-0 w-full h-full"
               >
                 <Image
-                  src={sliderImages[currentImageIndex]}
-                  alt={`Slide image ${currentImageIndex + 1}`}
+                  src={currentSlide.image}
+                  alt={currentSlide.title}
                   fill
                   priority
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+
+                {/* Content Overlay */}
+                <div className="absolute inset-0 flex items-center">
+                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-2xl">
+                      {/* Badge */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full mb-6 border border-white/30"
+                      >
+                        <Star size={16} className="text-yellow-400" />
+                        <span className="text-sm font-medium">
+                          {currentSlide.badge}
+                        </span>
+                      </motion.div>
+
+                      {/* Title */}
+                      <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight"
+                      >
+                        {currentSlide.title}
+                      </motion.h1>
+
+                      {/* Subtitle */}
+                      <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="text-lg sm:text-xl text-white/90 mb-8 max-w-lg"
+                      >
+                        {currentSlide.subtitle}
+                      </motion.p>
+
+                      {/* CTA Button */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                      >
+                        <Link
+                          href={currentSlide.ctaLink}
+                          className="inline-flex items-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        >
+                          <ShoppingBag size={20} />
+                          {currentSlide.ctaText}
+                        </Link>
+                      </motion.div>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        {/* Category Boxes Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-4 lg:p-6">
-          <div className="w-full max-w-7xl">
-            {/* Tablet: 2x2 grid */}
-            <div className="hidden sm:grid lg:hidden grid-cols-2 gap-3">
-              {categories.map((category, index) => (
-                <CategoryBox
-                  key={index}
-                  title={category.title}
-                  items={category.items}
-                  ctaText={category.ctaText}
-                  ctaLink={category.ctaLink}
-                />
-              ))}
-            </div>
+        {/* Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 hidden sm:flex items-center justify-center"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={24} />
+        </button>
 
-            {/* Desktop: 4 columns */}
-            <div className="hidden lg:grid grid-cols-4 gap-4">
-              {categories.map((category, index) => (
-                <CategoryBox
-                  key={index}
-                  title={category.title}
-                  items={category.items}
-                  ctaText={category.ctaText}
-                  ctaLink={category.ctaLink}
-                />
-              ))}
-            </div>
-          </div>
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 hidden sm:flex items-center justify-center"
+          aria-label="Next slide"
+        >
+          <ChevronRight size={24} />
+        </button>
+
+        {/* Dots Indicator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+          {sliderData.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentImageIndex
+                  ? "bg-white scale-125"
+                  : "bg-white/50 hover:bg-white/75"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
+
+        {/* Play/Pause Button */}
+        <button
+          className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
+          aria-label="Play/Pause slideshow"
+        >
+          <Play size={20} />
+        </button>
       </div>
     </section>
   );

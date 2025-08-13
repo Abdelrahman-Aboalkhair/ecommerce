@@ -6,7 +6,7 @@ import { User, Shield, Clock } from "lucide-react";
 import Image from "next/image";
 
 const UserProfile = () => {
-  const { data, isLoading, error } = useGetMeQuery({});
+  const { data, isLoading, error } = useGetMeQuery(undefined);
   console.log("user => ", data);
 
   if (isLoading) {

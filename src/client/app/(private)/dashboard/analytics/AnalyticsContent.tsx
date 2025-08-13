@@ -65,10 +65,8 @@ const AnalyticsContent = () => {
     value: (minYear + i).toString(),
   }));
 
-  const [
-    triggerExport,
-    { data: exportData, isLoading: isExporting, error: exportError },
-  ] = useLazyExportAnalyticsQuery();
+  const [, { isLoading: isExporting, error: exportError }] =
+    useLazyExportAnalyticsQuery();
 
   console.log("export error => ", exportError);
 

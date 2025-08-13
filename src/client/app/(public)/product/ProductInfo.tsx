@@ -2,8 +2,9 @@
 import Rating from "@/app/components/feedback/Rating";
 import { useAddToCartMutation } from "@/app/store/apis/CartApi";
 import useToast from "@/app/hooks/ui/useToast";
-import { Product } from "@/app/gql/Product";
-import { Palette, Ruler, Info, Package } from "lucide-react";
+import { Product } from "@/app/types/productTypes";
+import { Palette, Ruler, Info, Package, Check, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ProductInfoProps {
   id: string;
@@ -82,8 +83,42 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
     })
     .join("; ");
 
+  // Color mapping for common colors
+  const getColorValue = (colorName: string) => {
+    const colorMap: Record<string, string> = {
+      red: "#ef4444",
+      blue: "#3b82f6",
+      green: "#10b981",
+      yellow: "#f59e0b",
+      purple: "#8b5cf6",
+      pink: "#ec4899",
+      orange: "#f97316",
+      brown: "#a16207",
+      black: "#000000",
+      white: "#ffffff",
+      gray: "#6b7280",
+      grey: "#6b7280",
+      navy: "#1e3a8a",
+      maroon: "#991b1b",
+      teal: "#0d9488",
+      lime: "#84cc16",
+      indigo: "#6366f1",
+      cyan: "#06b6d4",
+      amber: "#f59e0b",
+      emerald: "#10b981",
+      rose: "#f43f5e",
+      violet: "#8b5cf6",
+      sky: "#0ea5e9",
+      slate: "#64748b",
+      zinc: "#71717a",
+      neutral: "#737373",
+      stone: "#78716c",
+    };
+    return colorMap[colorName.toLowerCase()] || "#6b7280";
+  };
+
   return (
-    <div className="flex flex-col gap-4 px-4 sm:px-6 py-4">
+    <div className="flex flex-col gap-6 px-4 sm:px-6 py-6">
       {/* Product Name */}
       <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
         {name}
@@ -105,16 +140,16 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       </div>
 
       {/* Price */}
-      <div className="text-lg sm:text-xl font-semibold text-gray-800">
+      <div className="text-2xl sm:text-3xl font-bold text-gray-900">
         ${price.toFixed(2)}
       </div>
 
       {/* Available Options */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         {colorValues.size > 0 && (
           <div className="flex items-center gap-2">
             <Palette className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-600 text-xs sm:text-sm">
+            <span className="text-gray-600 text-sm">
               Available in {colorValues.size}{" "}
               {colorValues.size === 1 ? "color" : "colors"}
             </span>
@@ -124,7 +159,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         {sizeValues.size > 0 && (
           <div className="flex items-center gap-2">
             <Ruler className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-600 text-xs sm:text-sm">
+            <span className="text-gray-600 text-sm">
               Available in {sizeValues.size}{" "}
               {sizeValues.size === 1 ? "size" : "sizes"}
             </span>
@@ -134,9 +169,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         {attributeSummary && (
           <div className="flex items-center gap-2">
             <Info className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-600 text-xs sm:text-sm">
-              {attributeSummary}
-            </span>
+            <span className="text-gray-600 text-sm">{attributeSummary}</span>
           </div>
         )}
 
@@ -145,7 +178,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
           attributeSummary === "" && (
             <div className="flex items-center gap-2">
               <Package className="w-4 h-4 text-gray-400" />
-              <span className="text-gray-500 text-xs sm:text-sm">
+              <span className="text-gray-500 text-sm">
                 No options available
               </span>
             </div>
@@ -153,57 +186,201 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       </div>
 
       {/* Variant Selection */}
-      <div className="mt-3">
-        {Object.entries(attributeGroups).map(([attributeName, { values }]) => (
-          <div key={attributeName} className="mb-3">
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 capitalize">
-              {attributeName}
-            </label>
-            <select
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-xs sm:text-sm"
-              onChange={(e) => onVariantChange(attributeName, e.target.value)}
-              value={selectedAttributes[attributeName] || ""}
-            >
-              <option value="">Select {attributeName}</option>
-              {Array.from(values).map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </div>
-        ))}
-        <button
-          onClick={resetSelections}
-          className="mt-2 px-4 py-1.5 text-xs sm:text-sm font-medium text-indigo-600 border border-indigo-600 rounded hover:bg-indigo-50 transition-colors"
-        >
-          Reset Selections
-        </button>
+      <div className="space-y-6">
+        {Object.entries(attributeGroups).map(([attributeName, { values }]) => {
+          const isColor = attributeName.toLowerCase() === "color";
+          const isSize = attributeName.toLowerCase() === "size";
+          const valuesArray = Array.from(values);
+
+          return (
+            <div key={attributeName} className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-semibold text-gray-900 capitalize">
+                  {attributeName}
+                </label>
+                {selectedAttributes[attributeName] && (
+                  <button
+                    onClick={() => onVariantChange(attributeName, "")}
+                    className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                  >
+                    <X size={12} />
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              {isColor ? (
+                // Color Selection with Circles
+                <div className="flex flex-wrap gap-3">
+                  {valuesArray.map((value) => {
+                    const isSelected =
+                      selectedAttributes[attributeName] === value;
+                    const colorValue = getColorValue(value);
+                    const isWhite =
+                      colorValue.toLowerCase() === "#ffffff" ||
+                      colorValue.toLowerCase() === "#fff";
+
+                    return (
+                      <motion.button
+                        key={value}
+                        onClick={() => onVariantChange(attributeName, value)}
+                        className={`relative group ${
+                          isSelected
+                            ? "ring-2 ring-indigo-500 ring-offset-2"
+                            : "ring-1 ring-gray-200 hover:ring-2 hover:ring-indigo-300"
+                        } rounded-full transition-all duration-200`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <div
+                          className="w-12 h-12 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: colorValue }}
+                        >
+                          {isSelected && (
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className="text-white"
+                            >
+                              <Check size={16} />
+                            </motion.div>
+                          )}
+                        </div>
+                        {isWhite && (
+                          <div className="absolute inset-0 rounded-full border border-gray-300" />
+                        )}
+                        <span className="sr-only">{value}</span>
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              ) : isSize ? (
+                // Size Selection with Buttons
+                <div className="flex flex-wrap gap-2">
+                  {valuesArray.map((value) => {
+                    const isSelected =
+                      selectedAttributes[attributeName] === value;
+                    const isOutOfStock = !variants.some(
+                      (variant) =>
+                        variant.attributes.some(
+                          (attr) =>
+                            attr.attribute.name === attributeName &&
+                            attr.value.value === value
+                        ) && variant.stock > 0
+                    );
+
+                    return (
+                      <motion.button
+                        key={value}
+                        onClick={() =>
+                          !isOutOfStock && onVariantChange(attributeName, value)
+                        }
+                        disabled={isOutOfStock}
+                        className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                          isSelected
+                            ? "bg-indigo-600 text-white shadow-lg"
+                            : isOutOfStock
+                            ? "bg-gray-100 text-gray-400 cursor-not-allowed line-through"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md"
+                        }`}
+                        whileHover={!isOutOfStock ? { scale: 1.02 } : {}}
+                        whileTap={!isOutOfStock ? { scale: 0.98 } : {}}
+                      >
+                        {value}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              ) : (
+                // Other Attributes with Buttons
+                <div className="flex flex-wrap gap-2">
+                  {valuesArray.map((value) => {
+                    const isSelected =
+                      selectedAttributes[attributeName] === value;
+
+                    return (
+                      <motion.button
+                        key={value}
+                        onClick={() => onVariantChange(attributeName, value)}
+                        className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                          isSelected
+                            ? "bg-indigo-600 text-white shadow-lg"
+                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md"
+                        }`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        {value}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Selected Value Display */}
+              {selectedAttributes[attributeName] && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2 text-sm text-gray-600"
+                >
+                  <span className="font-medium">Selected:</span>
+                  <span className="bg-indigo-50 text-indigo-700 px-2 py-1 rounded-md">
+                    {selectedAttributes[attributeName]}
+                  </span>
+                </motion.div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* Reset Button */}
+        {Object.keys(selectedAttributes).length > 0 && (
+          <motion.button
+            onClick={resetSelections}
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <X size={16} />
+            Reset All Selections
+          </motion.button>
+        )}
       </div>
 
       {/* Description */}
-      <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mt-2">
-        {description}
-      </p>
+      <div className="space-y-3">
+        <h3 className="text-lg font-semibold text-gray-900">Description</h3>
+        <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+      </div>
 
       {/* Action Buttons */}
-      <div className="mt-3 flex flex-col sm:flex-row gap-2">
+      <div className="space-y-3">
         <button
           disabled={!stock || isLoading || !selectedVariant}
           onClick={handleAddToCart}
-          className={`w-full py-2 text-xs sm:text-sm font-medium text-white rounded transition-colors ${
+          className={`w-full py-4 text-base font-semibold text-white rounded-xl transition-all duration-300 ${
             isLoading || !stock || !selectedVariant
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-indigo-600 hover:bg-indigo-700"
+              : "bg-indigo-600 hover:bg-indigo-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
           }`}
         >
-          {stock > 0 && selectedVariant ? "Add to Cart" : "Select a Variant"}
+          {isLoading ? (
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              Adding to Cart...
+            </div>
+          ) : stock > 0 && selectedVariant ? (
+            "Add to Cart"
+          ) : (
+            "Select a Variant"
+          )}
         </button>
         <button
           disabled={!stock || !selectedVariant}
-          className={`w-full py-2 text-xs sm:text-sm font-medium border rounded transition-colors ${
+          className={`w-full py-4 text-base font-semibold border-2 rounded-xl transition-all duration-300 ${
             stock && selectedVariant
-              ? "border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+              ? "border-indigo-600 text-indigo-600 hover:bg-indigo-50 hover:shadow-lg transform hover:scale-[1.02]"
               : "border-gray-300 text-gray-400 cursor-not-allowed"
           }`}
         >

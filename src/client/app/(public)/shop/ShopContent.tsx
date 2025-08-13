@@ -50,12 +50,7 @@ const ShopContent: React.FC<ShopContentProps> = ({
   const { data: categoriesData } = useQuery(GET_CATEGORIES);
   const categories = categoriesData?.categories || [];
 
-  const {
-    data: productsData,
-    loading,
-    error,
-    fetchMore,
-  } = useQuery(GET_PRODUCTS, {
+  const { loading, error, fetchMore } = useQuery(GET_PRODUCTS, {
     variables: { first: 10, skip: 0, filters },
     fetchPolicy: "no-cache",
     onError: (err) => {

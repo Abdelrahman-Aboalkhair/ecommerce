@@ -42,6 +42,9 @@ export interface Product {
     id: string;
     rating: number;
     comment: string | null;
+    createdAt: string;
+    userId: string;
+    user?: { name: string };
   }[];
 }
 export interface Order {

@@ -15,12 +15,12 @@ export default function AuthProvider({
     (async () => {
       try {
         const user = await triggerGetMe().unwrap();
-        dispatch(setUser(user));
+        dispatch(setUser({ user }));
       } catch (error: any) {
         console.log("error: ", error);
         // ✅ If it's a 401, user is unauthenticated — expected
         if (error?.status === 401) {
-          dispatch(setUser(undefined));
+          dispatch(logout());
         } else {
           console.error("Unexpected error during auth", error);
         }

@@ -1,4 +1,4 @@
-import { Product } from "../gql/Product";
+import { Product } from "../types/productTypes";
 
 const groupProductsByFlag = (products: Product[]) => {
   const flags = {

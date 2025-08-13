@@ -9,8 +9,6 @@ import { Product } from "@/app/types/productTypes";
 import ProductCard from "../product/ProductCard";
 import MainLayout from "@/app/components/templates/MainLayout";
 import ProductFilters, { FilterValues } from "./ProductFilters";
-import SkeletonLoader from "@/app/components/feedback/SkeletonLoader";
-import FetchMoreSkeleton from "@/app/components/feedback/FetchMoreSkeleton";
 
 const ShopPage: React.FC = () => {
   const router = useRouter();
@@ -42,6 +40,11 @@ const ShopPage: React.FC = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const pageSize = 12;
+
+  // Count active filters
+  const activeFilterCount = Object.values(filters).filter(
+    (value) => value !== undefined && value !== "" && value !== false
+  ).length;
 
   // Fetch categories
   const { data: categoriesData } = useQuery(GET_CATEGORIES);
@@ -121,111 +124,191 @@ const ShopPage: React.FC = () => {
     router.push(`/shop?${query.toString()}`);
   };
 
+  const handleReset = () => {
+    router.push("/shop");
+  };
+
   const noProductsFound = displayedProducts.length === 0 && !loading && !error;
 
   return (
     <MainLayout>
-      <div className="container py-8 mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="md:hidden flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-          >
-            <Filter size={16} />
-            <span>Filters</span>
-          </button>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="hidden md:block w-full md:max-w-[350px]">
-            <ProductFilters
-              initialFilters={initialFilters}
-              onFilterChange={updateFilters}
-              categories={categories}
-            />
-          </div>
-
-          <AnimatePresence>
-            {sidebarOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="md:hidden fixed inset-0 bg-black/30 z-40"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <motion.div
-                  initial={{ x: -300 }}
-                  animate={{ x: 0 }}
-                  exit={{ x: -300 }}
-                  transition={{ type: "spring", damping: 25 }}
-                  onClick={(e) => e.stopPropagation()}
-                  className="w-[85vw] max-w-md h-full bg-white"
-                >
-                  <ProductFilters
-                    initialFilters={initialFilters}
-                    onFilterChange={updateFilters}
-                    categories={categories}
-                    isMobile={true}
-                    onCloseMobile={() => setSidebarOpen(false)}
-                  />
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <div className="flex-grow">
-            {loading && !displayedProducts.length && <SkeletonLoader />}
-
-            {error && (
-              <div className="text-center py-12">
-                <p className="text-lg text-red-500">Error loading products</p>
-                <p className="text-sm text-gray-500">
-                  Please try again or adjust your filters.
+      <div className="min-h-screen bg-gray-50">
+        {/* Header Section */}
+        <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  Shop
+                </h1>
+                <p className="text-sm text-gray-600 mt-1">
+                  {displayedProducts.length} products found
                 </p>
               </div>
-            )}
 
-            {noProductsFound && (
-              <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100">
-                <Package size={48} className="mx-auto text-gray-400 mb-4" />
-                <p className="text-lg text-gray-600 mb-2">No products found</p>
-                <p className="text-gray-500">Try adjusting your filters</p>
-              </div>
-            )}
+              {/* Mobile Filter Button */}
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="md:hidden flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+              >
+                <Filter size={18} />
+                <span className="font-medium">Filters</span>
+                {activeFilterCount > 0 && (
+                  <span className="bg-white/20 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
 
-            {!noProductsFound && (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {displayedProducts.map((product: Product) => (
-                    <motion.div
-                      key={product.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Desktop Filters */}
+            <div className="hidden lg:block w-full lg:max-w-[320px] xl:max-w-[380px]">
+              <ProductFilters
+                initialFilters={initialFilters}
+                onFilterChange={updateFilters}
+                categories={categories}
+              />
+            </div>
+
+            {/* Mobile Filter Sidebar */}
+            <AnimatePresence>
+              {sidebarOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="lg:hidden fixed inset-0 bg-black/50 z-50"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <motion.div
+                    initial={{ x: "-100%" }}
+                    animate={{ x: 0 }}
+                    exit={{ x: "-100%" }}
+                    transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-[90vw] max-w-sm h-full bg-white shadow-2xl"
+                  >
+                    <ProductFilters
+                      initialFilters={initialFilters}
+                      onFilterChange={updateFilters}
+                      categories={categories}
+                      isMobile={true}
+                      onCloseMobile={() => setSidebarOpen(false)}
+                    />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Products Grid */}
+            <div className="flex-1">
+              {/* Loading State */}
+              {loading && !displayedProducts.length && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                  {[...Array(8)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden animate-pulse"
                     >
-                      <ProductCard product={product} />
-                    </motion.div>
+                      <div className="h-48 lg:h-56 bg-gray-200"></div>
+                      <div className="p-4 lg:p-5 space-y-3">
+                        <div className="h-4 lg:h-5 bg-gray-200 rounded"></div>
+                        <div className="h-4 lg:h-5 bg-gray-200 rounded w-2/3"></div>
+                        <div className="h-6 lg:h-7 bg-gray-200 rounded w-1/2"></div>
+                      </div>
+                    </div>
                   ))}
                 </div>
+              )}
 
-                {hasMore && (
-                  <div className="mt-12 text-center">
-                    {isFetchingMore ? (
-                      <FetchMoreSkeleton />
-                    ) : (
-                      <button
-                        onClick={handleShowMore}
-                        disabled={isFetchingMore}
-                        className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition-colors duration-300 font-medium"
-                      >
-                        Show More Products
-                      </button>
+              {/* Error State */}
+              {error && (
+                <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Package size={32} className="text-red-500" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    Error loading products
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Please try again or adjust your filters.
+                  </p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
+
+              {/* No Products Found */}
+              {noProductsFound && (
+                <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Package size={32} className="text-gray-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    No products found
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Try adjusting your filters or search terms.
+                  </p>
+                  <button
+                    onClick={handleReset}
+                    className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
+              )}
+
+              {/* Products Grid */}
+              {!noProductsFound && !loading && (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                    {displayedProducts.map(
+                      (product: Product, index: number) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.1 }}
+                        >
+                          <ProductCard product={product} />
+                        </motion.div>
+                      )
                     )}
                   </div>
-                )}
-              </>
-            )}
+
+                  {/* Load More Button */}
+                  {hasMore && (
+                    <div className="mt-12 text-center">
+                      {isFetchingMore ? (
+                        <div className="flex items-center justify-center gap-3">
+                          <div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                          <span className="text-gray-600">
+                            Loading more products...
+                          </span>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={handleShowMore}
+                          disabled={isFetchingMore}
+                          className="bg-indigo-600 text-white px-8 py-4 rounded-xl hover:bg-indigo-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+                        >
+                          Load More Products
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

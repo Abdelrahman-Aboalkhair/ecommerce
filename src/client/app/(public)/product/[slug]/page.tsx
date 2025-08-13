@@ -16,7 +16,7 @@ const ProductDetailsPage = () => {
   const { data, loading, error } = useQuery<{ product: Product }>(
     GET_SINGLE_PRODUCT,
     {
-      variables: { slug: typeof slug === "string" ? slug : slug[0] },
+      variables: { slug: typeof slug === "string" ? slug : slug?.[0] || "" },
       fetchPolicy: "no-cache",
     }
   );
@@ -104,39 +104,55 @@ const ProductDetailsPage = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8">
-        <BreadCrumb />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 bg-white rounded-lg shadow-sm">
-        <ProductImageGallery
-          images={product.variants.flatMap((v) => v.images)}
-          defaultImage={
-            selectedVariant?.images[0] ||
-            product.variants[0]?.images[0] ||
-            "/placeholder-image.jpg"
-          }
-          name={product.name}
-        />
-        <div>
-          <ProductInfo
-            id={product.id}
-            name={product.name}
-            averageRating={product.averageRating}
-            reviewCount={product.reviewCount}
-            description={product.description || "No description available"}
-            variants={product.variants}
-            selectedVariant={selectedVariant}
-            onVariantChange={handleVariantChange}
-            attributeGroups={attributeGroups}
-            selectedAttributes={selectedAttributes}
-            resetSelections={resetSelections}
-          />
+      <div className="min-h-screen bg-gray-50">
+        {/* Breadcrumb */}
+        <div className="bg-white border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <BreadCrumb />
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <ProductReviews reviews={product.reviews} productId={product.id} />
+        {/* Product Details */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Product Images */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <ProductImageGallery
+                images={product.variants.flatMap((v) => v.images)}
+                defaultImage={
+                  selectedVariant?.images[0] ||
+                  product.variants[0]?.images[0] ||
+                  "/placeholder-image.jpg"
+                }
+                name={product.name}
+              />
+            </div>
+
+            {/* Product Info */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+              <ProductInfo
+                id={product.id}
+                name={product.name}
+                averageRating={product.averageRating}
+                reviewCount={product.reviewCount}
+                description={product.description || "No description available"}
+                variants={product.variants}
+                selectedVariant={selectedVariant}
+                onVariantChange={handleVariantChange}
+                attributeGroups={attributeGroups}
+                selectedAttributes={selectedAttributes}
+                resetSelections={resetSelections}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Product Reviews */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+            <ProductReviews reviews={product.reviews} productId={product.id} />
+          </div>
+        </div>
       </div>
     </MainLayout>
   );

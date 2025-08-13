@@ -2,7 +2,7 @@
 
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 
 interface ModalProps {
   open: boolean;

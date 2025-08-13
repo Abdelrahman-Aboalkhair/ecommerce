@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Package } from "lucide-react";
 import ProductCard from "./ProductCard";
 import { useQuery } from "@apollo/client";
-import { GET_PRODUCTS_BY_CATEGORY } from "../../gql/queries";
-import LoadingSkeleton from "@/app/components/LoadingSkeleton";
+import { GET_PRODUCTS } from "../../gql/Product";
+import SkeletonLoader from "@/app/components/feedback/SkeletonLoader";
 
 interface CategorySectionProps {
   categoryId: string;
@@ -13,10 +13,14 @@ interface CategorySectionProps {
   pageSize: number;
 }
 
-const CategorySection: React.FC<CategorySectionProps> = ({ categoryId, categoryName, pageSize }) => {
+const CategorySection: React.FC<CategorySectionProps> = ({
+  categoryId,
+  categoryName,
+  pageSize,
+}) => {
   const [skip, setSkip] = useState(0);
-  const { data, loading, error, fetchMore } = useQuery(GET_PRODUCTS_BY_CATEGORY, {
-    variables: { categoryId, first: pageSize, skip: 0, filters: { minPrice: 10, maxPrice: 50 } },
+  const { data, loading, error, fetchMore } = useQuery(GET_PRODUCTS, {
+    variables: { first: pageSize, skip: 0, filters: { categoryId } },
     fetchPolicy: "cache-and-network",
   });
 
@@ -25,13 +29,20 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categoryId, categoryN
 
   const handleShowMore = () => {
     fetchMore({
-      variables: { categoryId, first: pageSize, skip: skip + pageSize },
+      variables: {
+        first: pageSize,
+        skip: skip + pageSize,
+        filters: { categoryId },
+      },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return {
           products: {
             ...fetchMoreResult.products,
-            products: [...prev.products.products, ...fetchMoreResult.products.products],
+            products: [
+              ...prev.products.products,
+              ...fetchMoreResult.products.products,
+            ],
           },
         };
       },
@@ -39,13 +50,15 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categoryId, categoryN
   };
 
   if (loading && skip === 0) {
-    return <LoadingSkeleton />;
+    return <SkeletonLoader />;
   }
 
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-lg text-red-500">Error loading {categoryName}: {error.message}</p>
+        <p className="text-lg text-red-500">
+          Error loading {categoryName}: {error.message}
+        </p>
       </div>
     );
   }
@@ -54,7 +67,9 @@ const CategorySection: React.FC<CategorySectionProps> = ({ categoryId, categoryN
     return (
       <div className="text-center py-12">
         <Package size={48} className="mx-auto text-gray-400 mb-4" />
-        <p className="text-lg text-gray-600">No products found in {categoryName}</p>
+        <p className="text-lg text-gray-600">
+          No products found in {categoryName}
+        </p>
       </div>
     );
   }

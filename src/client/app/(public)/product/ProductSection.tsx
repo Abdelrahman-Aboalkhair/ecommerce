@@ -22,73 +22,102 @@ const ProductSection: React.FC<ProductSectionProps> = ({
 }) => {
   if (error) {
     return (
-      <div className="py-8 sm:py-12">
-        <div className="text-center">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-md mx-auto">
-            <p className="text-red-600 font-medium">
-              Error loading {title.toLowerCase()}
-            </p>
-            <p className="text-red-500 text-sm mt-1">{error.message}</p>
+      <section className="py-8 sm:py-12 lg:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-8 max-w-md mx-auto">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Package size={32} className="text-red-500" />
+              </div>
+              <h3 className="text-xl font-semibold text-red-700 mb-2">
+                Error loading {title.toLowerCase()}
+              </h3>
+              <p className="text-red-600 text-sm">{error.message}</p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 
   if (!products.length) {
     return (
-      <div className="py-8 sm:py-12">
-        <div className="text-center">
-          <div className="max-w-md mx-auto">
-            <Package size={48} className="mx-auto text-gray-400 mb-4" />
-            <p className="text-lg text-gray-600">
-              No {title.toLowerCase()} available
-            </p>
-            <p className="text-gray-500 text-sm mt-2">
-              Check back soon for new products!
-            </p>
+      <section className="py-8 sm:py-12 lg:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="max-w-md mx-auto">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Package size={32} className="text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No {title.toLowerCase()} available
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Check back soon for new products!
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <section className="py-6 sm:py-8 lg:py-12">
-      {showTitle && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-6 sm:mb-8"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="h-6 w-1 bg-indigo-600 rounded-full mr-3"></div>
-              <h2 className="text-xl sm:text-xl font-medium text-gray-900 capitalize">
-                {title}
-              </h2>
-            </div>
-            {products.length > 8 && (
-              <button className="text-indigo-600 hover:text-indigo-800 font-medium text-sm sm:text-base transition-colors">
-                View All →
-              </button>
-            )}
-          </div>
-        </motion.div>
-      )}
-
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
-        {products.map((product, index) => (
+    <section className="py-8 sm:py-12 lg:py-16 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {showTitle && (
           <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 sm:mb-12"
           >
-            <ProductCard product={product} />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 capitalize">
+                    {title}
+                  </h2>
+                  <p className="text-gray-600 text-sm sm:text-base mt-1">
+                    Discover our handpicked {title.toLowerCase()} collection
+                  </p>
+                </div>
+              </div>
+              {products.length > 8 && (
+                <button className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105 self-start sm:self-auto">
+                  View All
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
           </motion.div>
-        ))}
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          {products.map((product, index) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+            >
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -21,7 +21,7 @@ interface ProductReviewsProps {
   reviews: {
     id: string;
     rating: number;
-    comment: string;
+    comment: string | null;
     createdAt: string;
     userId: string;
     user?: { name: string };
@@ -34,7 +34,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
   productId,
 }) => {
   const { data } = useGetMeQuery(undefined);
-  const userId = data?.user.id;
+  const userId = data?.user?.id;
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [expandedReviews, setExpandedReviews] = useState<
@@ -316,7 +316,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
                     </p>
                   </div>
                 </div>
-                {(data?.user.role === "ADMIN" || userId === review.userId) && (
+                {(data?.user?.role === "ADMIN" || userId === review.userId) && (
                   <button
                     onClick={() => handleDeleteReview(review.id)}
                     className="text-red-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50"
@@ -328,10 +328,11 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({
               </div>
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-gray-600 text-xs sm:text-sm">
-                  {expandedReviews[review.id] || review.comment.length <= 200
+                  {expandedReviews[review.id] ||
+                  (review.comment?.length || 0) <= 200
                     ? review.comment
-                    : `${review.comment.slice(0, 200)}...`}
-                  {review.comment.length > 200 && (
+                    : `${review.comment?.slice(0, 200)}...`}
+                  {(review.comment?.length || 0) > 200 && (
                     <button
                       onClick={() => toggleReviewExpansion(review.id)}
                       className="text-indigo-600 hover:text-indigo-700 text-xs font-medium ml-2"

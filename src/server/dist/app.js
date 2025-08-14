@@ -74,7 +74,7 @@ const createApp = () => __awaiter(void 0, void 0, void 0, function* () {
     app.use((0, helmet_1.default)());
     app.use(helmet_1.default.frameguard({ action: "deny" }));
     app.use((0, cors_1.default)({
-        origin: graphql_1.allowedOrigins,
+        origin: true,
         credentials: true,
     }));
     // Extra Security
@@ -82,14 +82,12 @@ const createApp = () => __awaiter(void 0, void 0, void 0, function* () {
     app.use((0, hpp_1.default)({
         whitelist: ["sort", "filter", "fields", "page", "limit"],
     }));
-    // Logging & Performance
     app.use((0, morgan_1.default)("combined", {
         stream: {
             write: (message) => logger_1.default.info(message.trim()),
         },
     }));
     app.use((0, compression_1.default)());
-    // Routes
     app.use("/api", (0, routes_1.configureRoutes)(io));
     // GraphQL setup
     yield (0, graphql_1.configureGraphQL)(app);

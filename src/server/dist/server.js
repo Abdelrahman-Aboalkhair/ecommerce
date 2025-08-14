@@ -8,15 +8,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-require("module-alias/register");
+const module_alias_1 = require("module-alias");
+const path_1 = __importDefault(require("path"));
+// Dynamically set module alias based on NODE_ENV
+const isProduction = process.env.NODE_ENV === "production";
+const projectRoot = path_1.default.resolve(__dirname, ".."); // Move up from src to project root
+const aliasPath = path_1.default.join(projectRoot, isProduction ? "dist" : "src");
+console.log(`${isProduction ? "Production" : "Development"} Module alias @ set to:`, aliasPath); // Debug log
+(0, module_alias_1.addAlias)("@", aliasPath);
 const app_1 = require("./app");
 const PORT = process.env.PORT || 5000;
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         const { httpServer } = yield (0, app_1.createApp)();
         httpServer.listen(PORT, () => {
-            console.log(`Server running on http://localhost:${PORT}`);
+            if (process.env.NODE_ENV === "development") {
+                console.log("Running in dev mode");
+            }
         });
         httpServer.on("error", (err) => {
             console.error("Server error:", err);

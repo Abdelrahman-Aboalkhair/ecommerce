@@ -18,7 +18,7 @@ const database_config_1 = __importDefault(require("@/infra/database/database.con
 const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const accessToken = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
+        const accessToken = (_a = req === null || req === void 0 ? void 0 : req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken;
         console.log("accessToken: ", accessToken);
         if (!accessToken) {
             return next(new AppError_1.default(401, "Unauthorized, please log in"));
@@ -27,14 +27,11 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         console.log("Decoded: ", decoded);
         const user = yield database_config_1.default.user.findUnique({
             where: { id: String(decoded.id) },
-            select: { id: true, emailVerified: true },
+            select: { id: true },
         });
         if (!user) {
             return next(new AppError_1.default(401, "User no longer exists."));
         }
-        // if (!user.emailVerified) {
-        //   return next(new AppError(403, "Please verify your email to continue."));
-        // }
         req.user = { id: decoded.id };
         next();
     }

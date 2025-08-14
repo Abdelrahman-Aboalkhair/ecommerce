@@ -47,6 +47,10 @@ class CheckoutService {
                     quantity: item.quantity,
                 };
             });
+            const isProduction = process.env.NODE_ENV === "production";
+            const clientUrl = isProduction
+                ? process.env.CLIENT_URL_PROD
+                : process.env.CLIENT_URL_DEV;
             const session = yield stripe_1.default.checkout.sessions.create({
                 payment_method_types: ["card"],
                 line_items: lineItems,
@@ -55,8 +59,8 @@ class CheckoutService {
                     allowed_countries: ["US", "CA", "MX", "EG"],
                 },
                 mode: "payment",
-                success_url: `${process.env.CLIENT_URL}/orders`,
-                cancel_url: `${process.env.CLIENT_URL}/cancel`,
+                success_url: `${clientUrl}/orders`,
+                cancel_url: `${clientUrl}/cancel`,
                 metadata: { userId, cartId: cart.id },
             });
             return session;

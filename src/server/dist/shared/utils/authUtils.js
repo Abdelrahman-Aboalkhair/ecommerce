@@ -40,5 +40,5 @@ const tokenUtils = __importStar(require("./auth/tokenUtils"));
 exports.tokenUtils = tokenUtils;
 const redisUtils = __importStar(require("./auth/redisUtils"));
 exports.redisUtils = redisUtils;
-const oauthUtils = __importStar(require("./auth/oauthUtils"));
+const oauthUtils = __importStar(require("./auth/handleSocialLogin"));
 exports.oauthUtils = oauthUtils;

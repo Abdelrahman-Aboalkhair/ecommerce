@@ -1,13 +1,30 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_factory_1 = require("./auth.factory");
-const oauthUtils_1 = require("@/shared/utils/auth/oauthUtils");
+const passport_1 = __importDefault(require("passport"));
+const constants_1 = require("@/shared/constants");
+const cart_service_1 = require("../cart/cart.service");
+const cart_repository_1 = require("../cart/cart.repository");
+const handleSocialLogin_1 = __importDefault(require("@/shared/utils/auth/handleSocialLogin"));
 const router = express_1.default.Router();
 const authController = (0, auth_factory_1.makeAuthController)();
+const cartService = new cart_service_1.CartService(new cart_repository_1.CartRepository());
+const CLIENT_URL_DEV = process.env.CLIENT_URL_DEV;
+const CLIENT_URL_PROD = process.env.CLIENT_URL_PROD;
+const env = process.env.NODE_ENV;
 /**
  * @swagger
  * /google:
@@ -18,7 +35,20 @@ const authController = (0, auth_factory_1.makeAuthController)();
  *       302:
  *         description: Redirect to Google login page.
  */
-router.get("/google", (0, oauthUtils_1.handleSocialLogin)("google"));
+router.get("/google", (0, handleSocialLogin_1.default)("google"));
+router.get("/google/callback", passport_1.default.authenticate("google", {
+    session: false,
+    failureRedirect: env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV,
+}), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const { accessToken, refreshToken } = user;
+    res.cookie("refreshToken", refreshToken, constants_1.cookieOptions);
+    res.cookie("accessToken", accessToken, constants_1.cookieOptions);
+    const userId = user.id;
+    const sessionId = req.session.id;
+    yield (cartService === null || cartService === void 0 ? void 0 : cartService.mergeCartsOnLogin(sessionId, userId));
+    res.redirect(env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV);
+}));
 /**
  * @swagger
  * /google/callback:
@@ -29,7 +59,6 @@ router.get("/google", (0, oauthUtils_1.handleSocialLogin)("google"));
  *       200:
  *         description: Successfully authenticated with Google.
  */
-router.get("/google/callback", (0, oauthUtils_1.handleSocialLoginCallback)("google"));
 /**
  * @swagger
  * /facebook:
@@ -40,7 +69,20 @@ router.get("/google/callback", (0, oauthUtils_1.handleSocialLoginCallback)("goog
  *       302:
  *         description: Redirect to Facebook login page.
  */
-router.get("/facebook", (0, oauthUtils_1.handleSocialLogin)("facebook"));
+router.get("/facebook", (0, handleSocialLogin_1.default)("facebook"));
+router.get("/facebook/callback", passport_1.default.authenticate("facebook", {
+    session: false,
+    failureRedirect: env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV,
+}), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const { accessToken, refreshToken } = user;
+    res.cookie("refreshToken", refreshToken, constants_1.cookieOptions);
+    res.cookie("accessToken", accessToken, constants_1.cookieOptions);
+    const userId = user.id;
+    const sessionId = req.session.id;
+    yield (cartService === null || cartService === void 0 ? void 0 : cartService.mergeCartsOnLogin(sessionId, userId));
+    res.redirect(env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV);
+}));
 /**
  * @swagger
  * /facebook/callback:
@@ -51,7 +93,6 @@ router.get("/facebook", (0, oauthUtils_1.handleSocialLogin)("facebook"));
  *       200:
  *         description: Successfully authenticated with Facebook.
  */
-router.get("/facebook/callback", (0, oauthUtils_1.handleSocialLoginCallback)("facebook"));
 /**
  * @swagger
  * /twitter:
@@ -62,7 +103,24 @@ router.get("/facebook/callback", (0, oauthUtils_1.handleSocialLoginCallback)("fa
  *       302:
  *         description: Redirect to Twitter login page.
  */
-router.get("/twitter", (0, oauthUtils_1.handleSocialLogin)("twitter"));
+router.get("/twitter", passport_1.default.authenticate("twitter", {
+    session: false,
+    scope: ["email"],
+}));
+router.get("/twitter/callback", passport_1.default.authenticate("twitter", {
+    session: false,
+    failureRedirect: `${env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV}?error=auth_failed`,
+}), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const { accessToken, refreshToken } = user;
+    console.log("Twitter callback user:", user);
+    res.cookie("refreshToken", refreshToken, constants_1.cookieOptions);
+    res.cookie("accessToken", accessToken, constants_1.cookieOptions);
+    const userId = user.id;
+    const sessionId = req.session.id;
+    yield (cartService === null || cartService === void 0 ? void 0 : cartService.mergeCartsOnLogin(sessionId, userId));
+    res.redirect(env === "production" ? CLIENT_URL_PROD : CLIENT_URL_DEV);
+}));
 /**
  * @swagger
  * /twitter/callback:
@@ -73,7 +131,6 @@ router.get("/twitter", (0, oauthUtils_1.handleSocialLogin)("twitter"));
  *       200:
  *         description: Successfully authenticated with Twitter.
  */
-router.get("/twitter/callback", (0, oauthUtils_1.handleSocialLoginCallback)("twitter"));
 /**
  * @swagger
  * /sign-up:
@@ -121,7 +178,6 @@ router.post("/sign-up", authController.signup);
  *       200:
  *         description: Email verification sent.
  */
-router.post("/verify-email", authController.verifyEmail);
 /**
  * @swagger
  * /verification-email/{email}:
@@ -139,7 +195,6 @@ router.post("/verify-email", authController.verifyEmail);
  *       200:
  *         description: Verification email resent.
  */
-router.get("/verification-email/:email", authController.getVerificationEmail);
 /**
  * @swagger
  * /sign-in:

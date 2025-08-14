@@ -32,7 +32,6 @@ class AuthRepository {
                     role: true,
                     name: true,
                     email: true,
-                    emailVerified: true,
                     avatar: true,
                 },
             });
@@ -47,7 +46,6 @@ class AuthRepository {
                     name: true,
                     email: true,
                     role: true,
-                    emailVerified: true,
                     avatar: true,
                 },
             });
@@ -62,7 +60,6 @@ class AuthRepository {
                     name: true,
                     email: true,
                     role: true,
-                    emailVerified: true,
                     avatar: true,
                 },
             });
@@ -73,16 +70,6 @@ class AuthRepository {
             return database_config_1.default.user.update({
                 where: { id: userId },
                 data,
-            });
-        });
-    }
-    findUserByVerificationToken(emailVerificationToken) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return database_config_1.default.user.findFirst({
-                where: {
-                    emailVerificationToken,
-                    emailVerificationTokenExpiresAt: { gt: new Date() },
-                },
             });
         });
     }

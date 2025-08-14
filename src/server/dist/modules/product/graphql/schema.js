@@ -94,6 +94,7 @@ const typeDefs = (0, graphql_tag_1.default) `
     minPrice: Float
     maxPrice: Float
     categoryId: String
+    flags: [String!]
   }
 
   type Query {

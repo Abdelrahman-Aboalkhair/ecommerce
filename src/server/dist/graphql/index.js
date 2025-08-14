@@ -12,34 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allowedOrigins = void 0;
 exports.configureGraphQL = configureGraphQL;
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
 const client_1 = require("@prisma/client");
-const AppError_1 = __importDefault(require("@/shared/errors/AppError"));
 const schema_1 = require("./v1/schema");
 const prisma = new client_1.PrismaClient();
-exports.allowedOrigins = process.env.NODE_ENV === "production"
-    ? process.env.CLIENT_PROD
-    : ["http://localhost:3000", "http://localhost:5000"];
 function configureGraphQL(app) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Create ApolloServer for GraphQL queries
         const apolloServer = new server_1.ApolloServer({
             schema: schema_1.combinedSchemas,
         });
         yield apolloServer.start();
-        // Mount the Express-style GraphQL endpoint
         app.use("/api/v1/graphql", (0, cors_1.default)({
-            origin: (origin, cb) => {
-                if (!origin || (exports.allowedOrigins === null || exports.allowedOrigins === void 0 ? void 0 : exports.allowedOrigins.includes(origin)))
-                    cb(null, true);
-                else
-                    cb(new AppError_1.default(403, "CORS policy violation"));
-            },
+            origin: true,
             credentials: true,
         }), body_parser_1.default.json(), (0, express4_1.expressMiddleware)(apolloServer, {
             context: (_a) => __awaiter(this, [_a], void 0, function* ({ req, res }) {

@@ -39,8 +39,8 @@ class AuthController {
         this.logsService = (0, logs_factory_1.makeLogsService)();
         this.signup = (0, asyncHandler_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
             var _a;
-            // const start = Date.now();
-            // const end = Date.now();
+            const start = Date.now();
+            const end = Date.now();
             const { name, email, password, role } = req.body;
             const { user, accessToken, refreshToken } = yield this.authService.registerUser({
                 name,
@@ -49,13 +49,13 @@ class AuthController {
                 role,
             });
             res.cookie("refreshToken", refreshToken, constants_1.cookieOptions);
+            res.cookie("accessToken", accessToken, constants_1.cookieOptions);
             const userId = user.id;
             const sessionId = req.session.id;
             yield ((_a = this.cartService) === null || _a === void 0 ? void 0 : _a.mergeCartsOnLogin(sessionId, userId));
             (0, sendResponse_1.default)(res, 201, {
                 message: "User registered successfully",
                 data: {
-                    accessToken,
                     user: {
                         id: user.id,
                         name: user.name,
@@ -64,35 +64,7 @@ class AuthController {
                     },
                 },
             });
-            // this.logsService.info("Register", {
-            //   userId,
-            //   sessionId: req.session.id,
-            //   timePeriod: end - start,
-            // });
-        }));
-        this.getVerificationEmail = (0, asyncHandler_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const { email } = req.params;
-            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
-            const result = yield this.authService.sendVerificationEmail(email);
-            (0, sendResponse_1.default)(res, 200, { message: result.message });
-            const start = Date.now();
-            const end = Date.now();
-            this.logsService.info("Send Verification Email", {
-                userId,
-                sessionId: req.session.id,
-                timePeriod: end - start,
-            });
-        }));
-        this.verifyEmail = (0, asyncHandler_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const { emailVerificationToken } = req.body;
-            const result = yield this.authService.verifyEmail(emailVerificationToken);
-            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
-            (0, sendResponse_1.default)(res, 200, { message: result.message });
-            const start = Date.now();
-            const end = Date.now();
-            this.logsService.info("Verify Email", {
+            this.logsService.info("Register", {
                 userId,
                 sessionId: req.session.id,
                 timePeriod: end - start,
@@ -106,12 +78,12 @@ class AuthController {
                 password,
             });
             res.cookie("refreshToken", refreshToken, constants_1.cookieOptions);
+            res.cookie("accessToken", accessToken, constants_1.cookieOptions);
             const userId = user.id;
             const sessionId = req.session.id;
             yield ((_a = this.cartService) === null || _a === void 0 ? void 0 : _a.mergeCartsOnLogin(sessionId, userId));
             (0, sendResponse_1.default)(res, 200, {
                 data: {
-                    accessToken,
                     user: {
                         id: user.id,
                         name: user.name,
@@ -145,6 +117,7 @@ class AuthController {
                 }
             }
             res.clearCookie("refreshToken", Object.assign({}, clearCookieOptions));
+            res.clearCookie("accessToken", Object.assign({}, clearCookieOptions));
             (0, sendResponse_1.default)(res, 200, { message: "Logged out successfully" });
             const end = Date.now();
             this.logsService.info("Sign out", {

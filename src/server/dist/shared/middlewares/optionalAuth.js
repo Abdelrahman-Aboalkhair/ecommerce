@@ -29,7 +29,7 @@ const optionalAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         console.log("decoded => ", decoded);
         const user = yield database_config_1.default.user.findUnique({
             where: { id: String(decoded.id) },
-            select: { id: true, emailVerified: true, role: true },
+            select: { id: true, role: true },
         });
         console.log("user => ", user);
         if (user) {

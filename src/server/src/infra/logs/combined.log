@@ -843,3 +843,19 @@
 [2025-08-14T05:24:34.339Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:24:34 +0000] "POST /api/v1/checkout HTTP/1.1" 400 469 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
 [2025-08-14T05:25:40.130Z] [31MERROR[39M: Cart is empty
 [2025-08-14T05:25:40.300Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:25:40 +0000] "POST /api/v1/checkout HTTP/1.1" 400 469 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-14T05:48:45.952Z] [31MERROR[39M: Invalid access token, please log in
+[2025-08-14T05:48:46.503Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:48:46 +0000] "GET /api/v1/users/me HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-14T05:48:47.161Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:48:47 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 200 384 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-14T05:48:47.245Z] [31MERROR[39M: Invalid access token, please log in
+[2025-08-14T05:48:47.800Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:48:47 +0000] "GET /api/v1/cart/count HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-14T05:48:47.959Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:48:47 +0000] "POST /api/v1/graphql HTTP/1.1" 200 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-14T05:48:47.974Z] [32MINFO[39M: ::1 - - [14/Aug/2025:05:48:47 +0000] "GET /api/v1/users/me HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-14T05:52:46.852Z] [32MINFO[39M: 🚀 Server running on port 5000
+[2025-08-14T05:52:46.854Z] [32MINFO[39M: 📊 Health check available at http://localhost:5000/health
+[2025-08-14T05:52:46.855Z] [32MINFO[39M: 🔍 Detailed health check at http://localhost:5000/health/detailed
+[2025-08-14T05:53:11.326Z] [32MINFO[39M: 🚀 Server running on port 5000
+[2025-08-14T05:53:11.327Z] [32MINFO[39M: 📊 Health check available at http://localhost:5000/health
+[2025-08-14T05:53:11.327Z] [32MINFO[39M: 🔍 Detailed health check at http://localhost:5000/health/detailed
+[2025-08-14T05:53:43.052Z] [32MINFO[39M: 🚀 Server running on port 5000
+[2025-08-14T05:53:43.053Z] [32MINFO[39M: 📊 Health check available at http://localhost:5000/health
+[2025-08-14T05:53:43.053Z] [32MINFO[39M: 🔍 Detailed health check at http://localhost:5000/health/detailed

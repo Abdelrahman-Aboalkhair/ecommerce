@@ -31,21 +31,13 @@ class AuthService {
         return __awaiter(this, arguments, void 0, function* ({ name, email, password, role, }) {
             const existingUser = yield this.authRepository.findUserByEmail(email);
             if (existingUser) {
-                throw new BadRequestError_1.default("This email is already registered, please log in instead.");
+                throw new AppError_1.default(400, "This email is already registered, please log in instead.");
             }
-            const emailVerificationToken = Math.random()
-                .toString(36)
-                .slice(-6)
-                .toUpperCase();
-            const emailVerificationTokenExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
             const newUser = yield this.authRepository.createUser({
                 email,
                 name,
                 password,
-                emailVerificationToken,
-                emailVerificationTokenExpiresAt,
                 role: role || client_1.ROLE.USER,
-                emailVerified: false,
             });
             const accessToken = authUtils_1.tokenUtils.generateAccessToken(newUser.id);
             const refreshToken = authUtils_1.tokenUtils.generateRefreshToken(newUser.id);
@@ -55,41 +47,11 @@ class AuthService {
                     name: newUser.name,
                     email: newUser.email,
                     role: newUser.role,
-                    emailVerified: newUser.emailVerified,
                     avatar: null,
                 },
                 accessToken,
                 refreshToken,
             };
-        });
-    }
-    sendVerificationEmail(email) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.authRepository.findUserByEmail(email);
-            if (!user) {
-                throw new AppError_1.default(404, "User not found");
-            }
-            const emailVerificationToken = Math.random().toString(36).slice(-6);
-            const emailVerificationTokenExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
-            yield this.authRepository.updateUserEmailVerification(user.id, {
-                emailVerificationToken,
-                emailVerificationTokenExpiresAt,
-            });
-            return { message: "A new verification code has been sent to your email" };
-        });
-    }
-    verifyEmail(emailVerificationToken) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.authRepository.findUserByVerificationToken(emailVerificationToken);
-            if (!user) {
-                throw new BadRequestError_1.default("Invalid or expired verification token");
-            }
-            yield this.authRepository.updateUserEmailVerification(user.id, {
-                emailVerificationToken: null,
-                emailVerificationTokenExpiresAt: null,
-                emailVerified: true,
-            });
-            return { message: "Email verified successfully." };
         });
     }
     signin(_a) {

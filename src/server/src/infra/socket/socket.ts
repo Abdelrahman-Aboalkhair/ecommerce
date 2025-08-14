@@ -9,8 +9,8 @@ export class SocketManager {
       cors: {
         origin:
           process.env.NODE_ENV === "production"
-            ? "https://egwinch.com"
-            : "http://localhost:3000",
+            ? ["https://ecommerce-nu-rosy.vercel.app"]
+            : ["http://localhost:3000", "http://localhost:5173"],
         methods: ["GET", "POST"],
         credentials: true,
       },

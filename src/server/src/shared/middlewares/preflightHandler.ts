@@ -26,6 +26,7 @@ export const preflightHandler = (
         "X-Device-Type",
         "X-Platform",
         "X-API-Version",
+        "Apollo-Require-Preflight", // For GraphQL
       ].join(", ")
     );
     res.header("Access-Control-Allow-Credentials", "true");

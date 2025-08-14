@@ -21,6 +21,8 @@ import { logRequest } from "./shared/middlewares/logRequest";
 import { configureRoutes } from "./routes";
 import { configureGraphQL } from "./graphql";
 import webhookRoutes from "./modules/webhook/webhook.routes";
+import healthRoutes from "./routes/health.routes";
+// import { preflightHandler } from "./shared/middlewares/preflightHandler";
 import { Server as HTTPServer } from "http";
 import { SocketManager } from "@/infra/socket/socket";
 import { connectDB } from "./infra/database/database.config";
@@ -44,6 +46,9 @@ export const createApp = async () => {
 
   // Swagger Documentation
   setupSwagger(app);
+
+  // Health check routes (no middleware applied)
+  app.use("/", healthRoutes);
 
   // Basic
   app.use(
@@ -76,34 +81,28 @@ export const createApp = async () => {
   app.use(passport.session());
   configurePassport();
 
-  app.use(helmet());
-  app.use(helmet.frameguard({ action: "deny" }));
+  // Preflight handler removed to avoid conflicts
 
+  // CORS must be applied BEFORE GraphQL setup
   app.use(
     cors({
-      origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        const allowedOrigins = process.env.ALLOWED_ORIGINS
-          ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
-          : ["http://localhost:3000", "http://localhost:5173"];
-
-        if (
-          allowedOrigins.includes(origin) ||
-          process.env.NODE_ENV === "development"
-        ) {
-          callback(null, true);
-        } else {
-          console.warn(`CORS blocked origin: ${origin}`);
-          callback(new Error("Not allowed by CORS"));
-        }
-      },
+      origin:
+        process.env.NODE_ENV === "production"
+          ? ["https://ecommerce-nu-rosy.vercel.app"]
+          : ["http://localhost:3000", "http://localhost:5173"],
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Apollo-Require-Preflight", // For GraphQL
+      ],
     })
   );
+
+  app.use(helmet());
+  app.use(helmet.frameguard({ action: "deny" }));
 
   // Extra Security
   app.use(ExpressMongoSanitize());

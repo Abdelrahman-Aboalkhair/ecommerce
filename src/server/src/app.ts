@@ -62,8 +62,13 @@ export const createApp = async () => {
       resave: false,
       saveUninitialized: true,
       cookie: {
+        httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24 * 7,
+        domain:
+          process.env.COOKIE_DOMAIN ||
+          (process.env.NODE_ENV === "production" ? undefined : "localhost"),
       },
     })
   );
@@ -76,8 +81,27 @@ export const createApp = async () => {
 
   app.use(
     cors({
-      origin: true,
+      origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        const allowedOrigins = process.env.ALLOWED_ORIGINS
+          ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
+          : ["http://localhost:3000", "http://localhost:5173"];
+
+        if (
+          allowedOrigins.includes(origin) ||
+          process.env.NODE_ENV === "development"
+        ) {
+          callback(null, true);
+        } else {
+          console.warn(`CORS blocked origin: ${origin}`);
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
       credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     })
   );
 

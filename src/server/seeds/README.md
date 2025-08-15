@@ -30,29 +30,27 @@ The seeder creates the following basic data:
 
 ## 🖼️ Images
 
-The seeder automatically adds images to users, products, and categories:
+The seeder creates basic data without images. The frontend automatically generates beautiful placeholder images:
 
 ### **User Avatars**
-
-- **Superadmin**: Generated avatar with "Super Admin" initials
-- **Admin**: Generated avatar with "Admin User" initials
-- **User**: Generated avatar with "Regular User" initials
+- Generated automatically with user initials and random background colors
+- Clean, professional look with user's first and last name initials
 
 ### **Product Images**
+- Generated automatically with product name initials
+- Random background colors for visual variety
+- Consistent sizing and styling
 
-- **Smartphone X**: Multiple product images for gallery view
-
-### **Category Images**
-
-- **Electronics**: Category banner image
-
-### **Custom Images**
-
-You can add your own images by placing them in the `assets/seed-images/` directory. See the [Seed Images README](../../../assets/seed-images/README.md) for details.
+### **How It Works**
+- Frontend detects missing or invalid images
+- Automatically generates SVG placeholders with:
+  - Random background colors (Indigo, Emerald, Blue, Amber, Red, Violet, Cyan, Lime)
+  - Product/user initials in white text
+  - Professional styling and consistent sizing
 
 ## Notes
 
 - The seeder uses `upsert` operations, so it's safe to run multiple times
 - All users have the same password for simplicity
 - The seeder is designed to be minimal and basic for development purposes
-- Images use fallback URLs if local images don't exist
+- Frontend automatically generates placeholder images when needed

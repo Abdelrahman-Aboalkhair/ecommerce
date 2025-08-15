@@ -9,6 +9,9 @@ import SkeletonLoader from "./components/feedback/SkeletonLoader";
 const HeroSection = dynamic(() => import("./(public)/(home)/HeroSection"), {
   ssr: false,
 });
+const CategoryBar = dynamic(() => import("./(public)/(home)/CategoryBar"), {
+  ssr: false,
+});
 const ProductSection = dynamic(
   () => import("./(public)/product/ProductSection"),
   { ssr: false }
@@ -41,6 +44,7 @@ const Home = () => {
   return (
     <MainLayout>
       <HeroSection />
+      <CategoryBar />
       <ProductSection
         title="Featured"
         products={featured}

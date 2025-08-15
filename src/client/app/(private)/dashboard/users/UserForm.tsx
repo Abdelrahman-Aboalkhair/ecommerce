@@ -1,13 +1,14 @@
-'use client'
+"use client";
 
 import { Controller, UseFormReturn } from "react-hook-form";
-import { Users } from "lucide-react";
+import { Users, Shield, Crown } from "lucide-react";
+import { useAuth } from "@/app/hooks/useAuth";
 
 export interface UserFormData {
   id: string | number;
   name: string;
   email: string;
-  role: "admin" | "user";
+  role: "USER" | "ADMIN" | "SUPERADMIN";
   emailVerified: boolean;
 }
 
@@ -24,11 +25,62 @@ const UserForm: React.FC<UserFormProps> = ({
   isLoading,
   submitLabel = "Save",
 }) => {
+  const { user: currentUser } = useAuth();
   const {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = form;
+
+  const selectedRole = watch("role");
+
+  // Get role color for display
+  const getRoleColor = (role: string) => {
+    const colors = {
+      USER: "bg-blue-100 text-blue-800 border-blue-200",
+      ADMIN: "bg-purple-100 text-purple-800 border-purple-200",
+      SUPERADMIN: "bg-red-100 text-red-800 border-red-200",
+    };
+    return colors[role as keyof typeof colors] || colors.USER;
+  };
+
+  // Get available roles based on current user's role
+  const getAvailableRoles = () => {
+    if (!currentUser) return [];
+
+    switch (currentUser.role) {
+      case "SUPERADMIN":
+        return [
+          { value: "USER", label: "User", icon: <Users className="w-4 h-4" /> },
+          {
+            value: "ADMIN",
+            label: "Admin",
+            icon: <Shield className="w-4 h-4" />,
+          },
+          {
+            value: "SUPERADMIN",
+            label: "Super Admin",
+            icon: <Crown className="w-4 h-4" />,
+          },
+        ];
+      case "ADMIN":
+        return [
+          { value: "USER", label: "User", icon: <Users className="w-4 h-4" /> },
+          {
+            value: "ADMIN",
+            label: "Admin",
+            icon: <Shield className="w-4 h-4" />,
+          },
+        ];
+      default:
+        return [
+          { value: "USER", label: "User", icon: <Users className="w-4 h-4" /> },
+        ];
+    }
+  };
+
+  const availableRoles = getAvailableRoles();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -97,13 +149,35 @@ const UserForm: React.FC<UserFormProps> = ({
           control={control}
           rules={{ required: "Role is required" }}
           render={({ field }) => (
-            <select
-              {...field}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
+            <div className="space-y-2">
+              <select
+                {...field}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+              >
+                {availableRoles.map((role) => (
+                  <option key={role.value} value={role.value}>
+                    {role.label}
+                  </option>
+                ))}
+              </select>
+
+              {/* Role Preview */}
+              {selectedRole && (
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg border">
+                  {availableRoles.find((r) => r.value === selectedRole)?.icon}
+                  <span
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getRoleColor(
+                      selectedRole
+                    )}`}
+                  >
+                    {
+                      availableRoles.find((r) => r.value === selectedRole)
+                        ?.label
+                    }
+                  </span>
+                </div>
+              )}
+            </div>
           )}
         />
         {errors.role && (
@@ -138,8 +212,9 @@ const UserForm: React.FC<UserFormProps> = ({
         <button
           type="submit"
           disabled={isLoading}
-          className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+          className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 ${
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           {isLoading ? "Saving..." : submitLabel}
         </button>

@@ -23,8 +23,6 @@ const nextConfig: NextConfig = {
       "res.cloudinary.com",
       "pbs.twimg.com",
       "store.storeimages.cdn-apple.com",
-      "ui-avatars.com",
-      "picsum.photos",
     ],
   },
 };

@@ -8,6 +8,7 @@ import {
   Maximize2,
   Minimize2,
 } from "lucide-react";
+import { generateProductPlaceholder } from "@/app/utils/placeholderImage";
 
 interface ProductImageGalleryProps {
   images: string[];
@@ -21,7 +22,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
   defaultImage,
 }) => {
   const [selectedImage, setSelectedImage] = useState(
-    defaultImage || images[0] || "/placeholder-image.jpg"
+    defaultImage || images[0] || generateProductPlaceholder(name)
   );
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -113,7 +114,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
     return (
       <div className="relative bg-gray-50 rounded-2xl p-6 flex items-center justify-center h-[500px]">
         <Image
-          src="/placeholder-image.jpg"
+          src={generateProductPlaceholder(name)}
           alt={name}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -170,6 +171,9 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                   sizes="80px"
                   className="rounded-lg object-cover"
                   priority={index < 2}
+                  onError={(e) => {
+                    e.currentTarget.src = generateProductPlaceholder(name);
+                  }}
                 />
               </div>
             </button>
@@ -247,6 +251,9 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                     : {}
                 }
                 priority
+                onError={(e) => {
+                  e.currentTarget.src = generateProductPlaceholder(name);
+                }}
               />
             </div>
           </div>

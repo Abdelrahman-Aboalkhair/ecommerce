@@ -20,6 +20,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { useAppDispatch } from "@/app/store/hooks";
 import { useSignOutMutation } from "@/app/store/apis/AuthApi";
 import { logout } from "@/app/store/slices/AuthSlice";
+import { generateUserAvatar } from "@/app/utils/placeholderImage";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -118,12 +119,20 @@ const Navbar = () => {
                           height={28}
                           className="rounded-full object-cover w-full h-full"
                           onError={(e) => {
-                            e.currentTarget.style.display = "none";
+                            e.currentTarget.src = generateUserAvatar(user.name);
                           }}
                         />
                       </div>
                     ) : (
-                      <CircleUserRound size={24} className="text-gray-800" />
+                      <div className="w-[35px] h-[35px] rounded-full overflow-hidden border border-gray-300">
+                        <Image
+                          src={generateUserAvatar(user?.name || "User")}
+                          alt="User Profile"
+                          width={35}
+                          height={35}
+                          className="rounded-full object-cover w-full h-full"
+                        />
+                      </div>
                     )}
                   </button>
 

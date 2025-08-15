@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/copy-seed-images.js && next dev",
-    "build": "node scripts/copy-seed-images.js && next build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "copy-images": "node scripts/copy-seed-images.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.13.7",

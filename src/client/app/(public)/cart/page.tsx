@@ -13,6 +13,7 @@ import {
 import QuantitySelector from "@/app/components/molecules/QuantitySelector";
 import { motion } from "framer-motion";
 import CartSkeletonLoader from "@/app/components/feedback/CartSkeletonLoader";
+import { generateProductPlaceholder } from "@/app/utils/placeholderImage";
 
 // Helper function to format variant name from SKU
 const formatVariantName = (item: any) => {
@@ -93,12 +94,20 @@ const Cart = () => {
                   {/* Product Image */}
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-50 rounded flex items-center justify-center overflow-hidden">
                     <Image
-                      src={item.variant.images[0]}
+                      src={
+                        item?.variant?.images[0] ||
+                        generateProductPlaceholder(item.variant.product.name)
+                      }
                       alt={formatVariantName(item)}
                       width={80}
                       height={80}
                       className="object-cover"
                       sizes="(max-width: 640px) 64px, 80px"
+                      onError={(e) => {
+                        e.currentTarget.src = generateProductPlaceholder(
+                          item.variant.product.name
+                        );
+                      }}
                     />
                   </div>
 

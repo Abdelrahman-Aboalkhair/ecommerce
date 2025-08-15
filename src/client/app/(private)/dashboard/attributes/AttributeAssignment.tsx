@@ -12,7 +12,7 @@ import {
   useAssignAttributeToProductMutation,
 } from "@/app/store/apis/AttributeApi";
 import CategoryAssignmentSection from "./CategoryAssignment";
-import ProductAssignmentSection from "./ProductsAssignment";
+// import ProductAssignmentSection from "./ProductsAssignment";
 
 interface Attribute {
   id: string;
@@ -167,14 +167,14 @@ const AttributeAssignment: React.FC<AttributeAssignmentProps> = ({
               watch={watch}
             />
 
-            <ProductAssignmentSection
+            {/* <ProductAssignmentSection
               control={control}
               handleSubmit={handleSubmit}
               onAssignToProduct={onAssignToProduct}
               productOptions={productOptions}
               isAssigningToProduct={isAssigningToProduct}
               watch={watch}
-            />
+            /> */}
           </div>
         )}
 

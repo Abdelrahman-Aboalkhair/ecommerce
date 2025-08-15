@@ -1,8 +1,9 @@
 "use client";
 
-import SliderImg1 from "@/app/assets/images/slider1.jpg";
-import SliderImg2 from "@/app/assets/images/slider2.jpg";
-import SliderImg3 from "@/app/assets/images/slider3.jpg";
+import SliderImg1 from "@/app/assets/images/laptop-slider.jpg";
+import SliderImg2 from "@/app/assets/images/furniture-slider.jpeg";
+import SliderImg3 from "@/app/assets/images/shirt-slider.jpg";
+import SliderImg4 from "@/app/assets/images/shoes-slider.jpeg";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -41,6 +42,14 @@ const HeroSection = ({ isPreview = false }: HeroSectionProps) => {
     },
     {
       image: SliderImg3,
+      title: "Fast & Free Shipping",
+      subtitle: "On orders over $50",
+      ctaText: "Learn More",
+      ctaLink: "/shop",
+      badge: "Limited Time",
+    },
+    {
+      image: SliderImg4,
       title: "Fast & Free Shipping",
       subtitle: "On orders over $50",
       ctaText: "Learn More",
@@ -91,11 +100,17 @@ const HeroSection = ({ isPreview = false }: HeroSectionProps) => {
             <AnimatePresence initial={false} mode="wait">
               <motion.div
                 key={currentImageIndex}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 1.1, x: 100, y: 100, rotate: 10 }}
+                animate={{ opacity: 1, scale: 1, x: 0, y: 0, rotate: 0 }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.95,
+                  x: -100,
+                  y: -100,
+                  rotate: -10,
+                }}
                 transition={{
-                  duration: 0.8,
+                  duration: 0.6,
                   ease: "easeInOut",
                 }}
                 className="absolute inset-0 w-full h-full"

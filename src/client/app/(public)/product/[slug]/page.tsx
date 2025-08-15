@@ -7,8 +7,8 @@ import ProductImageGallery from "../ProductImageGallery";
 import ProductInfo from "../ProductInfo";
 import ProductReviews from "../ProductReviews";
 import { useQuery } from "@apollo/client";
+import { generateProductPlaceholder } from "@/app/utils/placeholderImage";
 import { GET_SINGLE_PRODUCT } from "@/app/gql/Product";
-import CustomLoader from "@/app/components/feedback/CustomLoader";
 import ProductDetailSkeletonLoader from "@/app/components/feedback/ProductDetailSkeletonLoader";
 import { Product } from "@/app/types/productTypes";
 
@@ -123,7 +123,7 @@ const ProductDetailsPage = () => {
                 defaultImage={
                   selectedVariant?.images[0] ||
                   product.variants[0]?.images[0] ||
-                  "/placeholder-image.jpg"
+                  generateProductPlaceholder(product.name)
                 }
                 name={product.name}
               />

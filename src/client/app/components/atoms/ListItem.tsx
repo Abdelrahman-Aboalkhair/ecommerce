@@ -4,6 +4,10 @@ import { ArrowUpRight } from "lucide-react";
 import { Item } from "../organisms/ListCard";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  generateProductPlaceholder,
+  generateUserAvatar,
+} from "@/app/utils/placeholderImage";
 
 interface ListItemProps {
   item: Item;
@@ -35,7 +39,10 @@ const ListItem: React.FC<ListItemProps> = ({ item, itemType }) => {
             height={40}
             className={itemType === "user" ? "rounded-full" : "rounded-md"}
             onError={(e) => {
-              e.currentTarget.src = "/placeholder-image.jpg";
+              e.currentTarget.src =
+                itemType === "user"
+                  ? generateUserAvatar(item.name)
+                  : generateProductPlaceholder(item.name);
             }}
           />
         ) : (

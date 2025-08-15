@@ -34,6 +34,7 @@ const ShopPage: React.FC = () => {
   );
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [filtersVisible, setFiltersVisible] = useState(true); // Desktop filters toggle state
   const [filters, setFilters] = useState<FilterValues>(initialFilters);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [skip, setSkip] = useState(0);
@@ -132,9 +133,9 @@ const ShopPage: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         {/* Header Section */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-30">
+        <div className="sticky top-0 z-30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <div>
@@ -146,33 +147,68 @@ const ShopPage: React.FC = () => {
                 </p>
               </div>
 
-              {/* Mobile Filter Button */}
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="md:hidden flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
-              >
-                <Filter size={18} />
-                <span className="font-medium">Filters</span>
-                {activeFilterCount > 0 && (
-                  <span className="bg-white/20 text-white text-xs font-bold rounded-full px-2 py-0.5">
-                    {activeFilterCount}
+              <div className="flex items-center gap-3">
+                {/* Desktop Filter Toggle Button */}
+                <button
+                  onClick={() => setFiltersVisible(!filtersVisible)}
+                  className="hidden lg:flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+                >
+                  <Filter size={18} />
+                  <span className="font-medium">
+                    {filtersVisible ? "Hide" : "Show"} Filters
                   </span>
-                )}
-              </button>
+                  {activeFilterCount > 0 && (
+                    <span className="bg-white/20 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </button>
+
+                {/* Mobile Filter Button */}
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+                >
+                  <Filter size={18} />
+                  <span className="font-medium">Filters</span>
+                  {activeFilterCount > 0 && (
+                    <span className="bg-white/20 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Desktop Filters */}
-            <div className="hidden lg:block w-full lg:max-w-[320px] xl:max-w-[380px]">
-              <ProductFilters
-                initialFilters={initialFilters}
-                onFilterChange={updateFilters}
-                categories={categories}
-              />
-            </div>
+            {/* Desktop Filters with Toggle */}
+            <AnimatePresence>
+              {filtersVisible && (
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: "auto", opacity: 1 }}
+                  exit={{ width: 0, opacity: 0 }}
+                  transition={{
+                    type: "spring",
+                    damping: 25,
+                    stiffness: 300,
+                    duration: 0.3,
+                  }}
+                  className="hidden lg:block"
+                >
+                  <div className="w-[320px] xl:w-[380px]">
+                    <ProductFilters
+                      initialFilters={initialFilters}
+                      onFilterChange={updateFilters}
+                      categories={categories}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Mobile Filter Sidebar */}
             <AnimatePresence>
@@ -205,7 +241,16 @@ const ShopPage: React.FC = () => {
             </AnimatePresence>
 
             {/* Products Grid */}
-            <div className="flex-1">
+            <motion.div
+              className="flex-1"
+              layout
+              transition={{
+                type: "spring",
+                damping: 25,
+                stiffness: 300,
+                duration: 0.3,
+              }}
+            >
               {/* Loading State */}
               {loading && !displayedProducts.length && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
@@ -308,7 +353,7 @@ const ShopPage: React.FC = () => {
                   )}
                 </>
               )}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

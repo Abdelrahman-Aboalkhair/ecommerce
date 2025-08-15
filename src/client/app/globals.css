@@ -9,7 +9,7 @@
   /* Tan */
   --color-accent: #8f9779;
   /* Artichoke */
-  --color-background: #f7f7f7dd;
+  --color-background: #f8f8f8dd;
   --color-text: #2e2e2e;
 
   /* Aliases for convenience */
@@ -33,7 +33,6 @@ body {
   -webkit-font-smoothing: antialiased;
   font-family: var(--font-poppins);
 }
-
 
 .bg-primary {
   background-color: var(--primary);

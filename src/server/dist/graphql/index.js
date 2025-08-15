@@ -27,8 +27,17 @@ function configureGraphQL(app) {
         });
         yield apolloServer.start();
         app.use("/api/v1/graphql", (0, cors_1.default)({
-            origin: true,
+            origin: process.env.NODE_ENV === "production"
+                ? ["https://ecommerce-nu-rosy.vercel.app"]
+                : ["http://localhost:3000", "http://localhost:5173"],
             credentials: true,
+            methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+            allowedHeaders: [
+                "Content-Type",
+                "Authorization",
+                "X-Requested-With",
+                "Apollo-Require-Preflight",
+            ],
         }), body_parser_1.default.json(), (0, express4_1.expressMiddleware)(apolloServer, {
             context: (_a) => __awaiter(this, [_a], void 0, function* ({ req, res }) {
                 return ({

@@ -1,6 +1,6 @@
 import { useLazyGetMeQuery } from "@/app/store/apis/UserApi";
 import { useAppDispatch } from "@/app/store/hooks";
-import { setUser } from "@/app/store/slices/AuthSlice";
+import { logout, setUser } from "@/app/store/slices/AuthSlice";
 import { useEffect } from "react";
 
 export default function AuthProvider({

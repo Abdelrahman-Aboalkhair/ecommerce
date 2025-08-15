@@ -18,7 +18,6 @@ const path_1 = __importDefault(require("path"));
 const isProduction = process.env.NODE_ENV === "production";
 const projectRoot = path_1.default.resolve(__dirname, ".."); // Move up from src to project root
 const aliasPath = path_1.default.join(projectRoot, isProduction ? "dist" : "src");
-console.log(`${isProduction ? "Production" : "Development"} Module alias @ set to:`, aliasPath); // Debug log
 (0, module_alias_1.addAlias)("@", aliasPath);
 const app_1 = require("./app");
 const PORT = process.env.PORT || 5000;
@@ -26,9 +25,7 @@ function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         const { httpServer } = yield (0, app_1.createApp)();
         httpServer.listen(PORT, () => {
-            if (process.env.NODE_ENV === "development") {
-                console.log("Running in dev mode");
-            }
+            console.log(`Server is running on port ${PORT}`);
         });
         httpServer.on("error", (err) => {
             console.error("Server error:", err);

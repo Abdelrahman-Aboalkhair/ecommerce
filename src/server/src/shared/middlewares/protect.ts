@@ -25,14 +25,14 @@ const protect = async (
 
     const user = await prisma.user.findUnique({
       where: { id: String(decoded.id) },
-      select: { id: true },
+      select: { id: true, role: true },
     });
 
     if (!user) {
       return next(new AppError(401, "User no longer exists."));
     }
 
-    req.user = { id: decoded.id };
+    req.user = { id: decoded.id, role: user.role };
     next();
   } catch (error) {
     console.log(error);

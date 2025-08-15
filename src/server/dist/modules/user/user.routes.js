@@ -7,8 +7,10 @@ const express_1 = require("express");
 const user_factory_1 = require("./user.factory");
 const protect_1 = __importDefault(require("@/shared/middlewares/protect"));
 const authorizeRole_1 = __importDefault(require("@/shared/middlewares/authorizeRole"));
+const authorizeRoleHierarchy_1 = __importDefault(require("@/shared/middlewares/authorizeRoleHierarchy"));
 const validateDto_1 = require("@/shared/middlewares/validateDto");
 const user_dto_1 = require("./user.dto");
+const user_dto_2 = require("./user.dto");
 const router = (0, express_1.Router)();
 const userController = (0, user_factory_1.makeUserController)();
 /**
@@ -26,6 +28,41 @@ const userController = (0, user_factory_1.makeUserController)();
  *         description: Unauthorized. Token is invalid or missing.
  */
 router.get("/me", protect_1.default, userController.getMe);
+/**
+ * @swagger
+ * /users/admin:
+ *   post:
+ *     summary: Create a new admin
+ *     description: Creates a new admin user (SuperAdmin only).
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Admin's full name.
+ *               email:
+ *                 type: string
+ *                 description: Admin's email address.
+ *               password:
+ *                 type: string
+ *                 description: Admin's password.
+ *     responses:
+ *       201:
+ *         description: Admin created successfully.
+ *       400:
+ *         description: Invalid input data.
+ *       401:
+ *         description: Unauthorized. Token is invalid or missing.
+ *       403:
+ *         description: Forbidden. User does not have the required role.
+ */
+router.post("/admin", protect_1.default, (0, authorizeRole_1.default)("SUPERADMIN"), (0, validateDto_1.validateDto)(user_dto_2.CreateAdminDto), userController.createAdmin);
 /**
  * @swagger
  * /users:
@@ -124,7 +161,7 @@ router.get("/email/:email", protect_1.default, (0, authorizeRole_1.default)("ADM
  *       401:
  *         description: Unauthorized. Token is invalid or missing.
  */
-router.put("/:id", protect_1.default, (0, authorizeRole_1.default)("USER"), (0, validateDto_1.validateDto)(user_dto_1.UpdateUserDto), userController.updateMe);
+router.put("/:id", protect_1.default, (0, authorizeRole_1.default)("USER"), (0, authorizeRoleHierarchy_1.default)("USER"), (0, validateDto_1.validateDto)(user_dto_1.UpdateUserDto), userController.updateMe);
 /**
  * @swagger
  * /users/{id}:
@@ -150,5 +187,5 @@ router.put("/:id", protect_1.default, (0, authorizeRole_1.default)("USER"), (0, 
  *       404:
  *         description: User not found.
  */
-router.delete("/:id", protect_1.default, (0, authorizeRole_1.default)("ADMIN", "SUPERADMIN"), (0, validateDto_1.validateDto)(user_dto_1.UserIdDto), userController.deleteUser);
+router.delete("/:id", protect_1.default, (0, authorizeRole_1.default)("ADMIN", "SUPERADMIN"), (0, authorizeRoleHierarchy_1.default)("ADMIN"), (0, validateDto_1.validateDto)(user_dto_1.UserIdDto), userController.deleteUser);
 exports.default = router;

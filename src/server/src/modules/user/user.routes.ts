@@ -2,8 +2,10 @@ import { Router } from "express";
 import { makeUserController } from "./user.factory";
 import protect from "@/shared/middlewares/protect";
 import authorizeRole from "@/shared/middlewares/authorizeRole";
+import authorizeRoleHierarchy from "@/shared/middlewares/authorizeRoleHierarchy";
 import { validateDto } from "@/shared/middlewares/validateDto";
 import { UpdateUserDto, UserEmailDto, UserIdDto } from "./user.dto";
+import { CreateAdminDto } from "./user.dto";
 
 const router = Router();
 const userController = makeUserController();
@@ -23,6 +25,48 @@ const userController = makeUserController();
  *         description: Unauthorized. Token is invalid or missing.
  */
 router.get("/me", protect, userController.getMe);
+
+/**
+ * @swagger
+ * /users/admin:
+ *   post:
+ *     summary: Create a new admin
+ *     description: Creates a new admin user (SuperAdmin only).
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Admin's full name.
+ *               email:
+ *                 type: string
+ *                 description: Admin's email address.
+ *               password:
+ *                 type: string
+ *                 description: Admin's password.
+ *     responses:
+ *       201:
+ *         description: Admin created successfully.
+ *       400:
+ *         description: Invalid input data.
+ *       401:
+ *         description: Unauthorized. Token is invalid or missing.
+ *       403:
+ *         description: Forbidden. User does not have the required role.
+ */
+router.post(
+  "/admin",
+  protect,
+  authorizeRole("SUPERADMIN"),
+  validateDto(CreateAdminDto),
+  userController.createAdmin
+);
 
 /**
  * @swagger
@@ -141,6 +185,7 @@ router.put(
   "/:id",
   protect,
   authorizeRole("USER"),
+  authorizeRoleHierarchy("USER"),
   validateDto(UpdateUserDto),
   userController.updateMe
 );
@@ -174,6 +219,7 @@ router.delete(
   "/:id",
   protect,
   authorizeRole("ADMIN", "SUPERADMIN"),
+  authorizeRoleHierarchy("ADMIN"),
   validateDto(UserIdDto),
   userController.deleteUser
 );

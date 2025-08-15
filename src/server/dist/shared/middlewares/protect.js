@@ -27,12 +27,12 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         console.log("Decoded: ", decoded);
         const user = yield database_config_1.default.user.findUnique({
             where: { id: String(decoded.id) },
-            select: { id: true },
+            select: { id: true, role: true },
         });
         if (!user) {
             return next(new AppError_1.default(401, "User no longer exists."));
         }
-        req.user = { id: decoded.id };
+        req.user = { id: decoded.id, role: user.role };
         next();
     }
     catch (error) {

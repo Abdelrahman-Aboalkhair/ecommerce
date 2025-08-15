@@ -37,13 +37,17 @@ export class ProductRepository {
         : {}),
     };
 
-    return prisma.product.findMany({
+    const queryOptions: any = {
       where: finalWhere,
       orderBy,
       skip,
       take,
-      select,
-      include: {
+    };
+
+    if (select) {
+      queryOptions.select = select;
+    } else {
+      queryOptions.include = {
         variants: {
           include: {
             attributes: {
@@ -54,8 +58,10 @@ export class ProductRepository {
             },
           },
         },
-      },
-    });
+      };
+    }
+
+    return prisma.product.findMany(queryOptions);
   }
 
   async countProducts(params: { where?: Prisma.ProductWhereInput }) {

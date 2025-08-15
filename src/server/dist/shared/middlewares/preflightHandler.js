@@ -18,6 +18,7 @@ const preflightHandler = (req, res, next) => {
             "X-Device-Type",
             "X-Platform",
             "X-API-Version",
+            "Apollo-Require-Preflight", // For GraphQL
         ].join(", "));
         res.header("Access-Control-Allow-Credentials", "true");
         res.header("Access-Control-Max-Age", "86400"); // 24 hours

@@ -35,14 +35,17 @@ export class VariantRepository {
         : {}),
     };
 
-    return prisma.productVariant.findMany({
+    const queryOptions: any = {
       where: finalWhere,
       orderBy,
       skip,
       take,
-      select,
+    };
 
-      include: {
+    if (select) {
+      queryOptions.select = select;
+    } else {
+      queryOptions.include = {
         product: true,
         attributes: {
           include: {
@@ -50,8 +53,10 @@ export class VariantRepository {
             value: true,
           },
         },
-      },
-    });
+      };
+    }
+
+    return prisma.productVariant.findMany(queryOptions);
   }
 
   async countVariants(params: { where?: Prisma.ProductVariantWhereInput }) {

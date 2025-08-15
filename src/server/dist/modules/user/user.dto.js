@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserEmailDto = exports.UserIdDto = exports.UpdateUserDto = void 0;
+exports.CreateAdminDto = exports.UserEmailDto = exports.UserIdDto = exports.UpdateUserDto = void 0;
 const class_validator_1 = require("class-validator");
 class UpdateUserDto {
 }
@@ -51,3 +51,23 @@ __decorate([
     (0, class_validator_1.IsEmail)({}, { message: "Invalid email format" }),
     __metadata("design:type", String)
 ], UserEmailDto.prototype, "email", void 0);
+class CreateAdminDto {
+}
+exports.CreateAdminDto = CreateAdminDto;
+__decorate([
+    (0, class_validator_1.IsNotEmpty)({ message: "Name is required" }),
+    (0, class_validator_1.IsString)({ message: "Name must be a string" }),
+    (0, class_validator_1.MinLength)(3, { message: "Name must be at least 3 characters long" }),
+    __metadata("design:type", String)
+], CreateAdminDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)({ message: "Email is required" }),
+    (0, class_validator_1.IsEmail)({}, { message: "Invalid email format" }),
+    __metadata("design:type", String)
+], CreateAdminDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)({ message: "Password is required" }),
+    (0, class_validator_1.MinLength)(6, { message: "Password must be at least 6 characters long" }),
+    (0, class_validator_1.IsString)({ message: "Password must be a string" }),
+    __metadata("design:type", String)
+], CreateAdminDto.prototype, "password", void 0);

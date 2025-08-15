@@ -1,3 +1,3 @@
-import ChatContainer from "./ChatContainer";
+import ChatContainer from "./components/ChatContainer";
 
 export default ChatContainer;

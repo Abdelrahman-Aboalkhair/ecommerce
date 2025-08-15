@@ -40,7 +40,7 @@ export const userApi = apiSlice.injectEndpoints({
 
     createAdmin: builder.mutation({
       query: (data) => ({
-        url: "/users",
+        url: "/users/admin",
         method: "POST",
         body: data,
       }),

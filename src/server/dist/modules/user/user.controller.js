@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const asyncHandler_1 = __importDefault(require("@/shared/utils/asyncHandler"));
 const sendResponse_1 = __importDefault(require("@/shared/utils/sendResponse"));
 const logs_factory_1 = require("../logs/logs.factory");
+const AppError_1 = __importDefault(require("@/shared/errors/AppError"));
 class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -72,14 +73,38 @@ class UserController {
             });
         }));
         this.deleteUser = (0, asyncHandler_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _a;
+            var _a, _b;
             const { id } = req.params;
-            yield this.userService.deleteUser(id);
+            const currentUserId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            if (!currentUserId) {
+                throw new AppError_1.default(401, "User not authenticated");
+            }
+            yield this.userService.deleteUser(id, currentUserId);
             (0, sendResponse_1.default)(res, 204, { message: "User deleted successfully" });
             const start = Date.now();
             const end = Date.now();
             this.logsService.info("User deleted", {
-                userId: (_a = req.user) === null || _a === void 0 ? void 0 : _a.id,
+                userId: (_b = req.user) === null || _b === void 0 ? void 0 : _b.id,
+                sessionId: req.session.id,
+                timePeriod: end - start,
+            });
+        }));
+        this.createAdmin = (0, asyncHandler_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
+            const { name, email, password } = req.body;
+            const currentUserId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            if (!currentUserId) {
+                throw new AppError_1.default(401, "User not authenticated");
+            }
+            const newAdmin = yield this.userService.createAdmin({ name, email, password }, currentUserId);
+            (0, sendResponse_1.default)(res, 201, {
+                data: { user: newAdmin },
+                message: "Admin created successfully",
+            });
+            const start = Date.now();
+            const end = Date.now();
+            this.logsService.info("Admin created", {
+                userId: (_b = req.user) === null || _b === void 0 ? void 0 : _b.id,
                 sessionId: req.session.id,
                 timePeriod: end - start,
             });

@@ -23,15 +23,18 @@ export class AuthService {
     const existingUser = await this.authRepository.findUserByEmail(email);
 
     if (existingUser) {
-      throw new AppError(400,
+      throw new AppError(
+        400,
         "This email is already registered, please log in instead."
       );
     }
+
+    // Force new registrations to be USER role only for security
     const newUser = await this.authRepository.createUser({
       email,
       name,
       password,
-      role: role || ROLE.USER,
+      role: ROLE.USER, // Ignore any role passed from client for security
     });
 
     const accessToken = tokenUtils.generateAccessToken(newUser.id);

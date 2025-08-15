@@ -33,11 +33,12 @@ class AuthService {
             if (existingUser) {
                 throw new AppError_1.default(400, "This email is already registered, please log in instead.");
             }
+            // Force new registrations to be USER role only for security
             const newUser = yield this.authRepository.createUser({
                 email,
                 name,
                 password,
-                role: role || client_1.ROLE.USER,
+                role: client_1.ROLE.USER, // Ignore any role passed from client for security
             });
             const accessToken = authUtils_1.tokenUtils.generateAccessToken(newUser.id);
             const refreshToken = authUtils_1.tokenUtils.generateRefreshToken(newUser.id);

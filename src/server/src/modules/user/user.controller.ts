@@ -3,6 +3,7 @@ import { UserService } from "./user.service";
 import asyncHandler from "@/shared/utils/asyncHandler";
 import sendResponse from "@/shared/utils/sendResponse";
 import { makeLogsService } from "../logs/logs.factory";
+import AppError from "@/shared/errors/AppError";
 
 export class UserController {
   private logsService = makeLogsService();
@@ -74,12 +75,48 @@ export class UserController {
   deleteUser = asyncHandler(
     async (req: Request, res: Response): Promise<void> => {
       const { id } = req.params;
-      await this.userService.deleteUser(id);
+      const currentUserId = req.user?.id;
+
+      if (!currentUserId) {
+        throw new AppError(401, "User not authenticated");
+      }
+
+      await this.userService.deleteUser(id, currentUserId);
       sendResponse(res, 204, { message: "User deleted successfully" });
       const start = Date.now();
       const end = Date.now();
 
       this.logsService.info("User deleted", {
+        userId: req.user?.id,
+        sessionId: req.session.id,
+        timePeriod: end - start,
+      });
+    }
+  );
+
+  createAdmin = asyncHandler(
+    async (req: Request, res: Response): Promise<void> => {
+      const { name, email, password } = req.body;
+      const currentUserId = req.user?.id;
+
+      if (!currentUserId) {
+        throw new AppError(401, "User not authenticated");
+      }
+
+      const newAdmin = await this.userService.createAdmin(
+        { name, email, password },
+        currentUserId
+      );
+
+      sendResponse(res, 201, {
+        data: { user: newAdmin },
+        message: "Admin created successfully",
+      });
+
+      const start = Date.now();
+      const end = Date.now();
+
+      this.logsService.info("Admin created", {
         userId: req.user?.id,
         sessionId: req.session.id,
         timePeriod: end - start,

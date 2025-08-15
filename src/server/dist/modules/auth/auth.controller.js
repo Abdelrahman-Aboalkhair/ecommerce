@@ -31,7 +31,7 @@ const sendResponse_1 = __importDefault(require("@/shared/utils/sendResponse"));
 const authUtils_1 = require("@/shared/utils/authUtils");
 const AppError_1 = __importDefault(require("@/shared/errors/AppError"));
 const logs_factory_1 = require("../logs/logs.factory");
-const { maxAge } = constants_1.cookieOptions, clearCookieOptions = __rest(constants_1.cookieOptions, ["maxAge"]);
+const clearCookieOptions = __rest(constants_1.cookieOptions, []);
 class AuthController {
     constructor(authService, cartService) {
         this.authService = authService;

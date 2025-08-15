@@ -18,6 +18,25 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## 🧪 Testing
+
+### **Test Accounts**
+
+After running the database seeder (`cd ../server && npm run seed`), you can use these test accounts:
+
+| Role           | Email                    | Password      | Use Case            |
+| -------------- | ------------------------ | ------------- | ------------------- |
+| **Superadmin** | `superadmin@example.com` | `password123` | Full system access  |
+| **Admin**      | `admin@example.com`      | `password123` | Product management  |
+| **User**       | `user@example.com`       | `password123` | Shopping experience |
+
+### **Testing Features**
+
+1. **Sign In Page**: Visit `/sign-in` to see test account credentials
+2. **Role-Based Access**: Test different permissions with each account
+3. **Product Browsing**: Use the seeded "Smartphone X" product
+4. **Cart & Checkout**: Test the complete shopping flow
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

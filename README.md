@@ -29,10 +29,15 @@ cd server && npm run seed
 # API Docs: http://localhost:5000/api-docs
 ```
 
-**Default Admin Credentials:**
+**🧪 Test Accounts (After Seeding):**
 
-- Email: `admin@example.com`
-- Password: `admin123`
+| Role           | Email                    | Password      | Permissions                           |
+| -------------- | ------------------------ | ------------- | ------------------------------------- |
+| **Superadmin** | `superadmin@example.com` | `password123` | Full system access, can create admins |
+| **Admin**      | `admin@example.com`      | `password123` | Product management, order processing  |
+| **User**       | `user@example.com`       | `password123` | Basic shopping, cart, checkout        |
+
+> 💡 **Note**: These accounts are created when you run the database seeder. See [🌱 Seeding the Database](#-seeding-the-database) section for details.
 
 ## 📋 Table of Contents
 
@@ -406,7 +411,7 @@ docker compose down
 
 ## 🌱 Seeding the Database
 
-Populate the database with test data:
+Populate the database with test data for development and testing:
 
 ```bash
 # Navigate to server directory
@@ -416,24 +421,44 @@ cd server
 npm run seed
 ```
 
-**Seeded Data:**
+**🧪 Seeded Test Data:**
 
-- 👥 10 users (including admin)
-- 📦 5 categories
-- 🛍️ 50 products with variants
-- 📋 20 orders
-- 💬 Sample chat messages
+### **User Accounts**
 
-**Verify Data:**
+- **Superadmin**: `superadmin@example.com` / `password123`
+- **Admin**: `admin@example.com` / `password123`
+- **User**: `user@example.com` / `password123`
+
+### **Product Data**
+
+- **Category**: Electronics
+- **Product**: Smartphone X
+- **Variant**: SMART-X-001 ($599.99, 50 in stock)
+
+### **Role Permissions**
+
+| Role           | Can Access                  | Can Manage                     |
+| -------------- | --------------------------- | ------------------------------ |
+| **Superadmin** | Everything                  | Users, Admins, System Settings |
+| **Admin**      | Products, Orders, Analytics | Products, Categories, Orders   |
+| **User**       | Shopping, Cart, Checkout    | Own Profile, Orders            |
+
+**🔄 Re-seeding:**
+
+- The seeder uses `upsert` operations, so it's safe to run multiple times
+- Running the seeder will clean up existing data and create fresh test data
+
+**📊 Verify Seeding:**
 
 ```bash
-# Connect to database
+# Check seeded data in database
 psql -h localhost -p 5432 -U your_username -d ss_ecommerce
 
-# Check data
-SELECT COUNT(*) FROM "User";
-SELECT COUNT(*) FROM "Product";
-SELECT COUNT(*) FROM "Order";
+# Verify users
+SELECT email, role FROM "User";
+
+# Verify products
+SELECT name, slug FROM "Product";
 ```
 
 ## 📚 API Documentation
@@ -462,6 +487,72 @@ SELECT COUNT(*) FROM "Order";
 
 ## 🧪 Testing
 
+### **🧪 Testing with Seeded Accounts**
+
+After running the database seeder, you can test different user roles and permissions:
+
+#### **1. Superadmin Testing**
+
+```bash
+# Login as Superadmin
+Email: superadmin@example.com
+Password: password123
+
+# Test Features:
+- Create new admin users
+- Access all system settings
+- Manage all users and products
+- View analytics and reports
+```
+
+#### **2. Admin Testing**
+
+```bash
+# Login as Admin
+Email: admin@example.com
+Password: password123
+
+# Test Features:
+- Manage products and categories
+- Process orders
+- View order analytics
+- Cannot create other admins
+```
+
+#### **3. User Testing**
+
+```bash
+# Login as User
+Email: user@example.com
+Password: password123
+
+# Test Features:
+- Browse products
+- Add items to cart
+- Complete checkout process
+- View order history
+- Update profile
+```
+
+### **🔍 Testing Different Scenarios**
+
+1. **Role-Based Access Control**:
+
+   - Try accessing admin features as a regular user
+   - Test admin creation (only superadmin can do this)
+   - Verify user permissions are enforced
+
+2. **Product Management**:
+
+   - Add/edit products as admin
+   - Browse products as user
+   - Test product filtering and search
+
+3. **Order Processing**:
+   - Create orders as user
+   - Process orders as admin
+   - Test order status updates
+
 ### **API Testing with Postman**
 
 1. **Import Collections**:
@@ -479,11 +570,11 @@ SELECT COUNT(*) FROM "Order";
    ```
 
 3. **Test Authentication Flow**:
-   - Sign up → Get token
-   - Use token in subsequent requests
-   - Test protected endpoints
+   - Sign in with test accounts
+   - Use returned tokens in subsequent requests
+   - Test protected endpoints with different roles
 
-### **Running Tests**
+### **Running Automated Tests**
 
 ```bash
 # Backend tests

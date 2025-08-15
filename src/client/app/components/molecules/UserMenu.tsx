@@ -10,7 +10,6 @@ import {
   LogOut,
   ShoppingCart,
   ChevronRight,
-  Shield,
   Group,
 } from "lucide-react";
 import { useSignOutMutation } from "@/app/store/apis/AuthApi";
@@ -79,12 +78,6 @@ const UserMenu = ({ menuOpen, closeMenu, user }) => {
           label: "Dashboard",
           icon: <LayoutDashboard size={18} className="text-purple-500" />,
           show: user?.role === "ADMIN" || user?.role === "SUPERADMIN",
-        },
-        {
-          href: "/admin/users",
-          label: "User Management",
-          icon: <Shield size={18} className="text-amber-500" />,
-          show: user?.role === "SUPERADMIN",
         },
       ],
     },

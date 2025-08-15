@@ -14,8 +14,15 @@ export default function AuthProvider({
   useEffect(() => {
     (async () => {
       try {
-        const user = await triggerGetMe().unwrap();
-        dispatch(setUser({ user }));
+        const response = await triggerGetMe().unwrap();
+        // The backend returns { success, message, user }
+        const user = response.user;
+        if (user) {
+          dispatch(setUser({ user }));
+        } else {
+          console.error("No user data in response");
+          dispatch(logout());
+        }
       } catch (error: any) {
         console.log("error: ", error);
         // ✅ If it's a 401, user is unauthenticated — expected

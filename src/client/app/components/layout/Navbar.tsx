@@ -110,16 +110,18 @@ const Navbar = () => {
                     aria-label="User menu"
                   >
                     {user?.avatar ? (
-                      <Image
-                        src={user.avatar}
-                        alt="User Profile"
-                        width={28}
-                        height={28}
-                        className="rounded-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
+                      <div className="w-7 h-7 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
+                        <Image
+                          src={user.avatar}
+                          alt="User Profile"
+                          width={28}
+                          height={28}
+                          className="rounded-full object-cover w-full h-full"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      </div>
                     ) : (
                       <CircleUserRound size={24} className="text-gray-800" />
                     )}

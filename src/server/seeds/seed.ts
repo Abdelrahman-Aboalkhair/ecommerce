@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { getImageUrl, getProductImages, getCategoryImages } from "./imageUtils";
 
 const prisma = new PrismaClient();
 
@@ -52,6 +53,7 @@ async function main() {
       password: hashedPassword,
       name: "Super Admin",
       role: "SUPERADMIN",
+      avatar: getImageUrl("users", "superadmin"),
     },
   });
 
@@ -63,6 +65,7 @@ async function main() {
       password: hashedPassword,
       name: "Admin User",
       role: "ADMIN",
+      avatar: getImageUrl("users", "admin"),
     },
   });
 
@@ -74,6 +77,7 @@ async function main() {
       password: hashedPassword,
       name: "Regular User",
       role: "USER",
+      avatar: getImageUrl("users", "user"),
     },
   });
 
@@ -85,7 +89,7 @@ async function main() {
       name: "Electronics",
       slug: "electronics",
       description: "Electronic devices and gadgets",
-      images: [],
+      images: getCategoryImages("electronics"),
     },
   });
 
@@ -112,7 +116,7 @@ async function main() {
       sku: "SMART-X-001",
       price: 599.99,
       stock: 50,
-      images: [],
+      images: getProductImages("smartphone"),
       barcode: "1234567890123",
     },
   });

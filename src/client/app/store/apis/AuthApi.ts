@@ -23,7 +23,8 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setUser(data));
+        // Backend returns { success, message, user }
+        dispatch(setUser({ user: data.user }));
       },
     }),
     signup: builder.mutation<
@@ -37,7 +38,8 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setUser(data));
+        // Backend returns { success, message, user }
+        dispatch(setUser({ user: data.user }));
       },
     }),
     signOut: builder.mutation<void, void>({
@@ -71,7 +73,8 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        dispatch(setUser(data));
+        // Backend returns { success, message, user }
+        dispatch(setUser({ user: data.user }));
       },
     }),
   }),

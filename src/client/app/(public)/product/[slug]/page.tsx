@@ -9,6 +9,7 @@ import ProductReviews from "../ProductReviews";
 import { useQuery } from "@apollo/client";
 import { GET_SINGLE_PRODUCT } from "@/app/gql/Product";
 import CustomLoader from "@/app/components/feedback/CustomLoader";
+import ProductDetailSkeletonLoader from "@/app/components/feedback/ProductDetailSkeletonLoader";
 import { Product } from "@/app/types/productTypes";
 
 const ProductDetailsPage = () => {
@@ -29,7 +30,7 @@ const ProductDetailsPage = () => {
     Record<string, string>
   >({});
 
-  if (loading) return <CustomLoader />;
+  if (loading) return <ProductDetailSkeletonLoader />;
 
   if (error) {
     return (

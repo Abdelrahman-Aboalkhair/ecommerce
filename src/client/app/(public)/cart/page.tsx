@@ -12,6 +12,7 @@ import {
 } from "@/app/store/apis/CartApi";
 import QuantitySelector from "@/app/components/molecules/QuantitySelector";
 import { motion } from "framer-motion";
+import CartSkeletonLoader from "@/app/components/feedback/CartSkeletonLoader";
 
 // Helper function to format variant name from SKU
 const formatVariantName = (item: any) => {
@@ -69,7 +70,7 @@ const Cart = () => {
 
         {/* Cart Content */}
         {isLoading ? (
-          <div className="text-center text-gray-500 text-sm">Loading...</div>
+          <CartSkeletonLoader />
         ) : cartItems.length === 0 ? (
           <div className="text-center py-10">
             <ShoppingCart size={40} className="mx-auto text-gray-400 mb-3" />

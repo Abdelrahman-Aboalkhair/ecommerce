@@ -52,3 +52,37 @@
 [2025-08-14T06:33:47.053Z] [32MINFO[39M: ::1 - - [14/Aug/2025:06:33:47 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 404 537 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
 [2025-08-14T06:33:50.625Z] [32MINFO[39M: ::1 - - [14/Aug/2025:06:33:50 +0000] "POST /api/v1/cart HTTP/1.1" 200 303 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
 [2025-08-14T06:33:51.089Z] [32MINFO[39M: ::1 - - [14/Aug/2025:06:33:51 +0000] "GET /api/v1/cart/count HTTP/1.1" 200 74 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:04:56.603Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:04:57.098Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:04:57 +0000] "GET /api/v1/users/me HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:04:57.104Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:04:57.531Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:04:57 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:04:58.707Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:04:58 +0000] "GET /api/v1/cart/count HTTP/1.1" 200 74 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:04:58.934Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:04:58 +0000] "POST /api/v1/graphql HTTP/1.1" 200 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:06.213Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:06 +0000] "POST /api/v1/auth/sign-in HTTP/1.1" 200 153 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:07.033Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:07 +0000] "POST /api/v1/graphql HTTP/1.1" 200 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:07.706Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:05:07.753Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:05:07.763Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:05:07.774Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:05:07.784Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:05:07.881Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:07 +0000] "POST /api/v1/analytics/interactions HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:07.892Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:05:07.917Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:07 +0000] "POST /api/v1/analytics/interactions HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:07.925Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:05:08.051Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.107Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.661Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/analytics/interactions HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.663Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/analytics/interactions HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.674Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/analytics/interactions HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.680Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:05:08.693Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:05:08.702Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:05:08.848Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.872Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:08.873Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:08 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:10.343Z] [31MERROR[39M: Unauthorized, please log in
+[2025-08-15T06:05:10.537Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:10 +0000] "GET /api/v1/users/me HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:10.545Z] [31MERROR[39M: Refresh token not found
+[2025-08-15T06:05:10.703Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:10 +0000] "POST /api/v1/auth/refresh-token HTTP/1.1" 401 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:10.875Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:10 +0000] "POST /api/v1/graphql HTTP/1.1" 200 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+[2025-08-15T06:05:11.293Z] [32MINFO[39M: ::1 - - [15/Aug/2025:06:05:11 +0000] "GET /api/v1/cart/count HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"

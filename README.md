@@ -2,105 +2,128 @@
 
 A modern Single Store Ecommerce platform built with a **TypeScript** backend (Express, Prisma, PostgreSQL, Redis) and a **Next.js** frontend. Features include user authentication, product management, cart, checkout, order processing, analytics, and real-time chat via Socket.IO, WebRTC. The application is fully Dockerized for easy setup and development.
 
-[Demo Video](https://youtu.be/qJDXcQ_sxSI)
-[Live Demo](https://ss-ecommerce-one.vercel.app)
+[Demo Video](https://youtu.be/qJDXcQ_sxSI) | [Live Demo](https://ss-ecommerce-one.vercel.app) | [API Documentation](https://ss-ecommerce-one.vercel.app/api-docs)
 
-## Table of Contents
+## 🚀 Quick Start
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-  - [Docker Setup](#docker-setup)
-  - [Non-Docker Setup](#non-docker-setup)
-- [Running the Application](#running-the-application)
-- [Seeding the Database](#seeding-the-database)
-- [API Documentation](#api-documentation)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
+Get up and running in **5 minutes**:
 
-## 🚀 Features
+```bash
+# 1. Clone the repository
+git clone https://github.com/Abdelrahman-Aboalkhair/ss-ecommerce.git
+cd ss-ecommerce
+
+# 2. Set up environment variables
+cp server/.env.example server/.env
+cp client/.env.example client/.env.local
+
+# 3. Start with Docker (recommended)
+docker compose up --build
+
+# 4. Seed the database
+cd server && npm run seed
+
+# 5. Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000/api/v1
+# API Docs: http://localhost:5000/api-docs
+```
+
+**Default Admin Credentials:**
+
+- Email: `admin@example.com`
+- Password: `admin123`
+
+## 📋 Table of Contents
+
+- [🚀 Quick Start](#-quick-start)
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [🔧 Installation](#-installation)
+  - [🐳 Docker Setup](#-docker-setup)
+  - [💻 Non-Docker Setup](#-non-docker-setup)
+- [🏃‍♂️ Running the Application](#️-running-the-application)
+- [🌱 Seeding the Database](#-seeding-the-database)
+- [📚 API Documentation](#-api-documentation)
+- [🧪 Testing](#-testing)
+- [🚀 Deployment](#-deployment)
+- [🔒 Security Considerations](#-security-considerations)
+- [⚡ Performance & Optimization](#-performance--optimization)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+
+## ✨ Features
 
 ### **1. User Authentication & Authorization**
 
-#### FLOW
+#### 🔄 Authentication Flow
 
+```
 [App Starts]
-|
-v
+    |
+    v
 GET /me (with cookie)
-|
+    |
 +--> 200 OK => set user in Redux => Auth ready
-|
+    |
 +--> 401 Unauthorized
-|
-v
+    |
+    v
 POST /refresh (cookie-based)
-|
+    |
 +--> 200 OK => new token => retry /me => set user
-|
+    |
 +--> 401 => logout
+```
 
-- **Sign‑up / Sign‑in** — Email & password, social login (Facebook, Google, Twitter, Apple)
-- **Email Verification & Password Reset** — `/auth/verify-email`, `/auth/password-reset/[token]` flows
-- **Role‑Based Access Control** — User, Admin, Superadmin roles enforced via `authorizeRole` middleware and protected routes
-- **Error Pages** — Custom `forbidden`, `unauthorized` and error boundary components
+- **🔐 Sign‑up / Sign‑in** — Email & password, social login (Facebook, Google, Twitter, Apple)
+- **📧 Email Verification & Password Reset** — `/auth/verify-email`, `/auth/password-reset/[token]` flows
+- **👥 Role‑Based Access Control** — User, Admin, Superadmin roles enforced via `authorizeRole` middleware
+- **🚫 Error Pages** — Custom `forbidden`, `unauthorized` and error boundary components
 
 ### **2. Product & Catalog Management**
 
-- **CRUD Operations** — Products, Categories, Attributes, Sections, Variants
-- **Variant System** — Combine attributes (size, color, material, etc.) into SKU variants
-- **Image Galleries & Uploads** — Cloudinary integration for product images, sliders, assets
-- **Filtering & Browsing** — CategoryBrowser, ProductFilters, DependentDropdown components
+- **🔄 CRUD Operations** — Products, Categories, Attributes, Sections, Variants
+- **🎨 Variant System** — Combine attributes (size, color, material, etc.) into SKU variants
+- **🖼️ Image Galleries & Uploads** — Cloudinary integration for product images, sliders, assets
+- **🔍 Filtering & Browsing** — CategoryBrowser, ProductFilters, DependentDropdown components
 
 ### **3. Shopping Cart & Checkout**
 
-- **Persistent Cart** — Guest + authenticated carts with quantity management (`QuantitySelector`)
-- **Stripe Integration** — Checkout pages with success, failure, and cancel callbacks
+- **🛒 Persistent Cart** — Guest + authenticated carts with quantity management (`QuantitySelector`)
+- **💳 Stripe Integration** — Checkout pages with success, failure, and cancel callbacks
 
 ### **4. Order & Shipment Workflow**
 
-- **Order Lifecycle** — Pending → Shipped → Delivered → Returned statuses
-- **Shipment Tracking** — Shipment module with tracking, webhook support for external updates
-- **Webhooks** — `/webhook` endpoint for payment and shipping event handling
+- **📦 Order Lifecycle** — Pending → Shipped → Delivered → Returned statuses
+- **🚚 Shipment Tracking** — Shipment module with tracking, webhook support for external updates
+- **🔗 Webhooks** — `/webhook` endpoint for payment and shipping event handling
 
 ### **5. Real‑time Chat & Calls**
 
-- **Socket.IO Chat** — Real‑time customer‑to‑admin messaging, persisted in DB
-- **WebRTC Audio/Video** — Call screens, `useWebRTCCall`, `AudioPlayer`, `CallControls`
+- **💬 Socket.IO Chat** — Real‑time customer‑to‑admin messaging, persisted in DB
+- **📞 WebRTC Audio/Video** — Call screens, `useWebRTCCall`, `AudioPlayer`, `CallControls`
 
 ### **6. Admin Dashboard & Analytics**
 
-- **Modular Dashboard** — Users, Orders, Products, Inventory, Transactions, Logs, Reports sections
-- **Interactive Charts** — Area, Bar, Donut, RevenueOverTime (Recharts)
-- **Analytics APIs** — REST v1 & v2, GraphQL v1 & v2, Redis caching
+- **📊 Modular Dashboard** — Users, Orders, Products, Inventory, Transactions, Logs, Reports sections
+- **📈 Interactive Charts** — Area, Bar, Donut, RevenueOverTime (Recharts)
+- **🔌 Analytics APIs** — REST v1 & v2, GraphQL v1 & v2, Redis caching
 
 ### **7. API Layer & Security**
 
-- **REST & GraphQL** — Versioned endpoints (`/v1`, `/v2`) with Express and Apollo
-- **JWT Authentication** — `protect` & `optionalAuth` middleware, CORS, input validation
-- **Error Handling & Logging** — Centralized `globalError` handler, Winston logs, rate limiting
+- **🌐 REST & GraphQL** — Versioned endpoints (`/v1`, `/v2`) with Express and Apollo
+- **🔐 JWT Authentication** — `protect` & `optionalAuth` middleware, CORS, input validation
+- **📝 Error Handling & Logging** — Centralized `globalError` handler, Winston logs, rate limiting
 
-<!--
+### **8. DevOps & Deployment**
 
-### **8. Background Processing & Notifications**
-
-- **Job Queues** — Bull-powered queues (`queue.service.ts`) for email, image processing, etc.
-- **Workers** — `email.worker.ts`, `image-upload.worker.ts` -->
-
-<!-- ### **9. Database & Seeding**
-
-- **Prisma ORM** — Schema, migrations, environment‑aware seeds (`seeds/seed.ts`)
-- **Test Data** — Users, Products, Orders, Chats seeded for dev/test -->
-
-### **10. DevOps & Deployment**
-
-- **Docker Compose** — Containerized Next.js (client) & Express (server) services
-- **Hot‑Reload** — Nodemon for server, Fast refresh for client
-- **API Documentation** — Swagger UI (`docs/swagger.ts`)
+- **🐳 Docker Compose** — Containerized Next.js (client) & Express (server) services
+- **⚡ Hot‑Reload** — Nodemon for server, Fast refresh for client
+- **📖 API Documentation** — Swagger UI (`docs/swagger.ts`)
 
 ## 📸 Screenshots
 
@@ -141,139 +164,139 @@ POST /refresh (cookie-based)
   <img src="./assets/screenshots/user_chat.png" width="300" />
 </p>
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-**Backend**:
+### **Backend**
 
-- Node.js v22
-- Express.js
-- TypeScript
-- Prisma ORM
-- PostgreSQL
-- Redis
-- Socket.IO
-- Winston (logging)
-- Cloudinary (image storage)
-- Stripe (payment processing)
+- **🟢 Node.js** v22
+- **🚀 Express.js** - Web framework
+- **📘 TypeScript** - Type safety
+- **🗄️ Prisma ORM** - Database toolkit
+- **🐘 PostgreSQL** - Primary database
+- **🔴 Redis** - Caching & sessions
+- **🔌 Socket.IO** - Real-time communication
+- **📝 Winston** - Logging
+- **☁️ Cloudinary** - Image storage
+- **💳 Stripe** - Payment processing
 
-**Frontend**:
+### **Frontend**
 
-- Next.js
-- TypeScript
-- Tailwind CSS (assumed, adjust if different)
+- **⚛️ Next.js** - React framework
+- **📘 TypeScript** - Type safety
+- **🎨 Tailwind CSS** - Styling
+- **🔄 Redux Toolkit** - State management
+- **📊 Recharts** - Data visualization
+- **🎭 Framer Motion** - Animations
 
-**Infrastructure**:
+### **Infrastructure**
 
-- Docker & Docker Compose
-- WSL2 (development environment)
+- **🐳 Docker & Docker Compose** - Containerization
+- **🌐 WSL2** - Development environment
+- **📦 npm** - Package management
 
-## Project Structure
+## 📁 Project Structure
 
 ```
-├── client
-│   ├── Dockerfile
-│   ├── README.md
-│   ├── app
-│   │   ├── (auth)
-│   │   ├── (private)
-│   │   ├── (public)
-│   │   ├── AuthGate.tsx
-│   │   ├── ClientProviders.tsx
-│   │   ├── StoreProvider.tsx
-│   │   ├── assets
-│   │   ├── components
-│   │   ├── error.tsx
-│   │   ├── globals.css
-│   │   ├── gql
-│   │   ├── hooks
-│   │   ├── layout.tsx
-│   │   ├── lib
-│   │   ├── loading.tsx
-│   │   ├── page.tsx
-│   │   ├── store
-│   │   ├── types
-│   │   └── utils
-│   ├── eslint.config.mjs
-│   ├── next-env.d.ts
-│   ├── next.config.ts
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.mjs
-│   ├── public
-│   │   ├── file.svg
-│   │   ├── globe.svg
-│   │   ├── kgKraftLogo.png
-│   │   ├── locales
-│   │   ├── next.svg
-│   │   ├── vercel.svg
-│   │   └── window.svg
-│   └── tsconfig.json
-├── docker-compose.yml
-└── server
-    ├── Dockerfile
-    ├── nodemon.json
-    ├── package-lock.json
-    ├── package.json
-    ├── prisma
-    │   ├── migrations
-    │   └── schema.prisma
-    ├── seeds
-    │   └── seed.ts
-    ├── src
-    │   ├── app.ts
-    │   ├── docs
-    │   ├── graphql
-    │   ├── infra
-    │   ├── modules
-    │   ├── routes
-    │   ├── server.ts
-    │   ├── shared
-    │   └── types.d.ts
-    └── tsconfig.json
+├── client/                          # Next.js frontend
+│   ├── app/                        # App router pages
+│   │   ├── (auth)/                # Authentication pages
+│   │   ├── (private)/             # Protected pages
+│   │   ├── (public)/              # Public pages
+│   │   ├── components/            # React components
+│   │   ├── hooks/                 # Custom React hooks
+│   │   ├── lib/                   # Utilities & configs
+│   │   ├── store/                 # Redux store
+│   │   └── types/                 # TypeScript types
+│   ├── public/                    # Static assets
+│   └── package.json
+├── server/                         # Express.js backend
+│   ├── src/
+│   │   ├── modules/               # Feature modules
+│   │   │   ├── auth/             # Authentication
+│   │   │   ├── products/         # Product management
+│   │   │   ├── orders/           # Order processing
+│   │   │   └── analytics/        # Analytics & reports
+│   │   ├── shared/               # Shared utilities
+│   │   └── docs/                 # API documentation
+│   ├── prisma/                   # Database schema & migrations
+│   └── seeds/                    # Database seeding
+├── docker-compose.yml            # Docker services
+└── collections/                  # Postman collections
 ```
 
-## Prerequisites
+## ⚙️ Prerequisites
+
+### **Required Software**
 
 - **Node.js** v22 or higher ([Download](https://nodejs.org/))
 - **npm** v10 or higher
 - **Docker** and **Docker Compose** (for Docker setup) ([Download](https://www.docker.com/))
 - **PostgreSQL** v15 and **Redis** v7 (for non-Docker setup)
-- **WSL2** (optional, recommended for Windows users)
+
+### **Optional but Recommended**
+
+- **WSL2** (for Windows users)
+- **VS Code** with extensions:
+  - Prisma
+  - TypeScript
+  - Docker
+  - Tailwind CSS IntelliSense
+
+### **WSL2 Configuration**
 
 For WSL2 users, ensure Docker Desktop is configured with WSL2 integration and `localhostForwarding=true` in `~/.wslconfig`.
 
-## Installation
+## 🔧 Installation
 
-### Docker Setup
+### 🐳 Docker Setup (Recommended)
 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/your-username/ss-ecommerce.git
+   git clone https://github.com/Abdelrahman-Aboalkhair/ss-ecommerce.git
    cd ss-ecommerce
    ```
 
-2. **Install Dependencies**:
+2. **Set Up Environment Variables**:
 
-   - For backend:
-     ```bash
-     cd server
-     npm install
-     ```
-   - For frontend:
-     ```bash
-     cd client
-     npm install
-     ```
+   ```bash
+   cp server/.env.example server/.env
+   cp client/.env.example client/.env.local
+   ```
 
-3. **Set Up Environment Variables**:
+3. **Configure Environment Variables**:
+   Edit `server/.env` with your credentials:
 
-   - Copy the example `.env` files:
-     ```bash
-     cp server/.env.example server/.env
-     cp client/.env.example client/.env.local
-     ```
-   - Update `server/.env` with your credentials (e.g., `SESSION_SECRET`, `COOKIE_SECRET`, etc).
+   ```env
+   # Database
+   DATABASE_URL="postgresql://username:password@localhost:5432/ss_ecommerce"
+
+   # Redis
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+
+   # JWT Secrets
+   JWT_SECRET=your_jwt_secret_here
+   REFRESH_TOKEN_SECRET=your_refresh_token_secret_here
+
+   # Session
+   SESSION_SECRET=your_session_secret_here
+   COOKIE_SECRET=your_cookie_secret_here
+
+   # External Services
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+   CLOUDINARY_API_KEY=your_cloudinary_key
+   CLOUDINARY_API_SECRET=your_cloudinary_secret
+
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+   # Social Login (optional)
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   FACEBOOK_APP_ID=your_facebook_app_id
+   FACEBOOK_APP_SECRET=your_facebook_app_secret
+   ```
 
 4. **Build and Start Services**:
 
@@ -281,28 +304,27 @@ For WSL2 users, ensure Docker Desktop is configured with WSL2 integration and `l
    docker compose up --build
    ```
 
-   - This starts `db` (PostgreSQL), `redis`, `server` (backend), and `client` (frontend).
-
-5. **Run Prisma Migrations**:
+5. **Run Database Migrations**:
    ```bash
-   cd server
-   npx prisma migrate dev
+   docker compose exec server npx prisma migrate dev
    ```
 
-### Non-Docker Setup
+### 💻 Non-Docker Setup
 
 1. **Install PostgreSQL and Redis**:
 
-   - On Ubuntu (WSL2):
-     ```bash
-     sudo apt update
-     sudo apt install postgresql postgresql-contrib redis-server
-     ```
-   - Start services:
-     ```bash
-     sudo service postgresql start
-     sudo service redis-server start
-     ```
+   ```bash
+   # Ubuntu/Debian
+   sudo apt update
+   sudo apt install postgresql postgresql-contrib redis-server
+
+   # macOS
+   brew install postgresql redis
+
+   # Start services
+   sudo service postgresql start
+   sudo service redis-server start
+   ```
 
 2. **Configure PostgreSQL**:
 
@@ -311,9 +333,9 @@ For WSL2 users, ensure Docker Desktop is configured with WSL2 integration and `l
    ```
 
    ```sql
-   CREATE USER USERNAME WITH PASSWORD 'PASSWORD';
+   CREATE USER your_username WITH PASSWORD 'your_password';
    CREATE DATABASE ss_ecommerce;
-   GRANT ALL PRIVILEGES ON DATABASE ss_ecommerce TO USERNAME;
+   GRANT ALL PRIVILEGES ON DATABASE ss_ecommerce TO your_username;
    \q
    ```
 
@@ -322,132 +344,457 @@ For WSL2 users, ensure Docker Desktop is configured with WSL2 integration and `l
    ```bash
    git clone https://github.com/Abdelrahman-Aboalkhair/ss-ecommerce.git
    cd ss-ecommerce
+
+   # Install backend dependencies
    cd server && npm install
+
+   # Install frontend dependencies
    cd ../client && npm install
    ```
 
 4. **Set Up Environment Variables**:
+   Follow the same environment variable setup as Docker setup.
 
-   - Copy `.env` files as above.
-   - Ensure `server/.env` has:
-     ```
-     DATABASE_URL=postgresql://<USERNAME>:<PASSWORD>@localhost:5432/ss_ecommerce
-     REDIS_HOST=localhost
-     REDIS_PORT=6379
-     PORT=5000
-     NODE_ENV=development
-     SESSION_SECRET=your_session_secret
-     COOKIE_SECRET=your_cookie_secret
-     ```
-   - Ensure `client/.env.local` has:
-     ```
-     NEXT_PUBLIC_API_URL=http://localhost:5000
-     ```
-
-5. **Run Prisma Migrations**:
+5. **Run Database Migrations**:
    ```bash
    cd server
    npx prisma migrate dev
    ```
 
-## Running the Application
+## 🏃‍♂️ Running the Application
 
-### Docker
+### 🐳 Docker
 
-- Start all services:
-  ```bash
-  docker compose up
-  ```
-- Access:
-  - Frontend: `http://localhost:3000`
-  - Backend API: `http://localhost:5000/api/v1`
-  - Swagger Docs: `http://localhost:5000/api-docs`
-  - GraphQL: `http://localhost:5000/api/v1/graphql`
+```bash
+# Start all services
+docker compose up
 
-### Non-Docker
+# Start in background
+docker compose up -d
 
-1. Start PostgreSQL and Redis (if not already running).
-2. Start the backend:
+# View logs
+docker compose logs -f
+
+# Stop services
+docker compose down
+```
+
+**Access URLs:**
+
+- 🌐 **Frontend**: http://localhost:3000
+- 🔌 **Backend API**: http://localhost:5000/api/v1
+- 📖 **Swagger Docs**: http://localhost:5000/api-docs
+- 🎯 **GraphQL**: http://localhost:5000/api/v1/graphql
+
+### 💻 Non-Docker
+
+1. **Start Backend**:
+
    ```bash
    cd server
    npm run dev
    ```
-3. Start the frontend:
+
+2. **Start Frontend** (in new terminal):
+
    ```bash
    cd client
    npm run dev
    ```
 
-- Access URLs as above.
+3. **Access URLs** (same as Docker setup)
 
-## Seeding the Database
+## 🌱 Seeding the Database
 
-Populate the database with test data (10 users, 5 categories, 50 products, 20 orders):
+Populate the database with test data:
 
-1. Ensure the database is running (`docker compose up -d db` or local PostgreSQL).
-2. Run the seeding script:
-   ```bash
-   cd server
-   npm run seed
+```bash
+# Navigate to server directory
+cd server
+
+# Run seeding script
+npm run seed
+```
+
+**Seeded Data:**
+
+- 👥 10 users (including admin)
+- 📦 5 categories
+- 🛍️ 50 products with variants
+- 📋 20 orders
+- 💬 Sample chat messages
+
+**Verify Data:**
+
+```bash
+# Connect to database
+psql -h localhost -p 5432 -U your_username -d ss_ecommerce
+
+# Check data
+SELECT COUNT(*) FROM "User";
+SELECT COUNT(*) FROM "Product";
+SELECT COUNT(*) FROM "Order";
+```
+
+## 📚 API Documentation
+
+### **Swagger UI**
+
+- **URL**: http://localhost:5000/api-docs
+- **Features**: Interactive API documentation, test endpoints directly
+
+### **GraphQL Playground**
+
+- **URL**: http://localhost:5000/api/v1/graphql
+- **Features**: GraphQL schema exploration, query testing
+
+### **API Endpoints Overview**
+
+```
+/api/v1/auth/*          # Authentication endpoints
+/api/v1/users/*         # User management
+/api/v1/products/*      # Product catalog
+/api/v1/cart/*          # Shopping cart
+/api/v1/orders/*        # Order management
+/api/v1/analytics/*     # Analytics & reports
+/api/v1/webhooks/*      # Webhook handlers
+```
+
+## 🧪 Testing
+
+### **API Testing with Postman**
+
+1. **Import Collections**:
+
+   - Navigate to `/collections` folder
+   - Import `.json` collection files into Postman
+
+2. **Set Environment Variables**:
+
+   ```json
+   {
+     "baseUrl": "http://localhost:5000/api/v1",
+     "token": "your_jwt_token_here"
+   }
    ```
-3. Verify data:
+
+3. **Test Authentication Flow**:
+   - Sign up → Get token
+   - Use token in subsequent requests
+   - Test protected endpoints
+
+### **Running Tests**
+
+```bash
+# Backend tests
+cd server
+npm test
+
+# Frontend tests
+cd client
+npm test
+```
+
+## 🚀 Deployment
+
+### **Production Checklist**
+
+1. **Environment Variables**:
+
+   - Update all environment variables for production
+   - Use strong, unique secrets
+   - Configure production database URLs
+
+2. **Database Setup**:
+
+   - Use managed PostgreSQL (e.g., Neon, Supabase)
+   - Use managed Redis (e.g., Upstash, Redis Cloud)
+   - Run migrations: `npx prisma migrate deploy`
+
+3. **External Services**:
+
+   - **Stripe**: Configure webhook endpoints and secrets
+   - **Cloudinary**: Set up production cloud
+   - **Social Login**: Update redirect URLs for production domains
+
+4. **Deployment Platforms**:
+   - **Frontend**: Vercel, Netlify, or AWS Amplify
+   - **Backend**: AWS ECS, Heroku, Render, or DigitalOcean
+   - **Database**: Managed PostgreSQL service
+   - **Redis**: Managed Redis service
+
+### **Environment-Specific Configuration**
+
+**Development**:
+
+```env
+NODE_ENV=development
+DATABASE_URL=postgresql://localhost:5432/ss_ecommerce_dev
+```
+
+**Production**:
+
+```env
+NODE_ENV=production
+DATABASE_URL=postgresql://user:pass@prod-db-host:5432/ss_ecommerce_prod
+```
+
+## 🔒 Security Considerations
+
+### **Authentication & Authorization**
+
+- ✅ JWT tokens with short expiration
+- ✅ Refresh tokens in httpOnly cookies
+- ✅ Role-based access control
+- ✅ Input validation and sanitization
+- ✅ Rate limiting on auth endpoints
+
+### **Data Protection**
+
+- ✅ HTTPS enforcement in production
+- ✅ Secure cookie settings
+- ✅ SQL injection prevention (Prisma ORM)
+- ✅ XSS protection
+- ✅ CSRF protection
+
+### **API Security**
+
+- ✅ CORS configuration
+- ✅ Request size limits
+- ✅ Error message sanitization
+- ✅ API rate limiting
+- ✅ Request logging
+
+### **Best Practices**
+
+- 🔒 Use environment variables for secrets
+- 🔒 Regular dependency updates
+- 🔒 Database connection pooling
+- 🔒 Input validation on all endpoints
+- 🔒 Proper error handling
+
+## ⚡ Performance & Optimization
+
+### **Frontend Optimizations**
+
+- 🚀 Next.js App Router for better performance
+- 🖼️ Image optimization with Next.js Image component
+- 📦 Code splitting and lazy loading
+- 🎨 Tailwind CSS for optimized CSS
+- 🔄 Redux Toolkit for efficient state management
+
+### **Backend Optimizations**
+
+- 🗄️ Database indexing on frequently queried fields
+- 🔴 Redis caching for expensive operations
+- 📊 Connection pooling for database
+- 🚀 Compression middleware
+- 📝 Efficient logging with Winston
+
+### **Database Optimizations**
+
+```sql
+-- Example indexes for better performance
+CREATE INDEX idx_products_category ON "Product"(categoryId);
+CREATE INDEX idx_orders_user ON "Order"(userId);
+CREATE INDEX idx_orders_status ON "Order"(status);
+```
+
+### **Monitoring & Analytics**
+
+- 📊 Built-in analytics dashboard
+- 📈 Performance monitoring
+- 🔍 Error tracking
+- 📝 Request logging
+
+## 🐛 Troubleshooting
+
+### **Common Issues & Solutions**
+
+#### **1. Database Connection Issues**
+
+```bash
+# Check if PostgreSQL is running
+sudo service postgresql status
+
+# Check connection
+psql -h localhost -U your_username -d ss_ecommerce
+
+# Reset database (if needed)
+npx prisma migrate reset
+```
+
+#### **2. Redis Connection Issues**
+
+```bash
+# Check if Redis is running
+redis-cli ping
+
+# Should return: PONG
+```
+
+#### **3. Docker Issues**
+
+```bash
+# Clean up Docker
+docker system prune -a
+
+# Rebuild containers
+docker compose down
+docker compose up --build
+```
+
+#### **4. Port Conflicts**
+
+```bash
+# Check what's using port 3000
+lsof -i :3000
+
+# Check what's using port 5000
+lsof -i :5000
+```
+
+#### **5. Environment Variables**
+
+```bash
+# Verify environment variables are loaded
+cd server
+node -e "console.log(process.env.DATABASE_URL)"
+```
+
+#### **6. Authentication Issues**
+
+- Check JWT secret configuration
+- Verify cookie settings
+- Ensure CORS is properly configured
+- Check social login redirect URLs
+
+### **Debug Mode**
+
+```bash
+# Enable debug logging
+DEBUG=* npm run dev
+
+# Check Prisma queries
+DEBUG=prisma:* npm run dev
+```
+
+### **Getting Help**
+
+1. Check the [Issues](../../issues) page
+2. Search existing discussions
+3. Create a new issue with:
+   - Error message
+   - Steps to reproduce
+   - Environment details
+   - Expected vs actual behavior
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+### **Development Workflow**
+
+1. **Fork the Repository**:
+
    ```bash
-   psql -h localhost -p 5432 -U abdelrahman -d ss_ecommerce
-   SELECT * FROM "User" LIMIT 5;
-   SELECT * FROM "Product" LIMIT 5;
-   SELECT * FROM "Order" LIMIT 5;
+   git clone https://github.com/your-username/ss-ecommerce.git
+   cd ss-ecommerce
    ```
 
-## API Documentation
+2. **Create a Feature Branch**:
 
-Explore the REST API via Swagger UI:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-- URL: `http://localhost:5000/api-docs`
-- Includes endpoints for `/api/v1/users`, `/api/v1/auth`, `/api/v1/products`, etc.
+3. **Set Up Development Environment**:
 
-GraphQL API is available at:
+   ```bash
+   # Follow installation instructions above
+   docker compose up --build
+   ```
 
-- URL: `http://localhost:5000/api/v1/graphql`
+4. **Make Your Changes**:
 
-## 🧪 API Testing with Postman
+   - Follow the existing code style
+   - Add tests for new features
+   - Update documentation if needed
 
-You can find Postman collections inside the [`/collections`](./collections) folder.
+5. **Test Your Changes**:
 
-To test the APIs:
+   ```bash
+   # Backend tests
+   cd server && npm test
 
-1. Open Postman.
-2. Import the `.json` collection file(s) from the `collections/` directory.
-3. Set the environment variables if needed.
+   # Frontend tests
+   cd client && npm test
 
-## Deployment
+   # Type checking
+   cd client && npm run type-check
+   ```
 
-## Transition from Development to Production
+6. **Commit Your Changes**:
 
-1. **Database**: Use a managed PostgreSQL/Redis provider (e.g., Neon).
-2. **Redis**: Use a managed Redis provider (e.g., Upstash).
-3. **Backend**: Host on a platform like AWS ECS, Heroku, or Render.
-4. **Frontend**: Deploy on Vercel, Netlify, or AWS Amplify.
+   ```bash
+   git add .
+   git commit -m "feat: add your feature description"
+   ```
 
-- **NOTES** to make sure your application is production-ready.
+7. **Push and Create Pull Request**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
-1. change env variables for prod on both server and client
-2. For stripe webhook integration, go to your stripe dashboard, webhooks, create a new destination and get your webhook secret cause it differs from local listener secret (follow stripe instructions if you wanna test locally).
-3. For Social media login, you would need to configure the urls as well in google console and facebook console (follow the instructions in the links), X (twitter) developers. (e.g. http://localhost:5000 for dev, https://ss-ecommerce.vercel.app for prod).
+### **Code Style Guidelines**
 
-## Contributing
+- **TypeScript**: Use strict mode, avoid `any` types
+- **React**: Use functional components with hooks
+- **CSS**: Use Tailwind CSS classes
+- **Backend**: Follow Express.js best practices
+- **Database**: Use Prisma migrations for schema changes
 
-Contributions are welcome! To contribute:
+### **Good First Issues**
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/your-feature`).
-3. Commit changes (`git commit -m "Add your feature"`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Open a pull request.
+Looking for a place to start? Check out these labels:
 
-Please follow the [Code of Conduct](#) and report issues via [GitHub Issues](#).
+- `good first issue` - Perfect for newcomers
+- `documentation` - Help improve docs
+- `bug` - Fix existing issues
+- `enhancement` - Add new features
 
-## License
+### **Reporting Issues**
 
-This project is licensed under the MIT License. See the [LICENSE](#) file for details.
+When reporting issues, please include:
+
+- **Description**: What happened?
+- **Steps**: How to reproduce?
+- **Expected**: What should happen?
+- **Actual**: What actually happened?
+- **Environment**: OS, browser, Node.js version
+- **Screenshots**: If applicable
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
+
+## 🙏 Acknowledgments
+
+- **Next.js** team for the amazing React framework
+- **Prisma** team for the excellent ORM
+- **Tailwind CSS** for the utility-first CSS framework
+- **Stripe** for payment processing
+- **Cloudinary** for image management
+
+## 📞 Support
+
+- 📧 **Email**: [abdalrahman.aboalkhair.1@gmail.com]
+- 💬 **Discussions**: [GitHub Discussions](../../discussions)
+- 🐛 **Issues**: [GitHub Issues](../../issues)
+- 📖 **Documentation**: [Wiki](../../wiki)
+
+---
+
+**Made with ❤️ by Abdelrahman Aboalkhair**

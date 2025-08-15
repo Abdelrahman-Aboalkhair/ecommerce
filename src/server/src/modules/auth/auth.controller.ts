@@ -9,7 +9,7 @@ import AppError from "@/shared/errors/AppError";
 import { CartService } from "../cart/cart.service";
 import { makeLogsService } from "../logs/logs.factory";
 
-const { maxAge, ...clearCookieOptions } = cookieOptions;
+const { ...clearCookieOptions } = cookieOptions;
 
 export class AuthController {
   private logsService = makeLogsService();

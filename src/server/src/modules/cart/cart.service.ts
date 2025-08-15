@@ -7,21 +7,50 @@ export class CartService {
   constructor(private cartRepository: CartRepository) {}
 
   async getOrCreateCart(userId?: string, sessionId?: string) {
+    console.log("🔍 [CART SERVICE] getOrCreateCart called");
+    console.log("🔍 [CART SERVICE] userId:", userId);
+    console.log("🔍 [CART SERVICE] sessionId:", sessionId);
+
     let cart;
 
     if (userId) {
+      console.log("🔍 [CART SERVICE] Looking for cart by userId:", userId);
       cart = await this.cartRepository.getCartByUserId(userId);
+      console.log("🔍 [CART SERVICE] Cart found by userId:", cart);
+
       if (!cart) {
+        console.log(
+          "🔍 [CART SERVICE] No cart found by userId, creating new cart"
+        );
         cart = await this.cartRepository.createCart({ userId });
+        console.log("🔍 [CART SERVICE] New cart created for userId:", cart);
       }
     } else if (sessionId) {
+      console.log(
+        "🔍 [CART SERVICE] Looking for cart by sessionId:",
+        sessionId
+      );
       cart = await this.cartRepository.getCartBySessionId(sessionId);
+      console.log("🔍 [CART SERVICE] Cart found by sessionId:", cart);
+
       if (!cart) {
+        console.log(
+          "🔍 [CART SERVICE] No cart found by sessionId, creating new cart"
+        );
         cart = await this.cartRepository.createCart({ sessionId });
+        console.log("🔍 [CART SERVICE] New cart created for sessionId:", cart);
       }
     } else {
+      console.log(
+        "🔍 [CART SERVICE] ERROR: Neither userId nor sessionId provided"
+      );
       throw new AppError(400, "User ID or Session ID is required");
     }
+
+    console.log("🔍 [CART SERVICE] Final cart to return:", cart);
+    console.log("🔍 [CART SERVICE] Cart ID:", cart?.id);
+    console.log("🔍 [CART SERVICE] Cart items count:", cart?.cartItems?.length);
+    console.log("🔍 [CART SERVICE] Cart items:", cart?.cartItems);
 
     return cart;
   }
@@ -31,6 +60,11 @@ export class CartService {
     eventType: CART_EVENT,
     userId?: string
   ): Promise<void> {
+    console.log("🔍 [CART SERVICE] logCartEvent called");
+    console.log("🔍 [CART SERVICE] cartId:", cartId);
+    console.log("🔍 [CART SERVICE] eventType:", eventType);
+    console.log("🔍 [CART SERVICE] userId:", userId);
+
     await prisma.cartEvent.create({
       data: {
         userId,
@@ -38,6 +72,7 @@ export class CartService {
         eventType,
       },
     });
+    console.log("🔍 [CART SERVICE] Cart event logged successfully");
   }
 
   async getAbandonedCartMetrics(
@@ -95,7 +130,8 @@ export class CartService {
         if (now > oneHourLater) {
           totalAbandonedCarts++;
           potentialRevenueLost += cart.cartItems.reduce(
-            (sum: number, item: any) => sum + item.quantity * item.variant.price,
+            (sum: number, item: any) =>
+              sum + item.quantity * item.variant.price,
             0
           );
         }
@@ -113,8 +149,17 @@ export class CartService {
   }
 
   async getCartCount(userId?: string, sessionId?: string) {
+    console.log("🔍 [CART SERVICE] getCartCount called");
+    console.log("🔍 [CART SERVICE] userId:", userId);
+    console.log("🔍 [CART SERVICE] sessionId:", sessionId);
+
     const cart = await this.getOrCreateCart(userId, sessionId);
-    return cart.cartItems.length;
+    const count = cart.cartItems.length;
+
+    console.log("🔍 [CART SERVICE] Cart count calculated:", count);
+    console.log("🔍 [CART SERVICE] Cart items:", cart.cartItems);
+
+    return count;
   }
 
   async addToCart(
@@ -123,42 +168,101 @@ export class CartService {
     userId?: string,
     sessionId?: string
   ) {
+    console.log("🔍 [CART SERVICE] addToCart called");
+    console.log("🔍 [CART SERVICE] variantId:", variantId);
+    console.log("🔍 [CART SERVICE] quantity:", quantity);
+    console.log("🔍 [CART SERVICE] userId:", userId);
+    console.log("🔍 [CART SERVICE] sessionId:", sessionId);
+
     if (quantity <= 0) {
+      console.log("🔍 [CART SERVICE] ERROR: Quantity must be greater than 0");
       throw new AppError(400, "Quantity must be greater than 0");
     }
+
     const cart = await this.getOrCreateCart(userId, sessionId);
-    const existingItem = await this.cartRepository.findCartItem(cart.id, variantId);
+    console.log("🔍 [CART SERVICE] Cart retrieved for adding item:", cart);
+    console.log("🔍 [CART SERVICE] Cart ID:", cart.id);
+
+    const existingItem = await this.cartRepository.findCartItem(
+      cart.id,
+      variantId
+    );
+    console.log("🔍 [CART SERVICE] Existing item found:", existingItem);
+
     if (existingItem) {
+      console.log("🔍 [CART SERVICE] Updating existing item quantity");
       const newQuantity = existingItem.quantity + quantity;
-      const updatedItem = await this.cartRepository.updateCartItemQuantity(existingItem.id, newQuantity);
+      console.log("🔍 [CART SERVICE] New quantity:", newQuantity);
+
+      const updatedItem = await this.cartRepository.updateCartItemQuantity(
+        existingItem.id,
+        newQuantity
+      );
+      console.log("🔍 [CART SERVICE] Item updated:", updatedItem);
+
       await this.logCartEvent(cart.id, "ADD", userId);
+      console.log("🔍 [CART SERVICE] Cart event logged for update");
+
       return updatedItem;
     }
+
+    console.log("🔍 [CART SERVICE] Creating new cart item");
     const item = await this.cartRepository.addItemToCart({
       cartId: cart.id,
       variantId,
       quantity,
     });
+    console.log("🔍 [CART SERVICE] New item created:", item);
+
     await this.logCartEvent(cart.id, "ADD", userId);
+    console.log("🔍 [CART SERVICE] Cart event logged for new item");
+
     return item;
   }
 
   async updateCartItemQuantity(itemId: string, quantity: number) {
+    console.log("🔍 [CART SERVICE] updateCartItemQuantity called");
+    console.log("🔍 [CART SERVICE] itemId:", itemId);
+    console.log("🔍 [CART SERVICE] quantity:", quantity);
+
     if (quantity <= 0) {
+      console.log("🔍 [CART SERVICE] ERROR: Quantity must be greater than 0");
       throw new AppError(400, "Quantity must be greater than 0");
     }
-    return this.cartRepository.updateCartItemQuantity(itemId, quantity);
+
+    const result = this.cartRepository.updateCartItemQuantity(itemId, quantity);
+    console.log("🔍 [CART SERVICE] Update result:", result);
+
+    return result;
   }
 
   async removeFromCart(itemId: string) {
-    return this.cartRepository.removeCartItem(itemId);
+    console.log("🔍 [CART SERVICE] removeFromCart called");
+    console.log("🔍 [CART SERVICE] itemId:", itemId);
+
+    const result = this.cartRepository.removeCartItem(itemId);
+    console.log("🔍 [CART SERVICE] Remove result:", result);
+
+    return result;
   }
 
   async mergeCartsOnLogin(sessionId: string, userId: string | undefined) {
+    console.log("🔍 [CART SERVICE] mergeCartsOnLogin called");
+    console.log("🔍 [CART SERVICE] sessionId:", sessionId);
+    console.log("🔍 [CART SERVICE] userId:", userId);
+
     const sessionCart = await this.cartRepository.getCartBySessionId(sessionId);
-    if (!sessionCart) return;
+    console.log("🔍 [CART SERVICE] Session cart found:", sessionCart);
+
+    if (!sessionCart) {
+      console.log("🔍 [CART SERVICE] No session cart found, nothing to merge");
+      return;
+    }
 
     const userCart = await this.getOrCreateCart(userId);
+    console.log("🔍 [CART SERVICE] User cart retrieved:", userCart);
+
     await this.cartRepository.mergeCarts(sessionCart.id, userCart.id);
+    console.log("🔍 [CART SERVICE] Carts merged successfully");
   }
 }

@@ -60,20 +60,19 @@ export const createApp = async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser(process.env.COOKIE_SECRET, cookieParserOptions));
 
+  app.set("trust proxy", 1);
   app.use(
     session({
       store: new RedisStore({ client: redisClient }),
       secret: process.env.SESSION_SECRET!,
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: true, // Keeps guest sessionId from the first request
+      proxy: true, // Ensures secure cookies work with proxy
       cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        domain:
-          process.env.COOKIE_DOMAIN ||
-          (process.env.NODE_ENV === "production" ? undefined : "localhost"),
+        secure: process.env.NODE_ENV === "production", // true in prod
+        sameSite: "none", // Required for cross-site cookies
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       },
     })
   );

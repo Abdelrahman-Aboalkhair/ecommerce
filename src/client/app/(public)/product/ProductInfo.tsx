@@ -42,10 +42,11 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       return;
     }
     try {
-      await addToCart({
+      const res = await addToCart({
         variantId: selectedVariant.id,
         quantity: 1,
       });
+      console.log(res);
       showToast("Product added to cart", "success");
     } catch (error: any) {
       showToast(error.data?.message || "Failed to add to cart", "error");

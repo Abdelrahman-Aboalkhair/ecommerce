@@ -8,15 +8,30 @@ const optionalAuth = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const accessToken = req.headers.authorization?.split(" ")[1];
+  console.log("🔍 [OPTIONAL AUTH] optionalAuth middleware called");
+  console.log("🔍 [OPTIONAL AUTH] Request headers:", req.headers);
+  console.log("🔍 [OPTIONAL AUTH] Request session:", req.session);
+  console.log("🔍 [OPTIONAL AUTH] Session ID:", req.session?.id);
+
+  const accessToken = req.cookies.accessToken;
+  console.log(
+    "🔍 [OPTIONAL AUTH] Access token from header:",
+    accessToken ? "present" : "not present"
+  );
 
   if (!accessToken) {
+    console.log(
+      "🔍 [OPTIONAL AUTH] No access token found, proceeding without auth"
+    );
     return next();
   }
 
   try {
     const secret = process.env.ACCESS_TOKEN_SECRET!;
     if (!secret) {
+      console.log(
+        "🔍 [OPTIONAL AUTH] ERROR: Access token secret is not defined"
+      );
       throw new Error("Access token secret is not defined");
     }
 
@@ -24,22 +39,26 @@ const optionalAuth = async (
       accessToken,
       process.env.ACCESS_TOKEN_SECRET!
     ) as User;
-    console.log("decoded => ", decoded);
+    console.log("🔍 [OPTIONAL AUTH] Token decoded successfully:", decoded);
 
     const user = await prisma.user.findUnique({
       where: { id: String(decoded.id) },
       select: { id: true, role: true },
     });
 
-    console.log("user => ", user);
+    console.log("🔍 [OPTIONAL AUTH] User found in database:", user);
 
     if (user) {
       req.user = user;
+      console.log("🔍 [OPTIONAL AUTH] User set in request:", req.user);
+    } else {
+      console.log("🔍 [OPTIONAL AUTH] User not found in database");
     }
   } catch (error) {
-    console.log("optionalAuth error => ", error);
+    console.log("🔍 [OPTIONAL AUTH] Error in optionalAuth:", error);
   }
 
+  console.log("🔍 [OPTIONAL AUTH] Proceeding to next middleware");
   next();
 };
 

@@ -13,7 +13,7 @@ export default function MainLayout({
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:max-w-7xl xl:mx-auto">
         {children}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

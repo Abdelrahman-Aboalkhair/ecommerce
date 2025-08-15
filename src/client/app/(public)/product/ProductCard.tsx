@@ -54,27 +54,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </Link>
 
         {/* Product Flags */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1">
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
           {product.isNew && (
-            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <span className="bg-green-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
               NEW
             </span>
           )}
           {product.isFeatured && (
-            <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <span className="bg-purple-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
               FEATURED
             </span>
           )}
         </div>
 
         {/* Action Buttons */}
-        <div className="absolute top-3 right-3 flex space-x-1 z-10">
+        <div className="absolute top-2 right-2 flex space-x-1 z-10">
           <Link href={`/product/${product.slug}`}>
             <div
-              className="bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-sm hover:bg-white hover:shadow-md transition-all duration-200 group-hover:scale-110"
+              className="bg-white/90 backdrop-blur-sm rounded-full p-1.5 shadow-sm hover:bg-white hover:shadow-md transition-all duration-200 group-hover:scale-110"
               aria-label="View product details"
             >
-              <Eye size={16} className="text-gray-700" />
+              <Eye size={14} className="text-gray-700" />
             </div>
           </Link>
         </div>
@@ -82,27 +82,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Stock Status */}
         {inStockVariants.length === 0 && (
           <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <span className="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-medium">
               Out of Stock
             </span>
           </div>
         )}
       </div>
 
-      <div className="p-4 lg:p-5 flex flex-col flex-grow">
+      <div className="p-3 sm:p-4 lg:p-5 flex flex-col flex-grow">
         <Link href={`/product/${product.slug}`} className="block flex-grow">
-          <h3 className="font-semibold text-gray-900 text-sm sm:text-base lg:text-lg mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-tight">
+          <h3 className="font-semibold text-gray-900 text-xs sm:text-sm lg:text-base mb-2 line-clamp-2 hover:text-indigo-600 transition-colors leading-tight">
             {product.name}
           </h3>
 
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="flex items-center space-x-2">
               {inStockVariants.length > 0 ? (
-                <span className="text-indigo-700 font-bold text-lg lg:text-xl">
+                <span className="text-indigo-700 font-bold text-sm sm:text-lg lg:text-xl">
                   ${lowestPrice.toFixed(2)}
                 </span>
               ) : (
-                <span className="text-gray-500 font-medium text-lg lg:text-xl">
+                <span className="text-gray-500 font-medium text-sm sm:text-lg lg:text-xl">
                   Out of stock
                 </span>
               )}
@@ -126,9 +126,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </Link>
 
         {/* Quick Actions */}
-        <div className="mt-auto pt-3 border-t border-gray-100">
+        <div className="mt-auto pt-2 sm:pt-3 border-t border-gray-100">
           <button
-            className="w-full bg-indigo-600 text-white py-2.5 lg:py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-200 font-medium text-sm lg:text-base"
+            className="w-full bg-indigo-600 text-white py-2 sm:py-2.5 lg:py-3 rounded-lg hover:bg-indigo-700 transition-colors duration-200 font-medium text-xs sm:text-sm lg:text-base"
             onClick={(e) => {
               e.stopPropagation();
               handleClick();

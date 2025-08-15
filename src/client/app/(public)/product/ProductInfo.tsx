@@ -277,7 +277,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                           !isOutOfStock && onVariantChange(attributeName, value)
                         }
                         disabled={isOutOfStock}
-                        className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                        className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 ${
                           isSelected
                             ? "bg-indigo-600 text-white shadow-lg"
                             : isOutOfStock
@@ -303,7 +303,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
                       <motion.button
                         key={value}
                         onClick={() => onVariantChange(attributeName, value)}
-                        className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 ${
+                        className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 ${
                           isSelected
                             ? "bg-indigo-600 text-white shadow-lg"
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md"
@@ -339,7 +339,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         {Object.keys(selectedAttributes).length > 0 && (
           <motion.button
             onClick={resetSelections}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors"
+            className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -360,7 +360,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         <button
           disabled={!stock || isLoading || !selectedVariant}
           onClick={handleAddToCart}
-          className={`w-full py-4 text-base font-semibold text-white rounded-xl transition-all duration-300 ${
+          className={`w-full py-3 sm:py-4 text-sm sm:text-base font-semibold text-white rounded-xl transition-all duration-300 ${
             isLoading || !stock || !selectedVariant
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-indigo-600 hover:bg-indigo-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
@@ -379,7 +379,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         </button>
         <button
           disabled={!stock || !selectedVariant}
-          className={`w-full py-4 text-base font-semibold border-2 rounded-xl transition-all duration-300 ${
+          className={`w-full py-3 sm:py-4 text-sm sm:text-base font-semibold border-2 rounded-xl transition-all duration-300 ${
             stock && selectedVariant
               ? "border-indigo-600 text-indigo-600 hover:bg-indigo-50 hover:shadow-lg transform hover:scale-[1.02]"
               : "border-gray-300 text-gray-400 cursor-not-allowed"

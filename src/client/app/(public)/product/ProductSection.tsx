@@ -75,16 +75,16 @@ const ProductSection: React.FC<ProductSectionProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="flex items-center">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 capitalize">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 capitalize">
                     {title}
                   </h2>
-                  <p className="text-gray-600 text-sm sm:text-base mt-1">
+                  <p className="text-gray-600 text-xs sm:text-sm lg:text-base mt-1">
                     Discover our handpicked {title.toLowerCase()} collection
                   </p>
                 </div>
               </div>
               {products.length > 8 && (
-                <button className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105 self-start sm:self-auto">
+                <button className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl hover:bg-indigo-700 transition-all duration-300 font-semibold shadow-sm hover:shadow-md transform hover:scale-105 self-start sm:self-auto text-sm sm:text-base">
                   View All
                   <svg
                     className="w-4 h-4"

@@ -54,7 +54,7 @@
     "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.2",
-    "nodemailer": "^6.10.0",
+    "nodemailer": "^8.0.5",
     "npm": "^11.2.0",
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",

@@ -1,4 +1,29 @@
 {
+  "name": "full-stack-ecommerce",
+  "description": "Open-source single-store e-commerce platform: Next.js storefront, Express API, Prisma/PostgreSQL, Redis, Stripe checkout, admin dashboard, and real-time chat.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://ss-ecommerce-one.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Abdelrahman-Aboalkhair/ecommerce.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Abdelrahman-Aboalkhair/ecommerce/issues"
+  },
+  "keywords": [
+    "ecommerce",
+    "nextjs",
+    "express",
+    "typescript",
+    "prisma",
+    "postgresql",
+    "redis",
+    "stripe",
+    "socket-io",
+    "docker",
+    "full-stack"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",

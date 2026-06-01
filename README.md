@@ -1,4 +1,6 @@
-# E-commerce Platform
+# Full-Stack E-Commerce Platform
+
+Open-source single-store shop built with Next.js and Express. Includes auth, catalog, cart, Stripe checkout, orders, admin analytics, and real-time chat.
 
 IMPORTANT: The hosted deployment may not work right now.
 

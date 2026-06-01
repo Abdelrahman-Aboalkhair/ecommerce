@@ -1,55 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Client (Next.js)
 
-## Getting Started
+Next.js storefront for the Full-Stack E-Commerce Platform.
 
-First, run the development server:
+**Setup:** see the [root README](../../README.md). There is no maintained public demo.
 
 ```bash
+cp .env.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## 🧪 Testing
-
-### **Test Accounts**
-
-After running the database seeder (`cd ../server && npm run seed`), you can use these test accounts:
-
-| Role           | Email                    | Password      | Use Case            |
-| -------------- | ------------------------ | ------------- | ------------------- |
-| **Superadmin** | `superadmin@example.com` | `password123` | Full system access  |
-| **Admin**      | `admin@example.com`      | `password123` | Product management  |
-| **User**       | `user@example.com`       | `password123` | Shopping experience |
-
-### **Testing Features**
-
-1. **Sign In Page**: Visit `/sign-in` to see test account credentials
-2. **Role-Based Access**: Test different permissions with each account
-3. **Product Browsing**: Use the seeded "Smartphone X" product
-4. **Cart & Checkout**: Test the complete shopping flow
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Runs at http://localhost:3000 by default. Configure `NEXT_PUBLIC_API_URL_DEV`, `NEXT_PUBLIC_API_URL_PROD`, and `NEXT_PUBLIC_SOCKET_URL` in `.env.local`.

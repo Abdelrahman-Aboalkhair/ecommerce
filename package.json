@@ -3,13 +3,12 @@
   "description": "Open-source single-store e-commerce platform: Next.js storefront, Express API, Prisma/PostgreSQL, Redis, Stripe checkout, admin dashboard, and real-time chat.",
   "version": "1.0.0",
   "license": "MIT",
-  "homepage": "https://ss-ecommerce-one.vercel.app",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Abdelrahman-Aboalkhair/ecommerce.git"
+    "url": "https://github.com/Abdelrahman-Aboalkhair/Full-Stack-E-Commerce-Platform.git"
   },
   "bugs": {
-    "url": "https://github.com/Abdelrahman-Aboalkhair/ecommerce/issues"
+    "url": "https://github.com/Abdelrahman-Aboalkhair/Full-Stack-E-Commerce-Platform/issues"
   },
   "keywords": [
     "ecommerce",

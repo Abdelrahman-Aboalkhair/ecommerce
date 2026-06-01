@@ -31,7 +31,7 @@
     "class-validator": "^0.14.1",
     "cloudinary": "^2.6.0",
     "compression": "^1.8.0",
-    "connect-redis": "^8.0.2",
+    "connect-redis": "^9.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.10.0",

@@ -71,7 +71,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
+    "@types/bcryptjs": "^3.0.0",
     "@types/compression": "^1.7.5",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",

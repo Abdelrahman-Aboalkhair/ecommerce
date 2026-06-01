@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
+import { SOCKET_BASE_URL } from "@/app/lib/constants/config";
 
 export const useSocketConnection = (chatId: string) => {
   console.log("chatId to connect => ", chatId);
@@ -7,13 +8,7 @@ export const useSocketConnection = (chatId: string) => {
 
   useEffect(() => {
     // Get server URL based on environment
-    const serverUrl =
-      process.env.NODE_ENV === "production"
-        ? "https://<domain>.com"
-        : "http://localhost:5000";
-
-    // Initialize socket connection
-    socketRef.current = io(serverUrl);
+    socketRef.current = io(SOCKET_BASE_URL);
 
     // Join specific chat room
     socketRef.current.emit("joinChat", chatId);

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
+import { SOCKET_BASE_URL } from "@/app/lib/constants/config";
 
 export const useAdminSocketEvents = (
   onChatCreated: () => void,
@@ -9,13 +10,7 @@ export const useAdminSocketEvents = (
 
   useEffect(() => {
     // Get server URL based on environment
-    const serverUrl =
-      process.env.NODE_ENV === "production"
-        ? "https://egwinch.com"
-        : "http://localhost:5000";
-
-    // Initialize socket connection
-    socketRef.current = io(serverUrl);
+    socketRef.current = io(SOCKET_BASE_URL);
 
     // Join admin room
     socketRef.current.emit("joinAdmin");

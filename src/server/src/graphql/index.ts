@@ -2,9 +2,10 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
+import { expressMiddleware } from "@as-integrations/express4";
 import { PrismaClient } from "@prisma/client";
 import { combinedSchemas } from "./v1/schema";
+import { getAllowedOrigins } from "../config/cors";
 
 const prisma = new PrismaClient();
 
@@ -17,10 +18,7 @@ export async function configureGraphQL(app: express.Application) {
   app.use(
     "/api/v1/graphql",
     cors({
-      origin:
-        process.env.NODE_ENV === "production"
-          ? ["https://ecommerce-nu-rosy.vercel.app"]
-          : ["http://localhost:3000", "http://localhost:5173"],
+      origin: getAllowedOrigins(),
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       allowedHeaders: [
@@ -32,7 +30,7 @@ export async function configureGraphQL(app: express.Application) {
     }),
     bodyParser.json(),
     expressMiddleware(apolloServer, {
-      context: async ({ req, res }) => ({
+      context: async ({ req, res }: { req: express.Request; res: express.Response }) => ({
         req,
         res,
         prisma,

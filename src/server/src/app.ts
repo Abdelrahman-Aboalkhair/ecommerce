@@ -27,6 +27,7 @@ import { Server as HTTPServer } from "http";
 import { SocketManager } from "@/infra/socket/socket";
 import { connectDB } from "./infra/database/database.config";
 import { setupSwagger } from "./docs/swagger";
+import { getAllowedOrigins } from "./config/cors";
 
 dotenv.config();
 
@@ -85,10 +86,7 @@ export const createApp = async () => {
   // CORS must be applied BEFORE GraphQL setup
   app.use(
     cors({
-      origin:
-        process.env.NODE_ENV === "production"
-          ? ["https://ecommerce-nu-rosy.vercel.app"]
-          : ["http://localhost:3000", "http://localhost:5173"],
+      origin: getAllowedOrigins(),
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       allowedHeaders: [

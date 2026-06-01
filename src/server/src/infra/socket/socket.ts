@@ -1,5 +1,6 @@
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { Server as HTTPServer } from "http";
+import { getAllowedOrigins } from "../../config/cors";
 
 export class SocketManager {
   private io: SocketIOServer;
@@ -7,10 +8,7 @@ export class SocketManager {
   constructor(httpServer: HTTPServer) {
     this.io = new SocketIOServer(httpServer, {
       cors: {
-        origin:
-          process.env.NODE_ENV === "production"
-            ? ["https://ecommerce-nu-rosy.vercel.app"]
-            : ["http://localhost:3000", "http://localhost:5173"],
+        origin: getAllowedOrigins(),
         methods: ["GET", "POST"],
         credentials: true,
       },

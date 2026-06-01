@@ -69,15 +69,25 @@ Open-source single-store shop built with Next.js and Express. Includes auth, cat
 
 ## Deployment status
 
-### Live demo (browse-only)
+### Live demo (interactive, no backend)
 
-The storefront UI is hosted on Vercel with **static sample catalog data** (no production API/database):
+The storefront is hosted on Vercel with **`NEXT_PUBLIC_DEMO_MODE=true`** — a full in-browser mock (no API/database):
 
 **https://open-source-ecommerce.abdalrahman-aboalkhair.work**
 
-- Home, shop, and product pages work with built-in demo products and categories.
-- A **Demo** banner explains that listings are static placeholders because the backend is not deployed for this demo.
-- Sign-in, cart, checkout, and admin require a **full local or self-hosted stack** (see below).
+- Browse catalog, **sign in** (quick demo accounts on the sign-in page), use **cart**, **mock checkout**, **orders**, and the **admin dashboard**.
+- Data is simulated and stored in `localStorage` until you clear site data.
+- **Live chat** is disabled on the hosted demo (requires Socket.IO + API). Run locally for chat.
+
+**Vercel env for the public demo:** set `NEXT_PUBLIC_DEMO_MODE=true` in the client project settings and redeploy.
+
+Demo accounts (any password works in demo mode):
+
+| Role | Email |
+|------|--------|
+| Customer | `user@example.com` |
+| Admin | `admin@example.com` |
+| Superadmin | `superadmin@example.com` |
 
 ### Full stack (local or self-hosted)
 
@@ -201,14 +211,14 @@ After `npm run seed` (or `docker compose exec server npm run seed`). Use only in
 | Admin      | admin@example.com      | password123   |
 | User       | user@example.com       | password123   |
 
-## Browse-only demo catalog
+## Demo mode flags
 
-Used on the [live Vercel demo](https://open-source-ecommerce.abdalrahman-aboalkhair.work) and whenever the API is unavailable. The client shows **sample products and categories** on the home page, shop, and product detail views, plus a banner that data is static.
+| Variable | Effect |
+|----------|--------|
+| `NEXT_PUBLIC_DEMO_MODE=true` | Full mock: auth, cart, checkout, orders, admin REST, dashboard GraphQL. See [src/client/.env.example](src/client/.env.example). |
+| `NEXT_PUBLIC_USE_DEMO_CATALOG=true` | Catalog-only static products (legacy); use `DEMO_MODE` for the hosted site instead. |
 
-- **Automatic:** when GraphQL calls fail, the client switches to built-in demo data.
-- **Forced:** set `NEXT_PUBLIC_USE_DEMO_CATALOG=true` in `src/client/.env.local` (see [src/client/.env.example](src/client/.env.example)).
-
-Cart, sign-in, checkout, and admin still require a running API and database.
+When the API is unreachable and neither flag is set, the client **falls back** to static catalog data for browse-only pages.
 
 ## Stack
 

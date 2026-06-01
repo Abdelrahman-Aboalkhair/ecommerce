@@ -5,7 +5,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import useToast from "@/app/hooks/ui/useToast";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
+import { isDemoMode } from "@/app/lib/demo";
 
 interface CartSummaryProps {
   subtotal: number;
@@ -23,10 +25,14 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 }) => {
   const { isAuthenticated } = useAuth();
   const { showToast } = useToast();
+  const router = useRouter();
+  const demoMode = isDemoMode();
 
-  const stripePromise = loadStripe(
-    "pk_test_51R9gs72KGvEXtMtXXTm7UscmmHYsvk9j3ktaM8vxRb3evNJgG1dpD05YWACweIfcPtpCgOIs4HkpGrTCKE1dZD0p00sLC6iIBg"
-  );
+  const stripePromise = demoMode
+    ? null
+    : loadStripe(
+        "pk_test_51R9gs72KGvEXtMtXXTm7UscmmHYsvk9j3ktaM8vxRb3evNJgG1dpD05YWACweIfcPtpCgOIs4HkpGrTCKE1dZD0p00sLC6iIBg"
+      );
 
   const [initiateCheckout, { isLoading }] = useInitiateCheckoutMutation();
 
@@ -38,10 +44,22 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 
   const handleInitiateCheckout = async () => {
     try {
-      const res = await initiateCheckout(undefined).unwrap();
+      const res = (await initiateCheckout(undefined).unwrap()) as {
+        sessionId?: string;
+        orderId?: string;
+      };
+
+      if (demoMode) {
+        showToast("Order placed (demo)", "success");
+        router.push(
+          `/success?type=order&orderId=${res.orderId ?? "demo-order"}`
+        );
+        return;
+      }
+
       const stripe = await stripePromise;
       const result = await stripe?.redirectToCheckout({
-        sessionId: res.sessionId,
+        sessionId: res.sessionId!,
       });
 
       if (result?.error) {

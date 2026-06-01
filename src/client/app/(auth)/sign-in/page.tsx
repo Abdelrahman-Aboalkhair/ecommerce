@@ -11,6 +11,10 @@ import FacebookIcon from "@/app/assets/icons/facebook.png";
 import TwitterIcon from "@/app/assets/icons/twitter.png";
 import Image from "next/image";
 import { AUTH_API_BASE_URL } from "@/app/lib/constants/config";
+import {
+  DEMO_ACCOUNT_EMAILS,
+  isDemoMode,
+} from "@/app/lib/demo";
 
 interface InputForm {
   email: string;
@@ -35,6 +39,15 @@ const SignIn = () => {
   const onSubmit = async (formData: InputForm) => {
     try {
       await signIn(formData).unwrap();
+      router.push("/");
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
+  const signInAsDemo = async (email: string) => {
+    try {
+      await signIn({ email, password: "password123" }).unwrap();
       router.push("/");
     } catch (error) {
       console.log("error: ", error);
@@ -115,7 +128,44 @@ const SignIn = () => {
             </Link>
           </div>
 
-          {process.env.NODE_ENV === "development" && (
+          {isDemoMode() && (
+            <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+              <h3 className="text-sm font-semibold text-amber-900 mb-2">
+                Quick sign-in (demo)
+              </h3>
+              <p className="text-xs text-amber-800 mb-3">
+                Any password works. Pick a role to explore the app.
+              </p>
+              <div className="flex flex-col gap-2">
+                <button
+                  type="button"
+                  onClick={() => signInAsDemo(DEMO_ACCOUNT_EMAILS.user)}
+                  disabled={isLoading}
+                  className="w-full py-2 text-sm rounded-md border border-amber-300 bg-white hover:bg-amber-100 text-amber-950 font-medium"
+                >
+                  Customer (user@example.com)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => signInAsDemo(DEMO_ACCOUNT_EMAILS.admin)}
+                  disabled={isLoading}
+                  className="w-full py-2 text-sm rounded-md border border-amber-300 bg-white hover:bg-amber-100 text-amber-950 font-medium"
+                >
+                  Admin (admin@example.com)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => signInAsDemo(DEMO_ACCOUNT_EMAILS.superadmin)}
+                  disabled={isLoading}
+                  className="w-full py-2 text-sm rounded-md border border-amber-300 bg-white hover:bg-amber-100 text-amber-950 font-medium"
+                >
+                  Superadmin (superadmin@example.com)
+                </button>
+              </div>
+            </div>
+          )}
+
+          {process.env.NODE_ENV === "development" && !isDemoMode() && (
             <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <h3 className="text-sm font-semibold text-blue-800 mb-2">
                 Testing accounts (local dev only)
@@ -139,6 +189,8 @@ const SignIn = () => {
             </div>
           )}
 
+          {!isDemoMode() && (
+            <>
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
@@ -177,6 +229,8 @@ const SignIn = () => {
               </button>
             ))}
           </div>
+            </>
+          )}
         </main>
       </div>
     </MainLayout>

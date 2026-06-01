@@ -7,8 +7,13 @@ import {
 import ChatContainer from "../(chat)";
 import MainLayout from "@/app/components/templates/MainLayout";
 import { withAuth } from "@/app/components/HOC/WithAuth";
+import DemoFeatureUnavailable from "@/app/components/feedback/DemoFeatureUnavailable";
+import { isDemoMode } from "@/app/lib/demo";
 
 const SupportPage = () => {
+  if (isDemoMode()) {
+    return <DemoFeatureUnavailable featureName="Customer support chat" />;
+  }
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   console.log("activeChatId => ", activeChatId);
   const { data: chats, isLoading } = useGetUserChatsQuery(undefined);

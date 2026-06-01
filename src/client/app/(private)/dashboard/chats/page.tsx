@@ -5,8 +5,18 @@ import { useAdminSocketEvents } from "../../(chat)/useAdminSocketEvents";
 import ChatContainer from "../../(chat)";
 import useToast from "@/app/hooks/ui/useToast";
 import { withAuth } from "@/app/components/HOC/WithAuth";
+import DemoFeatureUnavailable from "@/app/components/feedback/DemoFeatureUnavailable";
+import { isDemoMode } from "@/app/lib/demo";
 
 const AdminChatsPage = () => {
+  if (isDemoMode()) {
+    return (
+      <DemoFeatureUnavailable
+        featureName="Admin live chat"
+        useDashboardLayout
+      />
+    );
+  }
   const { showToast } = useToast();
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const { data: chats, isLoading, refetch } = useGetAllChatsQuery("OPEN");

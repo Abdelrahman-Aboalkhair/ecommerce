@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout } from "./AuthSlice";
 import { API_BASE_URL } from "@/app/lib/constants/config";
+import { isDemoMode } from "@/app/lib/demo";
+import { demoBaseQuery } from "@/app/lib/demo/demoBaseQuery";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
@@ -30,9 +32,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   return result;
 };
 
+const activeBaseQuery = isDemoMode() ? demoBaseQuery : baseQueryWithReauth;
+
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: baseQueryWithReauth,
+  baseQuery: activeBaseQuery,
   tagTypes: [
     "User",
     "Product",

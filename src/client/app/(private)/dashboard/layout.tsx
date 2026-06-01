@@ -3,6 +3,7 @@ import { User } from "lucide-react";
 import BreadCrumb from "@/app/components/feedback/BreadCrumb";
 import Sidebar from "../../components/layout/Sidebar";
 import DashboardSearchBar from "@/app/components/molecules/DashboardSearchbar";
+import DemoModeBanner from "@/app/components/feedback/DemoModeBanner";
 import { useAuth } from "@/app/hooks/useAuth";
 import Image from "next/image";
 
@@ -17,7 +18,8 @@ export default function DashboardLayout({
     <div className="flex min-h-screen flex-col md:flex-row">
       <Sidebar />
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
+        <DemoModeBanner />
         <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
           <BreadCrumb />
           <div className="flex items-center gap-4 sm:gap-6">

@@ -38,7 +38,7 @@
     "csv-parse": "^5.6.0",
     "csv-stringify": "^6.5.2",
     "date-fns": "^4.1.0",
-    "dotenv": "^16.4.7",
+    "dotenv": "^17.4.2",
     "exceljs": "^4.4.0",
     "express": "^4.21.2",
     "express-mongo-sanitize": "^2.2.0",

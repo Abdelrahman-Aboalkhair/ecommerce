@@ -2,6 +2,71 @@
 
 Open-source single-store shop built with Next.js and Express. Includes auth, catalog, cart, Stripe checkout, orders, admin analytics, and real-time chat.
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-0070f3)](https://open-source-ecommerce.abdalrahman-aboalkhair.work)
+[![YouTube Walkthrough](https://img.shields.io/badge/Video-Walkthrough-red?logo=youtube)](https://www.youtube.com/watch?v=qJDXcQ_sxSI)
+
+**[Live demo](https://open-source-ecommerce.abdalrahman-aboalkhair.work)** · **[YouTube walkthrough](https://www.youtube.com/watch?v=qJDXcQ_sxSI)** · **[Local setup](#local-setup)** · [Repository](https://github.com/Abdelrahman-Aboalkhair/Full-Stack-E-Commerce-Platform)
+
+![Storefront homepage](assets/screenshots/homepage.png)
+
+## Demo video
+
+[![Watch the full-stack walkthrough on YouTube](https://img.youtube.com/vi/qJDXcQ_sxSI/maxresdefault.jpg)](https://www.youtube.com/watch?v=qJDXcQ_sxSI)
+
+**[▶ Watch on YouTube](https://www.youtube.com/watch?v=qJDXcQ_sxSI)** — local Docker setup, storefront, cart, Stripe checkout, admin dashboard, and chat. Some screens may differ slightly from the current codebase.
+
+## Screenshots
+
+### Storefront
+
+| Home | Product detail |
+| --- | --- |
+| ![Homepage](assets/screenshots/homepage.png) | ![Product detail](assets/screenshots/product_detail.png) |
+
+| Cart | Checkout |
+| --- | --- |
+| ![Cart](assets/screenshots/cart.png) | ![Payment](assets/screenshots/payment.png) |
+
+| Sign in | Sign up |
+| --- | --- |
+| ![Sign in](assets/screenshots/sign-in.png) | ![Sign up](assets/screenshots/sign-up.png) |
+
+| Your orders | Track order |
+| --- | --- |
+| ![Your orders](assets/screenshots/your_orders.png) | ![Track your order](assets/screenshots/track_your_order.png) |
+
+| Customer chat |
+| --- |
+| ![User chat](assets/screenshots/user_chat.png) |
+
+### Admin dashboard
+
+| Overview | Products |
+| --- | --- |
+| ![Dashboard overview](assets/screenshots/dashboard_overview.png) | ![Products dashboard](assets/screenshots/products_dashboard.png) |
+
+| Analytics | Inventory |
+| --- | --- |
+| ![Analytics](assets/screenshots/analytics_dashboard.png) | ![Inventory](assets/screenshots/inventory_dashboard.png) |
+
+| Attributes | Reports |
+| --- | --- |
+| ![Attributes](assets/screenshots/attributes_dashboard.png) | ![Reports](assets/screenshots/reports_dashboard.png) |
+
+| Logs | Admin chat |
+| --- | --- |
+| ![Logs](assets/screenshots/logs_dashboard.png) | ![Dashboard chat](assets/screenshots/dashboard_chat.png) |
+
+## Features
+
+- **Storefront** — catalog, product detail, cart, Stripe checkout, order tracking
+- **Auth** — sign-up, sign-in, roles (user, admin, superadmin)
+- **Admin** — products, inventory, attributes, analytics, reports, audit logs
+- **Real-time chat** — customer support (Socket.IO)
+- **API** — Express + Prisma, PostgreSQL, Redis, Swagger at `/api-docs`
+- **Dev experience** — Docker Compose, seed data, env starter docs
+
 ## Deployment status
 
 ### Live demo (browse-only)
@@ -27,10 +92,6 @@ There is no maintained hosted API, Postgres, or Redis for this repo. To run auth
 2. **API** (e.g. Render, Railway, Fly): set `DATABASE_URL`, `REDIS_URL`, JWT/session secrets, Stripe, etc. — see [src/server/.env.example](src/server/.env.example).
 3. **CORS / cookies**: set `ALLOWED_ORIGINS` on the server to your frontend URL (comma-separated). Required for production; no default production origin is baked into the code.
 4. **Postgres + Redis**: use managed services; run `npx prisma migrate deploy` from `src/server`.
-
-Archived walkthrough (may not match current code): [demo video](https://youtu.be/qJDXcQ_sxSI).
-
-Repository: https://github.com/Abdelrahman-Aboalkhair/Full-Stack-E-Commerce-Platform
 
 ## What this is
 

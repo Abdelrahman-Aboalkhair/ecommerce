@@ -1,10 +1,9 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useQuery } from "@apollo/client";
-import { GET_PRODUCTS_SUMMARY } from "./gql/Product";
 import { useMemo } from "react";
 import groupProductsByFlag from "./utils/groupProductsByFlag";
 import SkeletonLoader from "./components/feedback/SkeletonLoader";
+import { useProductsSummary } from "./hooks/catalog/useProductsSummary";
 
 const HeroSection = dynamic(() => import("./(public)/(home)/HeroSection"), {
   ssr: false,
@@ -21,16 +20,14 @@ const MainLayout = dynamic(() => import("./components/templates/MainLayout"), {
 });
 
 const Home = () => {
-  const { data, loading, error } = useQuery(GET_PRODUCTS_SUMMARY, {
-    variables: { first: 100 },
-    fetchPolicy: "no-cache",
-  });
+  const { products, loading, error, isDemoCatalog } = useProductsSummary(100);
 
   const { featured, trending, newArrivals, bestSellers } = useMemo(() => {
-    if (!data?.products?.products)
+    if (!products.length) {
       return { featured: [], trending: [], newArrivals: [], bestSellers: [] };
-    return groupProductsByFlag(data.products.products);
-  }, [data]);
+    }
+    return groupProductsByFlag(products);
+  }, [products]);
 
   if (loading) {
     return (
@@ -42,7 +39,7 @@ const Home = () => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout isDemoCatalog={isDemoCatalog}>
       <HeroSection />
       <CategoryBar />
       <ProductSection

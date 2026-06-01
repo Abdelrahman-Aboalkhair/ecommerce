@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { useGetAllCategoriesQuery } from "@/app/store/apis/CategoryApi";
+import { useCatalogCategories } from "@/app/hooks/catalog/useCatalogCategories";
 import {
   Smartphone,
   Monitor,
@@ -67,8 +67,7 @@ const categoryIcons: Record<string, React.ElementType> = {
 const DefaultIcon = Package;
 
 const CategoryBar = () => {
-  const { data, isLoading, error } = useGetAllCategoriesQuery({});
-  const categories = data?.categories || [];
+  const { categories, loading: isLoading, error } = useCatalogCategories();
 
   // Get icon for category (fallback)
   const getCategoryIcon = (categoryName: string) => {

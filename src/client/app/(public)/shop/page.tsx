@@ -1,20 +1,19 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useQuery } from "@apollo/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, Filter } from "lucide-react";
-import { GET_PRODUCTS, GET_CATEGORIES } from "@/app/gql/Product";
 import { Product } from "@/app/types/productTypes";
 import ProductCard from "../product/ProductCard";
 import MainLayout from "@/app/components/templates/MainLayout";
 import ProductFilters, { FilterValues } from "./ProductFilters";
+import { useCatalogCategories } from "@/app/hooks/catalog/useCatalogCategories";
+import { useShopProducts } from "@/app/hooks/catalog/useShopProducts";
 
 const ShopPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Memoize initialFilters to prevent recreation on every render
   const initialFilters = useMemo(
     () => ({
       search: searchParams.get("search") || "",
@@ -34,80 +33,27 @@ const ShopPage: React.FC = () => {
   );
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [filtersVisible, setFiltersVisible] = useState(true); // Desktop filters toggle state
+  const [filtersVisible, setFiltersVisible] = useState(true);
   const [filters, setFilters] = useState<FilterValues>(initialFilters);
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
-  const [skip, setSkip] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const pageSize = 12;
 
-  // Count active filters
+  const { categories } = useCatalogCategories();
+  const {
+    displayedProducts,
+    loading,
+    error,
+    hasMore,
+    isFetchingMore,
+    handleShowMore,
+    isDemoCatalog,
+  } = useShopProducts(filters);
+
   const activeFilterCount = Object.values(filters).filter(
     (value) => value !== undefined && value !== "" && value !== false
   ).length;
 
-  // Fetch categories
-  const { data: categoriesData } = useQuery(GET_CATEGORIES);
-  const categories = categoriesData?.categories || [];
-  console.log("Categories data:", categories);
-
-  const {
-    data: productsData,
-    loading,
-    error,
-    fetchMore,
-  } = useQuery(GET_PRODUCTS, {
-    variables: { first: 10, skip: 0, filters },
-    fetchPolicy: "no-cache", // Avoid cache issues
-    onError: (err) => {
-      console.error("Error fetching products:", err);
-    },
-    onCompleted: (data) => {
-      setDisplayedProducts(data.products.products);
-      setHasMore(data.products.hasMore);
-      setSkip(0); // Reset skip when filters change
-    },
-  });
-  console.log("Products data:", productsData);
-  console.log("products error:", error);
-
-  // Update filters only when searchParams change meaningfully
   useEffect(() => {
     setFilters(initialFilters);
-    setDisplayedProducts([]);
-    setSkip(0);
-    setHasMore(true);
   }, [initialFilters]);
-
-  const handleShowMore = () => {
-    if (isFetchingMore) return;
-    setIsFetchingMore(true);
-    const newSkip = skip + pageSize;
-    fetchMore({
-      variables: { first: pageSize, skip: newSkip, filters },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult) return prev;
-        const newProducts = fetchMoreResult.products.products;
-        const newHasMore = fetchMoreResult.products.hasMore;
-
-        setDisplayedProducts((prevProducts) => [
-          ...prevProducts,
-          ...newProducts,
-        ]);
-        setSkip(newSkip);
-        setHasMore(newHasMore);
-        setIsFetchingMore(false);
-
-        return {
-          products: {
-            ...fetchMoreResult.products,
-            products: [...prev.products.products, ...newProducts],
-          },
-        };
-      },
-    });
-  };
 
   const updateFilters = (newFilters: FilterValues) => {
     const query = new URLSearchParams();
@@ -132,9 +78,8 @@ const ShopPage: React.FC = () => {
   const noProductsFound = displayedProducts.length === 0 && !loading && !error;
 
   return (
-    <MainLayout>
+    <MainLayout isDemoCatalog={isDemoCatalog}>
       <div className="min-h-screen">
-        {/* Header Section */}
         <div className="sticky top-0 z-30">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
@@ -148,7 +93,6 @@ const ShopPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                {/* Desktop Filter Toggle Button */}
                 <button
                   onClick={() => setFiltersVisible(!filtersVisible)}
                   className="hidden lg:flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
@@ -164,7 +108,6 @@ const ShopPage: React.FC = () => {
                   )}
                 </button>
 
-                {/* Mobile Filter Button */}
                 <button
                   onClick={() => setSidebarOpen(true)}
                   className="lg:hidden flex items-center gap-2 px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
@@ -184,7 +127,6 @@ const ShopPage: React.FC = () => {
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Desktop Filters with Toggle */}
             <AnimatePresence>
               {filtersVisible && (
                 <motion.div
@@ -210,7 +152,6 @@ const ShopPage: React.FC = () => {
               )}
             </AnimatePresence>
 
-            {/* Mobile Filter Sidebar */}
             <AnimatePresence>
               {sidebarOpen && (
                 <motion.div
@@ -240,7 +181,6 @@ const ShopPage: React.FC = () => {
               )}
             </AnimatePresence>
 
-            {/* Products Grid */}
             <motion.div
               className="flex-1"
               layout
@@ -251,7 +191,6 @@ const ShopPage: React.FC = () => {
                 duration: 0.3,
               }}
             >
-              {/* Loading State */}
               {loading && !displayedProducts.length && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                   {[...Array(8)].map((_, index) => (
@@ -270,7 +209,6 @@ const ShopPage: React.FC = () => {
                 </div>
               )}
 
-              {/* Error State */}
               {error && (
                 <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm">
                   <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -291,7 +229,6 @@ const ShopPage: React.FC = () => {
                 </div>
               )}
 
-              {/* No Products Found */}
               {noProductsFound && (
                 <div className="text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -312,7 +249,6 @@ const ShopPage: React.FC = () => {
                 </div>
               )}
 
-              {/* Products Grid */}
               {!noProductsFound && !loading && (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
@@ -330,7 +266,6 @@ const ShopPage: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Load More Button */}
                   {hasMore && (
                     <div className="mt-12 text-center">
                       {isFetchingMore ? (

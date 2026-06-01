@@ -6,22 +6,18 @@ import { useParams } from "next/navigation";
 import ProductImageGallery from "../ProductImageGallery";
 import ProductInfo from "../ProductInfo";
 import ProductReviews from "../ProductReviews";
-import { useQuery } from "@apollo/client";
 import { generateProductPlaceholder } from "@/app/utils/placeholderImage";
-import { GET_SINGLE_PRODUCT } from "@/app/gql/Product";
 import ProductDetailSkeletonLoader from "@/app/components/feedback/ProductDetailSkeletonLoader";
 import { Product } from "@/app/types/productTypes";
+import { useProductBySlug } from "@/app/hooks/catalog/useProductBySlug";
 
 const ProductDetailsPage = () => {
   const { slug } = useParams();
-  const { data, loading, error } = useQuery<{ product: Product }>(
-    GET_SINGLE_PRODUCT,
-    {
-      variables: { slug: typeof slug === "string" ? slug : slug?.[0] || "" },
-      fetchPolicy: "no-cache",
-    }
-  );
-  console.log("product data:", data);
+  const slugStr =
+    typeof slug === "string" ? slug : Array.isArray(slug) ? slug[0] || "" : "";
+
+  const { product, loading, error, isDemoCatalog, notFound, demoNotFound } =
+    useProductBySlug(slugStr);
 
   const [selectedVariant, setSelectedVariant] = useState<
     Product["variants"][0] | null
@@ -44,11 +40,9 @@ const ProductDetailsPage = () => {
     );
   }
 
-  const product = data?.product;
-
-  if (!product) {
+  if (notFound || demoNotFound || !product) {
     return (
-      <MainLayout>
+      <MainLayout isDemoCatalog={isDemoCatalog}>
         <div className="text-center py-12">
           <p className="text-lg text-gray-600">Product not found</p>
         </div>
@@ -104,19 +98,16 @@ const ProductDetailsPage = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout isDemoCatalog={isDemoCatalog}>
       <div className="min-h-screen bg-gray-50">
-        {/* Breadcrumb */}
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <BreadCrumb />
           </div>
         </div>
 
-        {/* Product Details */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Product Images */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <ProductImageGallery
                 images={product.variants.flatMap((v) => v.images)}
@@ -129,7 +120,6 @@ const ProductDetailsPage = () => {
               />
             </div>
 
-            {/* Product Info */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
               <ProductInfo
                 id={product.id}
@@ -148,7 +138,6 @@ const ProductDetailsPage = () => {
           </div>
         </div>
 
-        {/* Product Reviews */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
             <ProductReviews reviews={product.reviews} productId={product.id} />

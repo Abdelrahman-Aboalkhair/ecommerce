@@ -21,7 +21,7 @@
     "@as-integrations/express4": "^1.1.2",
     "@graphql-tools/schema": "^10.0.23",
     "@ngneat/falso": "^7.3.0",
-    "@prisma/client": "^6.13.0",
+    "@prisma/client": "^7.8.0",
     "@types/uuid": "^10.0.0",
     "axios": "^1.8.4",
     "bcryptjs": "^3.0.2",

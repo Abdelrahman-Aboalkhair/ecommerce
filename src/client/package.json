@@ -25,7 +25,7 @@
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.54.2",
+    "react-hook-form": "^7.77.0",
     "react-redux": "^9.2.0",
     "socket.io-client": "^4.8.1",
     "subscriptions-transport-ws": "^0.11.0",

@@ -15,7 +15,7 @@
     "apexcharts": "^4.5.0",
     "axios": "^1.16.0",
     "date-fns": "^4.1.0",
-    "framer-motion": "^12.5.0",
+    "framer-motion": "^12.40.0",
     "graphql": "^16.10.0",
     "lodash": "^4.17.21",
     "lodash.isequal": "^4.5.0",

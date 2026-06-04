@@ -12,7 +12,7 @@
     "@apollo/client": "^3.13.7",
     "@reduxjs/toolkit": "^2.6.1",
     "@stripe/stripe-js": "^7.0.0",
-    "apexcharts": "^4.5.0",
+    "apexcharts": "^5.13.0",
     "axios": "^1.16.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.5.0",
